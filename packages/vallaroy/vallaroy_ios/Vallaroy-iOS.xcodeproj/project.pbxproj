@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3061E3B2C35C9BE00D103C1 /* libkorin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3061E3A2C35C9BE00D103C1 /* libkorin.a */; };
 		C3B3B0C12C2E180900C0E528 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3B0C02C2E180900C0E528 /* AppDelegate.swift */; };
 		C3B3B0C32C2E180900C0E528 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3B0C22C2E180900C0E528 /* SceneDelegate.swift */; };
 		C3B3B0C52C2E180900C0E528 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3B0C42C2E180900C0E528 /* ViewController.swift */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C3061E3A2C35C9BE00D103C1 /* libkorin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libkorin.a; path = ../../korin/build/ios_sim/bin/release/libkorin.a; sourceTree = "<group>"; };
+		C3061E3C2C35D45400D103C1 /* libkorin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libkorin.a; path = ../../../korin/build/ios_sim/bin/release/libkorin.a; sourceTree = "<group>"; };
 		C3B3B0BD2C2E180900C0E528 /* Vallaroy-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Vallaroy-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3B3B0C02C2E180900C0E528 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3B3B0C22C2E180900C0E528 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3061E3B2C35C9BE00D103C1 /* libkorin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C3061E392C35C9BE00D103C1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3061E3A2C35C9BE00D103C1 /* libkorin.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C3B3B0B42C2E180900C0E528 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +102,7 @@
 				C3B3B0D62C2E180B00C0E528 /* Vallaroy-iOSTests */,
 				C3B3B0E02C2E180B00C0E528 /* Vallaroy-iOSUITests */,
 				C3B3B0BE2C2E180900C0E528 /* Products */,
+				C3061E392C35C9BE00D103C1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,13 +119,14 @@
 		C3B3B0BF2C2E180900C0E528 /* Vallaroy-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C3B3B0F52C33444A00C0E528 /* Korin Bridge */,
+				C3B3B0C62C2E180900C0E528 /* Main.storyboard */,
+				C3B3B0CB2C2E180B00C0E528 /* LaunchScreen.storyboard */,
 				C3B3B0C02C2E180900C0E528 /* AppDelegate.swift */,
 				C3B3B0C22C2E180900C0E528 /* SceneDelegate.swift */,
 				C3B3B0C42C2E180900C0E528 /* ViewController.swift */,
-				C3B3B0F52C33444A00C0E528 /* Korin Bridge */,
-				C3B3B0C62C2E180900C0E528 /* Main.storyboard */,
 				C3B3B0C92C2E180B00C0E528 /* Assets.xcassets */,
-				C3B3B0CB2C2E180B00C0E528 /* LaunchScreen.storyboard */,
+				C3061E3C2C35D45400D103C1 /* libkorin.a */,
 				C3B3B0CE2C2E180B00C0E528 /* Info.plist */,
 			);
 			path = "Vallaroy-iOS";
@@ -377,6 +391,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -393,6 +408,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LIBRARY_SEARCH_PATHS = "${SRCROOT}/../../korin/build/ios_sim/bin/release/";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "";
@@ -445,6 +461,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -455,6 +472,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LIBRARY_SEARCH_PATHS = "${SRCROOT}/../../korin/build/ios_sim/bin/release/";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "";
@@ -484,8 +502,9 @@
 				DEVELOPMENT_TEAM = 8MJH2BEKLZ;
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../../include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../korin/include";
 				INFOPLIST_FILE = "${PROJECT_NAME}/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.strategy-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -495,8 +514,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"${SRCROOT}/../../korin/build/ios_sim/bin/debug/",
+					"${SRCROOT}/../../korin/build/ios/bin/debug/",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.finalfallgames.Vallaroy-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.finalfall.vallaroy-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_NAME}/Korin Bridge/${PROJECT_NAME}-Bridging-Header.h";
@@ -523,8 +546,9 @@
 				DEVELOPMENT_TEAM = 8MJH2BEKLZ;
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../../include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../korin/include";
 				INFOPLIST_FILE = "${PROJECT_NAME}/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.strategy-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -534,8 +558,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"${SRCROOT}/../../korin/build/ios_sim/bin/release/",
+					"${SRCROOT}/../../korin/build/ios/bin/release/",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.finalfallgames.Vallaroy-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.finalfall.vallaroy-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_NAME}/Korin Bridge/${PROJECT_NAME}-Bridging-Header.h";

@@ -31,7 +31,7 @@ if [ "$OPTION" = 'help' ]; then
     help
 else
     build() {
-        echo "Building Korin for platform=$platform option=$OPTION"
+        echo "Building Korin library for platform=$platform option=$OPTION"
         echo premake5 gmake2 "$1"
         PREMAKE="premake5 gmake2 $1"
         eval "$PREMAKE"

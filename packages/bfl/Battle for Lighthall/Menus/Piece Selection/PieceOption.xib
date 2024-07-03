@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PieceOption" customModule="Battle_for_Lighthall" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PieceOption" customModule="Battle_for_Lighthall" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="75" height="266"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zeg-l7-xsP">
+                    <rect key="frame" x="0.0" y="0.0" width="75" height="191"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nru-qs-QJm">
+                            <rect key="frame" x="5" y="5" width="65" height="181"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Li2-uK-htW">
+                            <rect key="frame" x="0.0" y="0.0" width="75" height="191"/>
+                            <state key="normal" title=" "/>
+                            <connections>
+                                <action selector="selectOption:" destination="iN0-l3-epB" eventType="touchUpInside" id="zOW-o4-NEf"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                    <constraints>
+                        <constraint firstItem="Li2-uK-htW" firstAttribute="leading" secondItem="Zeg-l7-xsP" secondAttribute="leading" id="Cbz-bq-UK1"/>
+                        <constraint firstAttribute="trailing" secondItem="nru-qs-QJm" secondAttribute="trailing" constant="5" id="CqO-yo-sZb"/>
+                        <constraint firstItem="Li2-uK-htW" firstAttribute="top" secondItem="Zeg-l7-xsP" secondAttribute="top" id="Yb8-1L-iAa"/>
+                        <constraint firstItem="nru-qs-QJm" firstAttribute="leading" secondItem="Zeg-l7-xsP" secondAttribute="leading" constant="5" id="c1o-hH-7wg"/>
+                        <constraint firstItem="nru-qs-QJm" firstAttribute="top" secondItem="Zeg-l7-xsP" secondAttribute="top" constant="5" id="f2A-OQ-JKt"/>
+                        <constraint firstAttribute="trailing" secondItem="Li2-uK-htW" secondAttribute="trailing" id="lJ3-4r-FdN"/>
+                        <constraint firstAttribute="bottom" secondItem="Li2-uK-htW" secondAttribute="bottom" id="oB9-1U-IQc"/>
+                        <constraint firstAttribute="width" secondItem="Zeg-l7-xsP" secondAttribute="height" multiplier="1:1" id="xTW-Oa-Vk2"/>
+                        <constraint firstAttribute="bottom" secondItem="nru-qs-QJm" secondAttribute="bottom" constant="5" id="xb6-al-PbJ"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYl-nr-g7u">
+                    <rect key="frame" x="-13.5" y="186" width="102" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hero Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elj-KQ-267">
+                            <rect key="frame" x="10" y="6" width="82" height="18"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="elj-KQ-267" firstAttribute="leading" secondItem="fYl-nr-g7u" secondAttribute="leading" constant="10" id="9Yd-Bs-1C4"/>
+                        <constraint firstItem="elj-KQ-267" firstAttribute="centerY" secondItem="fYl-nr-g7u" secondAttribute="centerY" id="LFB-9r-H2K"/>
+                        <constraint firstAttribute="trailing" secondItem="elj-KQ-267" secondAttribute="trailing" constant="10" id="NT6-Ec-H1d"/>
+                        <constraint firstAttribute="height" constant="30" id="Vsd-70-Wgm"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoY-2Y-6QW" userLabel="HeroInspect">
+                    <rect key="frame" x="12" y="216" width="51" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="pQ3-qE-vKm"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal">
+                        <imageReference key="image" image="info.circle" catalog="system" symbolScale="large"/>
+                    </state>
+                    <connections>
+                        <action selector="heroInspect:" destination="iN0-l3-epB" eventType="touchUpInside" id="GdL-4M-aXJ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <constraints>
+                <constraint firstItem="Zeg-l7-xsP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="1pA-7G-jj7"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="uoY-2Y-6QW" secondAttribute="trailing" constant="12" id="2eg-c1-pH7"/>
+                <constraint firstItem="uoY-2Y-6QW" firstAttribute="top" secondItem="fYl-nr-g7u" secondAttribute="bottom" id="6uG-Yf-aff"/>
+                <constraint firstItem="fYl-nr-g7u" firstAttribute="top" secondItem="Zeg-l7-xsP" secondAttribute="bottom" constant="-5" id="9KA-B8-Re5"/>
+                <constraint firstItem="uoY-2Y-6QW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="9OY-7E-5f9"/>
+                <constraint firstItem="Zeg-l7-xsP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Hwc-af-e6K"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Zeg-l7-xsP" secondAttribute="trailing" id="akz-tC-ZYU"/>
+                <constraint firstAttribute="bottom" secondItem="uoY-2Y-6QW" secondAttribute="bottom" id="eUR-7j-NRk"/>
+                <constraint firstItem="fYl-nr-g7u" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="tRV-3F-Zzs"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="heroInspectButton" destination="uoY-2Y-6QW" id="zEP-sT-oy0"/>
+                <outlet property="name" destination="elj-KQ-267" id="LaJ-qu-aMq"/>
+                <outlet property="portrait" destination="nru-qs-QJm" id="jhV-aX-PM7"/>
+                <outlet property="selectionBorder" destination="Zeg-l7-xsP" id="V2g-aG-HBN"/>
+                <outlet property="selectionNameplate" destination="fYl-nr-g7u" id="p9d-bR-AMr"/>
+            </connections>
+            <point key="canvasLocation" x="-245.6521739130435" y="-114.50892857142857"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

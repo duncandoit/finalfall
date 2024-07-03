@@ -1,6 +1,9 @@
 workspace 'korin'
 configurations {'debug', 'release'}
 
+-- dofile(path.join(path.getabsolute('../dependencies/'), 'premake5_dependency.lua'))
+
+-- The generated library will use this name and append 'lib'
 project 'korin'
 do
     kind 'StaticLib'
@@ -27,7 +30,6 @@ do
     filter {'system:macosx'}
     do
         buildoptions {
-            -- this triggers too much on linux, so just enable here for now
             '-Wimplicit-float-conversion'
         }
     end
@@ -62,7 +64,8 @@ do
     filter {'system:ios', 'options:variant=emulator'}
     do
         buildoptions {
-            '-mios-version-min=10.0 -arch arm64 -arch x86_64 -arch i386 -isysroot ' .. (os.getenv('IOS_SYSROOT') or '')
+            -- '-mios-version-min=10.0 -arch arm64 -arch x86_64 -arch i386 -isysroot ' .. (os.getenv('IOS_SYSROOT') or '')
+            '-mios-version-min=10.0 -arch x86_64 -isysroot ' .. (os.getenv('IOS_SYSROOT') or '')
         }
         targetdir '%{cfg.system}_sim/bin/%{cfg.buildcfg}'
         objdir '%{cfg.system}_sim/obj/%{cfg.buildcfg}'
@@ -72,28 +75,12 @@ do
     do
         buildoptions {'-flto=full'}
     end
-
-    filter {'system:android', 'options:arch=x86'}
+    filter {'system:android', 'options:arch=${cfg.architecture}'}
     do
-        targetdir '%{cfg.system}/x86/bin/%{cfg.buildcfg}'
-        objdir '%{cfg.system}/x86/obj/%{cfg.buildcfg}'
+        targetdir '%{cfg.system}/${cfg.architecture}/bin/%{cfg.buildcfg}'
+        objdir '%{cfg.system}/${cfg.architecture}/obj/%{cfg.buildcfg}'
     end
 
-    filter {'system:android', 'options:arch=x64'}
-    do
-        targetdir '%{cfg.system}/x64/bin/%{cfg.buildcfg}'
-        objdir '%{cfg.system}/x64/obj/%{cfg.buildcfg}'
-    end
-    filter {'system:android', 'options:arch=arm'}
-    do
-        targetdir '%{cfg.system}/arm/bin/%{cfg.buildcfg}'
-        objdir '%{cfg.system}/arm/obj/%{cfg.buildcfg}'
-    end
-    filter {'system:android', 'options:arch=arm64'}
-    do
-        targetdir '%{cfg.system}/arm64/bin/%{cfg.buildcfg}'
-        objdir '%{cfg.system}/arm64/obj/%{cfg.buildcfg}'
-    end
     filter 'configurations:debug'
     do
         defines {'DEBUG'}

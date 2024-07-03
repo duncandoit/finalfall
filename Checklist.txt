@@ -1,0 +1,9 @@
+Checklist 
+- Adjust Xcode workspace and project files to be aware of structure changes
+- Build Xcode project
+
+Done
+- Arrange Korin project
+- Adjust Premake script to replicate that structure
+- Ensure Premake builds a library file of the Korin module
+- Adjust Build script to be aware of structure changes
