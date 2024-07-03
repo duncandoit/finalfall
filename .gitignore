@@ -1,0 +1,41 @@
+# Final Fall
+
+# ignore auto-created null directories
+**/null/
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# iOS/XCode related
+**/vallaroy-ios/**/*.mode1v3
+**/vallaroy-ios/**/*.mode2v3
+**/vallaroy-ios/**/*.moved-aside
+**/vallaroy-ios/**/*.pbxuser
+**/vallaroy-ios/**/*.perspectivev3
+**/vallaroy-ios/**/*sync/
+**/vallaroy-ios/**/.sconsign.dblite
+**/vallaroy-ios/**/.tags*
+**/vallaroy-ios/**/.vagrant/
+**/vallaroy-ios/**/DerivedData/
+**/vallaroy-ios/**/Icon?
+**/vallaroy-ios/**/Pods/
+**/vallaroy-ios/**/.symlinks/
+**/vallaroy-ios/**/profile
+**/vallaroy-ios/**/xcuserdata
+**/vallaroy-ios/.generated/
+**/vallaroy-ios/ServiceDefinitions.json
+
+# Exceptions to above rules.
+!**/vallaroy-ios/**/default.mode1v3
+!**/vallaroy-ios/**/default.mode2v3
+!**/vallaroy-ios/**/default.pbxuser
+!**/vallaroy-ios/**/default.perspectivev3
+.vscode/launch.json
