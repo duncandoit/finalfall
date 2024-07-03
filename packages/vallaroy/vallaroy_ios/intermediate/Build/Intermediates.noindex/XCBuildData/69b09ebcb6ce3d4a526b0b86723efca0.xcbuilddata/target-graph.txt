@@ -1,0 +1,2 @@
+Target dependency graph (1 target)
+Target 'Vallaroy' in project 'Vallaroy' (no dependencies)

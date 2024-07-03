@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"include": "include"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"vector": "cpp"
+		}
+	}
+}

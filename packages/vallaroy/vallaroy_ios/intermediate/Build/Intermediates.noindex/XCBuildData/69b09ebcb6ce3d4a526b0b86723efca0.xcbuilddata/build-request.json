@@ -1,0 +1,72 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "a0839463a80b45243afc72109caa5d370816fccd11b0c63446e108f21a475b1f"
+    }
+  ],
+  "containerPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/Vallaroy.xcworkspace",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos17.5",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "armv4t",
+        "armv5",
+        "armv6",
+        "armv7",
+        "armv7f",
+        "armv7s",
+        "armv7k",
+        "arm64",
+        "arm64e"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build/Build/Products",
+      "derivedDataPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build",
+      "indexDataStoreFolderPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/zacharyduncan/Documents/dev-icloud/Vallaroy/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "platform" : "iOS Simulator, name=iPhone 15, OS=latest"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "COLOR_DIAGNOSTICS" : "YES",
+          "diagnostic_message_length" : "80",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

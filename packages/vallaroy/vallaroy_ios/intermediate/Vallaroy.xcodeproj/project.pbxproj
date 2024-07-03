@@ -1,0 +1,385 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		132E65552DFAD40731CB6B95 /* world-entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C196281D2EBE368F3051265D /* world-entity.cpp */; };
+		7B8E9901110558337FA1AF41 /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AD030409DC94D2FBB7A21249 /* world.cpp */; };
+		946E136EEBD386609DE1A1AE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCA71B601C3BC687BA2F7F6 /* SwiftUI.framework */; };
+		95EFFE0C89EF477E0EDA5C4C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A9A874B8BD79A6AC8EFEB4 /* CoreGraphics.framework */; };
+		BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */; };
+		F471DA6486FFA456EFD848A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3076B44CF3E275FE32861A8C /* UIKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3076B44CF3E275FE32861A8C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		74A9A874B8BD79A6AC8EFEB4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8261DD5D948BBA0FC87CA39D /* world-entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "world-entity.h"; path = "../include/korin/world-entity.h"; sourceTree = "<group>"; };
+		83B77D42846A7A34F84C4B82 /* Vallaroy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vallaroy.app; path = Vallaroy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD030409DC94D2FBB7A21249 /* world.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = world.cpp; path = ../src/core/world.cpp; sourceTree = "<group>"; };
+		C196281D2EBE368F3051265D /* world-entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "world-entity.cpp"; path = "../src/core/world-entity.cpp"; sourceTree = "<group>"; };
+		C5A46EE9E7701C1B24254529 /* world.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = world.h; path = ../include/korin/world.h; sourceTree = "<group>"; };
+		CFCA71B601C3BC687BA2F7F6 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9B8921B2CA2F75A42370CFF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95EFFE0C89EF477E0EDA5C4C /* CoreGraphics.framework in Frameworks */,
+				F471DA6486FFA456EFD848A4 /* UIKit.framework in Frameworks */,
+				BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */,
+				946E136EEBD386609DE1A1AE /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7823A69EE9AEBF1098AFE4DE /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXGroup section */
+		5775D4184366DFCA959E7A58 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BACE98115E1A214378EAEE51 /* core */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		5E8C725002DF100215175890 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				BD66D9E160550093EF7AE021 /* korin */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		8B60E7EA7FD75F1CCEAAFE2A /* Vallaroy */ = {
+			isa = PBXGroup;
+			children = (
+				5E8C725002DF100215175890 /* include */,
+				5775D4184366DFCA959E7A58 /* src */,
+				BBF76781A7E87333FA200DC1 /* Frameworks */,
+				A6C936B49B3FADE6EA134CF4 /* Products */,
+			);
+			name = Vallaroy;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				83B77D42846A7A34F84C4B82 /* Vallaroy.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BACE98115E1A214378EAEE51 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				C196281D2EBE368F3051265D /* world-entity.cpp */,
+				AD030409DC94D2FBB7A21249 /* world.cpp */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
+		BBF76781A7E87333FA200DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74A9A874B8BD79A6AC8EFEB4 /* CoreGraphics.framework */,
+				3076B44CF3E275FE32861A8C /* UIKit.framework */,
+				4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */,
+				CFCA71B601C3BC687BA2F7F6 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD66D9E160550093EF7AE021 /* korin */ = {
+			isa = PBXGroup;
+			children = (
+				8261DD5D948BBA0FC87CA39D /* world-entity.h */,
+				C5A46EE9E7701C1B24254529 /* world.h */,
+			);
+			name = korin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A903B4E84BF1DB9ADB17BB28 /* Vallaroy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89C46A11B86ABE0311AC1851 /* Build configuration list for PBXNativeTarget "Vallaroy" */;
+			buildPhases = (
+				0B70A2523A16F64493585092 /* Resources */,
+				751DBBA9A3C40F9BFD0569E9 /* Sources */,
+				9B8921B2CA2F75A42370CFF2 /* Frameworks */,
+				7823A69EE9AEBF1098AFE4DE /* Embed Libraries */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Vallaroy;
+			productInstallPath = "$(HOME)/Applications";
+			productName = Vallaroy;
+			productReference = 83B77D42846A7A34F84C4B82 /* Vallaroy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "Vallaroy" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = 8B60E7EA7FD75F1CCEAAFE2A /* Vallaroy */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A903B4E84BF1DB9ADB17BB28 /* Vallaroy.app */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0B70A2523A16F64493585092 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		751DBBA9A3C40F9BFD0569E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				132E65552DFAD40731CB6B95 /* world-entity.cpp in Sources */,
+				7B8E9901110558337FA1AF41 /* world.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		36C720576658EF4941662E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = (
+					"iPhone Developer",
+				);
+				CODE_SIGN_STYLE = (
+					Automatic,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin/Debug/iOS;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = (
+					NO,
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = (
+					src/platform/iOS/Info.plist,
+				);
+				INSTALL_PATH = "\"$(HOME)/Applications\"";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = latest;
+				PRODUCT_NAME = Vallaroy;
+				SDKROOT = (
+					iphoneos,
+				);
+				SWIFT_VERSION = (
+					5.0,
+				);
+				TARGETED_DEVICE_FAMILY = (
+					"1,2",
+				);
+			};
+			name = Debug;
+		};
+		491ADFB955D78F2BCAC1FDF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CODE_SIGN_IDENTITY = (
+					"iPhone Developer",
+				);
+				CODE_SIGN_STYLE = (
+					Automatic,
+				);
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = (
+					NO,
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					PLATFORM_IOS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = (
+					src/platform/iOS/Info.plist,
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+				);
+				OBJROOT = obj/iOS/Debug;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-fobjc-arc",
+				);
+				SDKROOT = (
+					iphoneos,
+				);
+				SWIFT_VERSION = (
+					5.0,
+				);
+				SYMROOT = ../bin/Debug/iOS;
+				TARGETED_DEVICE_FAMILY = (
+					"1,2",
+				);
+				USER_HEADER_SEARCH_PATHS = (
+					../include,
+				);
+			};
+			name = Debug;
+		};
+		4BD3AD11A71500837A6F4B51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = (
+					"iPhone Developer",
+				);
+				CODE_SIGN_STYLE = (
+					Automatic,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin/Release/iOS;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = (
+					NO,
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = (
+					src/platform/iOS/Info.plist,
+				);
+				INSTALL_PATH = "\"$(HOME)/Applications\"";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = latest;
+				PRODUCT_NAME = Vallaroy;
+				SDKROOT = (
+					iphoneos,
+				);
+				SWIFT_VERSION = (
+					5.0,
+				);
+				TARGETED_DEVICE_FAMILY = (
+					"1,2",
+				);
+			};
+			name = Release;
+		};
+		EFB98C331E5FE02577A13A73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CODE_SIGN_IDENTITY = (
+					"iPhone Developer",
+				);
+				CODE_SIGN_STYLE = (
+					Automatic,
+				);
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				ENABLE_BITCODE = (
+					NO,
+				);
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					PLATFORM_IOS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = (
+					src/platform/iOS/Info.plist,
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+				);
+				OBJROOT = obj/iOS/Release;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-fobjc-arc",
+				);
+				SDKROOT = (
+					iphoneos,
+				);
+				SWIFT_VERSION = (
+					5.0,
+				);
+				SYMROOT = ../bin/Release/iOS;
+				TARGETED_DEVICE_FAMILY = (
+					"1,2",
+				);
+				USER_HEADER_SEARCH_PATHS = (
+					../include,
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "Vallaroy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				491ADFB955D78F2BCAC1FDF9 /* Debug */,
+				EFB98C331E5FE02577A13A73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		89C46A11B86ABE0311AC1851 /* Build configuration list for PBXNativeTarget "Vallaroy.app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36C720576658EF4941662E97 /* Debug */,
+				4BD3AD11A71500837A6F4B51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+};
+rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
