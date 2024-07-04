@@ -35,8 +35,17 @@
 Makefile
 *.make
 
+# Generated Xcode files
+**/DerivedData/
+**/xcuserdata/
+
 # MacOS 
 *.DS_Store
+
+# App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
 
 # Build directories
 vallaroy_ios/build/
