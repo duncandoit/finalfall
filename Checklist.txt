@@ -1,9 +1,11 @@
-Checklist 
-- Adjust Xcode workspace and project files to be aware of structure changes
+Checklist
 - Build Xcode project
+- Get one entity to draw in a world within a UIView
+- Fix 'duplicate main()' symbol in test system
 
 Done
 - Arrange Korin project
 - Adjust Premake script to replicate that structure
 - Ensure Premake builds a library file of the Korin module
 - Adjust Build script to be aware of structure changes
+- Adjust Xcode workspace and project files to be aware of structure changes

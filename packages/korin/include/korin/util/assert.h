@@ -44,11 +44,19 @@
    #endif
 #endif
 
+#define KORIN_DEBUG(expr) \
+   if (expr) {} \
+   else \
+   { \
+      reportAssertionFailure(#expr, __FILE__, __LINE__); \
+   }
+
 // ASSERTIONS_ENABLED != 1
 #else 
    // Evaluates to nothing making the assertion check a no-op
    #define KORIN_ASSERT(expr)
    #define KORIN_STATIC_ASSERT(expr)
+   #define KORIN_DEBUG(expr)
 
 #endif // ASSERTIONS_ENABLED
 

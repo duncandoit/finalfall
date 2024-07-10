@@ -1,3 +1,5 @@
+-- local suitename = _OPTIONS["suite-name"] or "aabb.cpp" -- default path
+
 workspace 'korintest'
 configurations {'debug', 'release'}
 
@@ -15,7 +17,7 @@ do
 
     files {
       '../../src/**.cpp',
-      '../suites/**.cpp'
+      '../suites/**.cpp' -- '../suites/' .. suitename
    }
 
     buildoptions {
@@ -109,7 +111,7 @@ newoption {
 newoption {
     trigger = 'arch',
     value = 'ABI',
-    description = 'The ABI with the right toolchain for this build, generally with Android',
+    description = 'The application binary interface with the right toolchain for this build, generally with Android',
     allowed = {
         {'x86'},
         {'x64'},

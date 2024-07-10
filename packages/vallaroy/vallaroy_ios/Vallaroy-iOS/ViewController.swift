@@ -14,6 +14,13 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    
 }
 
+class DummyWorld: UIView {
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        
+    }
+}

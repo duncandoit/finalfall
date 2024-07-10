@@ -3,6 +3,7 @@
 // Copyright Zachary Duncan 6/25/2024
 
 #include "korin/world.h"
+#include "korin/world_entity.h"
 
 using namespace korin;
 

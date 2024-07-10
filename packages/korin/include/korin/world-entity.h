@@ -2,7 +2,8 @@
 //
 // Copyright Zachary Duncan 6/25/2024
 
-#pragma once
+#ifndef KORIN_WORLD_ENTITY_H
+#define KORIN_WORLD_ENTITY_H
 
 namespace korin
 {
@@ -35,3 +36,5 @@ protected:
 };
 
 } // namespace korin
+
+#endif // KORIN_WORLD_ENTITY_H

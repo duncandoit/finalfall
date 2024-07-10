@@ -1,5 +1,5 @@
 //
-//  KorWorldEntity.hpp
+//  KorWorldEntity.hpp (objective-c header)
 //  Vallaroy-iOS
 //
 //  Created by Zachary Duncan on 7/1/24.

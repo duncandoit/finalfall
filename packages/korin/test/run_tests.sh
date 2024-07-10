@@ -27,10 +27,12 @@ if [ "$OPTION" = 'help' ]; then
     help
 else
     build() {
-        echo "Building Korin tests for platform=$platform option=$OPTION"
-        echo premake5 gmake2 "$1"
-        PREMAKE="premake5 gmake2 $1"
-        eval "$PREMAKE"
+        # find ../suites -type f -name "*.cpp" | while read filename; do
+            echo "Building Korin tests for platform=$platform option=$OPTION" #filename=$filename"
+            echo premake5 gmake2 "$1" #"$filename"
+            PREMAKE="premake5 gmake2 $1" #$filename"
+            eval "$PREMAKE" #-j7"
+        # done
         if [ "$OPTION" = "clean" ]; then
             make clean
             make clean config=release
@@ -42,33 +44,6 @@ else
     }
 
     case $platform in
-    # ios)
-    #     echo "Building for iOS"
-    #     export IOS_SYSROOT=$(xcrun --sdk iphoneos --show-sdk-path)
-    #     build "--os=ios"
-    #     if [ "$OPTION" = "clean" ]; then
-    #         exit
-    #     fi
-    #     ;;
-
-    # ios_sim)
-    #     export IOS_SYSROOT=$(xcrun --sdk iphonesimulator --show-sdk-path)
-    #     build "--os=ios --variant=emulator"
-    #     if [ "$OPTION" = "clean" ]; then
-    #         exit
-    #     fi
-    #     ;;
-    # # Android supports ABIs via a custom platform format:
-    # #   e.g. 'android.x86', 'android.x64', etc.
-    # android*)
-    #     echo "Building for ${platform}"
-    #     # Extract ABI from this opt by splitting on '.' character
-    #     #   e.g. android.x86
-    #     IFS="." read -ra strarr <<<"$platform"
-    #     ARCH=${strarr[1]}
-    #     build "--os=android --arch=${ARCH}"
-    #     ;;
-        
     *)
         build
         ;;
