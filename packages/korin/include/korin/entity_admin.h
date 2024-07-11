@@ -23,13 +23,13 @@ class EntityAdmin
 {
 public:
    // Adds an entity to the admin
-   void addEntity(const EntityPtr entity);
+   bool addEntity(const EntityPtr entity);
 
    // Removes an entity from the admin
    void removeEntity(const EntityPtr entity);
 
    // Adds a component relative to an entity to the admin
-   void addComponent(EntityID entityID, ComponentPtr component);
+   bool addComponent(EntityID entityID, ComponentPtr component);
 
    // Removes a component relative to an entity from the admin
    void removeComponent(EntityID entityID, ComponentTypeID componentTypeID);
@@ -38,7 +38,7 @@ public:
    ComponentPtr getComponent(EntityID entityID, ComponentTypeID componentTypeID);
 
    // Adds a system to the admin
-   void addSystem(SystemPtr system);
+   bool addSystem(SystemPtr system);
 
    // Removes a system from the admin
    void removeSystem(SystemPtr system);

@@ -12,67 +12,73 @@
 
 using namespace korin;
 
-void EntityAdmin::addEntity(const EntityPtr entity)
+bool EntityAdmin::addEntity(const EntityPtr entity)
 {
-   if (m_LivingEntityCount >= MAX_ENTITIES) { return; }
+   if (m_LivingEntityCount >= MAX_ENTITIES) 
+   { 
+      KORIN_DEBUG("Cannot add EntityID(" + std::to_string(entity->id) + "). Maximum entities reached.");
+      return false;
+   }
 
    entity->id = getAvailableEntityID();
    m_Entities.emplace(entity->id, entity);
    m_LivingEntityCount++;
+   return true;
 }
 
 void EntityAdmin::removeEntity(const EntityPtr entity)
 {
-   m_Entities.erase(entity->id);
-   m_LivingEntityCount--;
-
-   auto entityComponentsIt = m_ComponentsByEntity.find(entity->id);
+   const auto entityComponentsIt = m_ComponentsByEntity.find(entity->id);
    if (entityComponentsIt == m_ComponentsByEntity.end())
    {
-      KORIN_DEBUG("EntityID(" + std::to_string(entity->id) + ") does not exist for removal of components.");
+      KORIN_DEBUG("EntityID(" + std::to_string(entity->id) + ") does not exist for removal.");
       return;
    }
 
    // Remove all components associated with entity. This maybe should be done async.
    m_ComponentsByEntity.erase(entityComponentsIt); 
+ 
+   m_Entities.erase(entity->id);
+   m_LivingEntityCount--;
 }
 
-void EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
+bool EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
 {
    if (component == nullptr) 
    { 
       KORIN_DEBUG("Cannot add a null Component.");
-      return; 
+      return false; 
    }
    
-   auto entityComponentsIt = m_ComponentsByEntity.find(entityID);
+   const auto entityComponentsIt = m_ComponentsByEntity.find(entityID);
    if (entityComponentsIt != m_ComponentsByEntity.end())
    {
       KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for adding components.");
-      return;
+      return false;
    }
 
-   auto componentIt = entityComponentsIt->second.find(component->id);
-   if (entityComponentsIt->second.find(component->id) != entityComponentsIt->second.end())
+   const auto componentIt = entityComponentsIt->second.find(component->id);
+   if (componentIt != entityComponentsIt->second.end())
    {
       KORIN_DEBUG("ComponentTypeID(" + std::to_string(component->id) + ") type already exists for entity.");
-      return;
+      return false;
    }
 
    m_ComponentsByEntity.at(entityID).emplace(component->id, component);
    m_ComponentsByType.at(component->id).push_back(component); 
+   return true;
 }
 
 void EntityAdmin::removeComponent(EntityID entityID, ComponentTypeID componentTypeID)
 {
-   auto entityComponentsIt = m_ComponentsByEntity.find(entityID); 
+   const auto entityComponentsIt = m_ComponentsByEntity.find(entityID); 
    if (entityComponentsIt == m_ComponentsByEntity.end())
    {
       KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for removing component.");
       return;
    }
 
-   auto componentIt = entityComponentsIt->second.find(componentTypeID);
+   const auto componentIt = entityComponentsIt->second.find(componentTypeID);
    if (componentIt == entityComponentsIt->second.end())
    {
       KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist on entity for removal.");
@@ -84,14 +90,14 @@ void EntityAdmin::removeComponent(EntityID entityID, ComponentTypeID componentTy
 
 ComponentPtr EntityAdmin::getComponent(EntityID entityID, ComponentTypeID componentTypeID)
 {
-   auto entityComponentsIt = m_ComponentsByEntity.find(entityID);
+   const auto entityComponentsIt = m_ComponentsByEntity.find(entityID);
    if (entityComponentsIt == m_ComponentsByEntity.end())
    {
       KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for getting component.");
       return nullptr;
    }
 
-   auto componentIt = entityComponentsIt->second.find(componentTypeID);
+   const auto componentIt = entityComponentsIt->second.find(componentTypeID);
    if (componentIt == entityComponentsIt->second.end())
    {
       KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist on entity for retrieval.");
@@ -101,21 +107,22 @@ ComponentPtr EntityAdmin::getComponent(EntityID entityID, ComponentTypeID compon
    return componentIt->second;
 }
 
-void EntityAdmin::addSystem(SystemPtr system)
+bool EntityAdmin::addSystem(SystemPtr system)
 {
    if (system == nullptr) 
    { 
       KORIN_DEBUG("Cannot add a null System.");
-      return; 
+      return false; 
    }
 
    if (std::find(m_Systems.begin(), m_Systems.end(), system) != m_Systems.end()) 
    { 
       KORIN_DEBUG("System already exists in admin.");
-      return;
+      return false;
    }
    
    m_Systems.push_back(system);
+   return true;
 }
 
 void EntityAdmin::removeSystem(SystemPtr system)
@@ -168,6 +175,7 @@ EntityID EntityAdmin::getAvailableEntityID()
 {
    if (m_AvailableEntityIDs.empty())
    {
+      KORIN_DEBUG("No available EntityIDs.");
       return -1;
    }
 
