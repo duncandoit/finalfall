@@ -152,9 +152,6 @@ void EntityAdmin::updateSystems(float ts)
 
          system->update(ts, componentsIt->second);
       }
-
-
-      system->update(ts, );
    }
 }
 
