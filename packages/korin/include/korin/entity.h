@@ -18,7 +18,6 @@
 namespace korin
 {
 using EntityID = std::uint32_t;
-using EntityPtr = std::shared_ptr<Entity>;
 struct Entity 
 {
 public:
@@ -28,4 +27,6 @@ public:
    EntityID id;
    std::string resourceHandle;
 };
+
+using EntityPtr = std::shared_ptr<Entity>;
 } // namespace korin

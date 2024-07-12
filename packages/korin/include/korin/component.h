@@ -12,22 +12,37 @@
 #include <cstdint>
 #include <unordered_map>
 
+#include "korin/util/assert.h"
+
 namespace korin
 {
 using ComponentTypeID = std::uint32_t;
-using ComponentPtr = std::shared_ptr<Component>;
 struct Component 
 {
 public:
-   virtual void create(std::string resource) = 0;
    virtual ~Component() = default;
+   virtual void create(std::string resource) = 0;
+   virtual ComponentTypeID typeID() = 0;
 
-   ComponentPtr sibling(ComponentTypeID id) const;
+   std::shared_ptr<Component> sibling(ComponentTypeID id) const;
+   bool addSibling(std::shared_ptr<Component> component);
+
+protected:
+   template <typename T>
+   static ComponentTypeID getUniqueTypeID() noexcept {
+      KORIN_STATIC_ASSERT(std::to_string(std::is_base_of<Component, T>::value) 
+         + "T must be a subclass of Component");
+      static ComponentTypeID typeID = nextID();
+      return typeID;
+   }
 
    static ComponentTypeID nextID(); 
 
 private:
-   std::unordered_map<ComponentTypeID, ComponentPtr> m_Siblings;
    static ComponentTypeID m_NextID;
+
+   std::unordered_map<ComponentTypeID, std::shared_ptr<Component>> m_Siblings;
 };
+
+using ComponentPtr = std::shared_ptr<Component>;
 } // namespace korin

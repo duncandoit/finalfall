@@ -13,20 +13,21 @@
 
 namespace korin
 {
-using SystemPtr = std::shared_ptr<System>;
 class System 
 {
 public:
    /// Sends the time step to update the system.
-   virtual void update(float ts, std::vector<ComponentPtr> components) = 0;
+   virtual void update(float ts, ComponentTypeID componentTypeID, ComponentPtr components) = 0;
    virtual void notify(ComponentPtr component) = 0;
 
-   virtual std::vector<ComponentTypeID> requestedComponentIDs() const
+   virtual std::vector<ComponentTypeID> requiredComponentTypeIDs() const
    {
-      return m_RequestedComponentIDs;
+      return m_RequiredComponentTypeIDs;
    }
 
 private:
-   std::vector<ComponentTypeID> m_RequestedComponentIDs;
+   std::vector<ComponentTypeID> m_RequiredComponentTypeIDs;
 };
+
+using SystemPtr = std::shared_ptr<System>;
 }

@@ -14,9 +14,20 @@ namespace korin
 {
 struct TransformComponent : public Component {
     float x, y;
-    float rotation;
+    float rotation; // In degrees
+    float scaleX, scaleY;
 
     TransformComponent(float x, float y, float rotation)
-        : x(x), y(y), rotation(rotation) {}
+        : x(x), y(y), rotation(rotation), scaleX(1.0f), scaleY(1.0f) {}
+
+    virtual ComponentTypeID typeID() override {
+        return getUniqueTypeID<TransformComponent>();
+    }
+
+    virtual void create(std::string resource) override {
+        // Do nothing
+    }
 };
+
+using TransformComponentPtr = std::shared_ptr<TransformComponent>;
 } // namespace korin

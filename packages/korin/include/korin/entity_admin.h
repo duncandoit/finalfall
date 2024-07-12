@@ -22,6 +22,8 @@ namespace korin
 class EntityAdmin 
 {
 public:
+   static const std::uint32_t MAX_ENTITIES = 5000;
+
    // Adds an entity to the admin
    bool addEntity(const EntityPtr entity);
 
@@ -47,17 +49,20 @@ public:
    void updateSystems(float ts);
 
 private:
+   // Resets the EntityID queue
    void resetEntityIDQueue();
+
+   // Returns an unused EntityID
    EntityID getAvailableEntityID();
 
    std::unordered_map<EntityID, std::unordered_map<ComponentTypeID, ComponentPtr>> m_ComponentsByEntity;
+
    std::unordered_map<ComponentTypeID, std::vector<ComponentPtr>> m_ComponentsByType;
+
    std::unordered_map<EntityID, EntityPtr> m_Entities;
    std::vector<SystemPtr> m_Systems;
-
+   
    std::queue<EntityID> m_AvailableEntityIDs;
    std::uint32_t m_LivingEntityCount = 0;
-
-   static const std::uint32_t MAX_ENTITIES = 5000;
 };
 }

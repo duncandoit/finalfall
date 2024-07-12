@@ -17,13 +17,29 @@ using namespace korin;
 ComponentPtr Component::sibling(ComponentTypeID id) const
 {
    auto sibling = m_Siblings.find(id);
-
-   if (sibling != m_Siblings.end())
+   if (sibling == m_Siblings.end())
    {
-      return sibling->second;
+      return nullptr;
    }
    
-   return nullptr;
+   return sibling->second;
+}
+
+bool Component::addSibling(ComponentPtr component)
+{
+   if (m_Siblings.size() == 0)
+   {
+      m_Siblings.emplace(component->typeID(), component);
+      return false;
+   }
+
+   if (m_Siblings.find(component->typeID()) == m_Siblings.end())
+   {
+      m_Siblings[component->typeID()] = component;
+      return true;
+   }
+
+   return false;
 }
 
 ComponentTypeID Component::nextID()
