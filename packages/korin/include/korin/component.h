@@ -21,22 +21,20 @@ struct Component
 {
 public:
    virtual ~Component() = default;
-   virtual void create(std::string resource) = 0;
-   virtual ComponentTypeID typeID() = 0;
 
    std::shared_ptr<Component> sibling(ComponentTypeID id) const;
    bool addSibling(std::shared_ptr<Component> component);
 
-protected:
+   virtual ComponentTypeID typeID() = 0;
    template <typename T>
-   static ComponentTypeID getUniqueTypeID() noexcept {
+   static ComponentTypeID typeID() noexcept {
       KORIN_STATIC_ASSERT(std::to_string(std::is_base_of<Component, T>::value) 
          + "T must be a subclass of Component");
-      static ComponentTypeID typeID = nextID();
+      static ComponentTypeID typeID = m_NextID++;
       return typeID;
    }
-
-   static ComponentTypeID nextID(); 
+   
+   virtual void create(std::string resource) = 0;
 
 private:
    static ComponentTypeID m_NextID;

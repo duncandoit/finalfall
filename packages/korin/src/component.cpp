@@ -41,8 +41,3 @@ bool Component::addSibling(ComponentPtr component)
 
    return false;
 }
-
-ComponentTypeID Component::nextID()
-{
-   return m_NextID++;
-}

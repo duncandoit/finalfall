@@ -20,13 +20,7 @@ public:
    virtual void update(float ts, ComponentTypeID componentTypeID, ComponentPtr components) = 0;
    virtual void notify(ComponentPtr component) = 0;
 
-   virtual std::vector<ComponentTypeID> requiredComponentTypeIDs() const
-   {
-      return m_RequiredComponentTypeIDs;
-   }
-
-private:
-   std::vector<ComponentTypeID> m_RequiredComponentTypeIDs;
+   virtual std::vector<ComponentTypeID> requiredComponentTypeIDs() const = 0;
 };
 
 using SystemPtr = std::shared_ptr<System>;
