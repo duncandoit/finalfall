@@ -13,14 +13,18 @@
 
 namespace korin
 {
+/// Systems represent modular behavior without any state.
 class System 
 {
 public:
-   /// Sends the time step to update the system.
-   virtual void update(float ts, ComponentTypeID componentTypeID, ComponentPtr components) = 0;
-   virtual void notify(ComponentPtr component) = 0;
+   /// Sends the time step to update the Component and potentially its siblings.
+   virtual void update(float ts, const ComponentPtr& component) = 0;
 
-   virtual std::vector<ComponentTypeID> requiredComponentTypeIDs() const = 0;
+   /// Notifies the System that a Component needs to be updated.
+   virtual void notify(const ComponentPtr& component) = 0;
+
+   /// Returns the ComponentTypeIDs of the required Components.
+   virtual ComponentTypeID primaryComponentTypeID() const = 0;
 };
 
 using SystemPtr = std::shared_ptr<System>;
