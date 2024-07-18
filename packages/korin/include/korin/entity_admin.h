@@ -22,7 +22,14 @@ namespace korin
 class EntityAdmin 
 {
 public:
-   static const std::uint32_t MAX_ENTITIES = 5000;
+   static EntityAdmin& instance()
+   {
+      static EntityAdmin instance;
+      return instance;
+   }
+   EntityAdmin(const EntityAdmin&) = delete;
+
+   EntityAdmin& operator=(const EntityAdmin&) = delete; 
 
    // Adds an entity to the admin
    bool addEntity(const EntityPtr entity);
@@ -45,22 +52,33 @@ public:
    // Removes a system from the admin
    void removeSystem(SystemPtr system);
 
+   void updateInputSystem();
+
    // Updates all systems with the given time step
-   void updateSystems(float ts);
+   void updateSystems(double timeStep);
+
+   void updateRenderSystem();
+
+public:
+   static const std::uint32_t MAX_ENTITIES = 5000;
 
 private:
+   EntityAdmin();
+
    // Resets the EntityID queue
    void resetEntityIDQueue();
 
    // Returns an unused EntityID
    EntityID getAvailableEntityID();
 
-   std::unordered_map<EntityID, std::unordered_map<ComponentTypeID, ComponentPtr>> m_ComponentsByEntity;
+   // Initialize all systems in proper loop order
+   void initSystems();
 
-   std::unordered_map<ComponentTypeID, std::vector<ComponentPtr>> m_ComponentsByType;
-
+private:
    std::unordered_map<EntityID, EntityPtr> m_Entities;
    std::vector<SystemPtr> m_Systems;
+   std::unordered_map<ComponentTypeID, std::vector<ComponentPtr>> m_ComponentsByType;
+   std::unordered_map<EntityID, std::vector<ComponentPtr>> m_ComponentsByEntity;
    
    std::queue<EntityID> m_AvailableEntityIDs;
    std::uint32_t m_LivingEntityCount = 0;

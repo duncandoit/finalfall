@@ -3,14 +3,18 @@
 // Copyright (c) Zachary Duncan - Duncandoit
 // 2024-07-09
 
-#include <unordered_map>
-#include <vector>
-#include <memory>
-
 #include "korin/entity_admin.h"
 #include "korin/util/assert.h"
 
+#include "korin/systems/movement_system.h"
+
 using namespace korin;
+
+EntityAdmin::EntityAdmin()
+{
+   resetEntityIDQueue();
+   initSystems();
+}
 
 bool EntityAdmin::addEntity(const EntityPtr entity)
 {
@@ -56,76 +60,80 @@ bool EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
       return false; 
    }
    
-   const auto& entityComponentTypesIt = m_ComponentsByEntity.find(entityID);
-   if (entityComponentTypesIt == m_ComponentsByEntity.end())
+   const auto& entityComponentTypes = m_ComponentsByEntity[entityID];
+   if (entityComponentTypes.empty())
    {
-      KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for adding components.");
+      KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for adding component.");
       return false;
    }
    
-   const auto& componentTypeIt = entityComponentTypesIt->second.find(component->typeID());
-   if (componentTypeIt != entityComponentTypesIt->second.end())
+   const auto& existingComponent = entityComponentTypes[component->typeID()];
+   if (existingComponent == nullptr)
    {
       KORIN_DEBUG("ComponentTypeID(" + std::to_string(component->typeID()) + ") type already exists for entity.");
       return false;
    }
-
-   for (const auto& sibling : entityComponentTypesIt->second)
-   {
-      if (sibling.second->typeID() == component->typeID())
-      {
-         KORIN_DEBUG("ComponentTypeID(" + std::to_string(component->typeID()) + ") type already exists for entity.");
-         return false;
-      }
-   }
    
-   for (auto& sibling : m_ComponentsByEntity.at(entityID))
+   for (auto& sibling : m_ComponentsByEntity[entityID])
    {
-      component->addSibling(sibling.second);
-      sibling.second->addSibling(component);
+      component->addSibling(sibling);
+      sibling->addSibling(component);
    }
 
-   m_ComponentsByEntity.at(entityID).emplace(component->typeID(), component);
-   m_ComponentsByType.at(component->typeID()).push_back(component); 
+   m_ComponentsByEntity[entityID].emplace_back(component->typeID(), component);
+   m_ComponentsByType[component->typeID()].emplace_back(component);
    return true;
 }
 
 void EntityAdmin::removeComponent(EntityID entityID, ComponentTypeID componentTypeID)
 {
-   const auto entityComponentTypesIt = m_ComponentsByEntity.find(entityID); 
-   if (entityComponentTypesIt == m_ComponentsByEntity.end())
+   const auto& entityComponentTypes = m_ComponentsByEntity[entityID];
+   if (entityComponentTypes.empty())
    {
       KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for removing component.");
-      return;
    }
 
-   const auto componentTypeIt = entityComponentTypesIt->second.find(componentTypeID);
-   if (componentTypeIt == entityComponentTypesIt->second.end())
+   const auto& existingComponent = entityComponentTypes[componentTypeID];
+   if (existingComponent != nullptr)
    {
-      KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist on entity for removal.");
-      return;
+      KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") type does not exist for removal.");
    }
    
-   m_ComponentsByEntity.at(entityID).erase(componentTypeID);
+   for (auto& sibling : m_ComponentsByEntity[entityID])
+   {
+      if (sibling->typeID() != componentTypeID)
+      {
+         break;
+      }
+
+      m_ComponentsByEntity[entityID].erase(
+         std::remove(
+            m_ComponentsByEntity[entityID].begin(), 
+            m_ComponentsByEntity[entityID].end(), 
+            sibling
+         ), 
+         m_ComponentsByEntity[entityID].end()
+      );
+   }
 }
 
 ComponentPtr EntityAdmin::getComponent(EntityID entityID, ComponentTypeID componentTypeID)
 {
-   const auto entityComponentTypesIt = m_ComponentsByEntity.find(entityID);
-   if (entityComponentTypesIt == m_ComponentsByEntity.end())
+   const auto& entityComponentTypes = m_ComponentsByEntity[entityID];
+   if (entityComponentTypes.empty())
    {
       KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for getting component.");
       return nullptr;
    }
 
-   const auto componentTypeIt = entityComponentTypesIt->second.find(componentTypeID);
-   if (componentTypeIt == entityComponentTypesIt->second.end())
+   const auto& component = entityComponentTypes[componentTypeID];
+   if (component == nullptr)
    {
       KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist on entity for retrieval.");
       return nullptr;
    }
 
-   return componentTypeIt->second;
+   return component;
 }
 
 bool EntityAdmin::addSystem(SystemPtr system)
@@ -164,31 +172,34 @@ void EntityAdmin::removeSystem(SystemPtr system)
    m_Systems.erase(systemIt);
 }
 
-void EntityAdmin::updateSystems(float ts)
+void EntityAdmin::updateInputSystem()
+{
+}
+
+void EntityAdmin::updateSystems(double timeStep)
 {
    for (auto& system : m_Systems)
    {
-      auto requiredComponentTypeIDs = system->requiredComponentTypeIDs();
-      for (auto& componentTypeID : requiredComponentTypeIDs)
+      const auto componentTypeID = system->primaryComponentTypeID();
+      const auto& componentItr = m_ComponentsByType.find(componentTypeID);
+      if (componentItr == m_ComponentsByType.end())
       {
-         auto componentsIt = m_ComponentsByType.find(componentTypeID);
-         if (componentsIt == m_ComponentsByType.end())
-         {
-            KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist for system update.");
-            continue;
-         }
+         KORIN_DEBUG("ComponentTypeID(" + std::to_string(componentTypeID) + ") does not exist in admin.");
+         continue;
+      }
 
-         // Sending timestep and each component of the type to the system for update.
-         for (auto& component : componentsIt->second)
-         {
-            system->update(ts, componentTypeID, component);
-         }
-
-         // Stop looking for components for the current system since it found one. If it needed any others
-         // for that entity the system will find them by the first component's siblings.
-         break;
+      // All components of the same type are updated by the system.
+      for (auto& component : componentItr->second)
+      {
+         // Any other component that the system needs should be searched 
+         // for in the siblings to this component.
+         system->update(timeStep, component);
       }
    }
+}
+
+void EntityAdmin::updateRenderSystem()
+{
 }
 
 void EntityAdmin::resetEntityIDQueue()
@@ -211,4 +222,32 @@ EntityID EntityAdmin::getAvailableEntityID()
    EntityID id = m_AvailableEntityIDs.front();
    m_AvailableEntityIDs.pop();
    return id;
+}
+
+void EntityAdmin::initSystems()
+{
+   addSystem(std::make_shared<MovementSystem>());
+      // TargetName
+      // LifetimeEntity
+      // PlayerSpawn
+      // Gamelnput
+      // Behavior
+      // AimAtTarget
+      // MouseCursorFollow
+      // ParametricMovement
+      // PlatformerPlayerController
+      // WallCrawler
+      // RaycastMovement
+      // Physics
+      // Grounded
+      // Health
+      // Socket
+      // Attach
+      // Camera
+      // DebugEntity
+      // ImageAnimation
+      // Render
+      // EntitySpawner
+      // LifeSpan
+      // SpawnOnDestroy
 }
