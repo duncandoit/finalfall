@@ -16,49 +16,39 @@ using namespace korin;
 
 std::weak_ptr<Component> Component::sibling(ComponentTypeID id) const
 {
-   // TODO: Lock the mutex for thread safety
-
-   // Check if there are any siblings
-   if (m_Siblings.empty())
-   {
-      KORIN_DEBUG("Non-existant Component sibling accessed.");
-      return std::weak_ptr<Component>();
-   }
-
-   // Find the sibling component with the specified ID
    auto siblingIt = m_Siblings.find(id);
    if (siblingIt == m_Siblings.end())
    {
-      KORIN_DEBUG("Non-existant Component sibling accessed.");
+      KORIN_DEBUG("ComponentTypeID:" + std::to_string(id) + " does not exist as a sibling to this Component.");
       return std::weak_ptr<Component>();
    }
 
-   // Check if the weak pointer to the sibling component is still valid
-   if (auto siblingPtr = siblingIt->second.lock())
+   auto siblingPtr = siblingIt->second.lock();
+   if (siblingPtr == nullptr)
    {
-      return siblingIt->second;
-   }
-   else
-   {
-      // If the weak pointer is expired, remove the entry from the map
-      KORIN_DEBUG("Component sibling accessed after deletion.");
+      KORIN_DEBUG("ComponentTypeID:" + std::to_string(id) + " is a null sibling to this Component.");
       return std::weak_ptr<Component>();
    }
+   
+   return siblingPtr;
 }
 
 bool Component::addSibling(std::weak_ptr<Component> component)
 {
-   if (m_Siblings.size() == 0)
+   // Check if the weak pointer to the sibling component is still valid
+   auto siblingPtr = component.lock();
+   if (siblingPtr == nullptr)
    {
-      m_Siblings.emplace(component->typeID(), component);
+      KORIN_DEBUG("Cannot add a null Component sibling.");
       return false;
    }
 
-   if (m_Siblings.find(component->typeID()) == m_Siblings.end())
+   if (m_Siblings.find(siblingPtr->typeID()) != m_Siblings.end())
    {
-      m_Siblings[component->typeID()] = component;
-      return true;
+      KORIN_DEBUG("ComponentTypeID:" + std::to_string(siblingPtr->id) + " already exists as a sibling to this Component.");
+      return false;
    }
 
-   return false;
+   m_Siblings[siblingPtr->typeID()] = component;
+   return true;
 }
