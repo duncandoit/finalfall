@@ -14,18 +14,39 @@ namespace korin
 
 using namespace korin;
 
-ComponentPtr Component::sibling(ComponentTypeID id) const
+std::weak_ptr<Component> Component::sibling(ComponentTypeID id) const
 {
-   auto sibling = m_Siblings.find(id);
-   if (sibling == m_Siblings.end())
+   // TODO: Lock the mutex for thread safety
+
+   // Check if there are any siblings
+   if (m_Siblings.empty())
    {
-      return nullptr;
+      KORIN_DEBUG("Non-existant Component sibling accessed.");
+      return std::weak_ptr<Component>();
    }
-   
-   return sibling->second;
+
+   // Find the sibling component with the specified ID
+   auto siblingIt = m_Siblings.find(id);
+   if (siblingIt == m_Siblings.end())
+   {
+      KORIN_DEBUG("Non-existant Component sibling accessed.");
+      return std::weak_ptr<Component>();
+   }
+
+   // Check if the weak pointer to the sibling component is still valid
+   if (auto siblingPtr = siblingIt->second.lock())
+   {
+      return siblingIt->second;
+   }
+   else
+   {
+      // If the weak pointer is expired, remove the entry from the map
+      KORIN_DEBUG("Component sibling accessed after deletion.");
+      return std::weak_ptr<Component>();
+   }
 }
 
-bool Component::addSibling(ComponentPtr component)
+bool Component::addSibling(std::weak_ptr<Component> component)
 {
    if (m_Siblings.size() == 0)
    {
