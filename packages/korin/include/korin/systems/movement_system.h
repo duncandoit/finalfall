@@ -38,8 +38,8 @@ public:
       auto transform = std::static_pointer_cast<TransformComponent>(component);
       if (transform)
       {
-         transform->x += 1.0f * ts;
-         transform->y += 1.0f * ts;
+         transform->x += 1.0f * timeStep;
+         transform->y += 1.0f * timeStep;
          std::cout << "Entity Position: (" << transform->x << ", " << transform->y << ")" << std::endl;
       }
    }
