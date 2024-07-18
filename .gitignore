@@ -31,10 +31,11 @@
 **/vallaroy-ios/**/Pods/
 **/vallaroy-ios/**/.symlinks/
 **/vallaroy-ios/**/profile
-**/vallaroy-ios/**/xcuserdata
+**/vallaroy-ios/**/xcuserdata/
 **/vallaroy-ios/.generated/
 **/vallaroy-ios/ServiceDefinitions.json
 **/vallaroy-ios/**/build/
+**/bfl/**/xcuserdata/
 
 # Exceptions to above rules.
 !**/vallaroy-ios/**/build/premake5.lua
