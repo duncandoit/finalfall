@@ -18,6 +18,8 @@
 namespace korin
 {
 using EntityID = std::uint32_t;
+/// Entity is an object with no behavior and whose state
+/// is entirely composed of Components--other than its id.
 struct Entity 
 {
 public:

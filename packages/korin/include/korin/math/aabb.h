@@ -13,6 +13,7 @@
 namespace korin 
 {
 class Vector2D;
+
 class AABB 
 {
 public:
