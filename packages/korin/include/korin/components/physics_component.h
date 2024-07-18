@@ -11,24 +11,27 @@
 
 namespace korin
 {
-struct PhysicsComponent : public Component {
-   float dx, dy;
-   float accelerationX, accelerationY; 
-
+struct PhysicsComponent : public Component 
+{
+public:
    PhysicsComponent(float dx, float dy, float accelerationX, float accelerationY)
       : dx(dx), dy(dy), accelerationX(0.0f), accelerationY(0.0f) {}
 
    PhysicsComponent() 
       : dx(0.0f), dy(0.0f), accelerationX(0.0f), accelerationY(0.0f) {}
 
-   virtual ComponentTypeID typeID() override {
-      return getUniqueTypeID<PhysicsComponent>();
+   virtual ComponentTypeID typeID() override 
+   {
+      return Component::typeID<PhysicsComponent>();
    }
 
-   virtual void create(std::string resource) override {
+   virtual void create(std::string resource) override 
+   {
       // Do nothing
    }
-};
 
-using PhysicsComponentPtr = std::shared_ptr<PhysicsComponent>;
+public:
+   float dx, dy;
+   float accelerationX, accelerationY; 
+};
 } // namespace korin
