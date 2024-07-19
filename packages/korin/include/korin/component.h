@@ -22,7 +22,10 @@ using ComponentTypeID = std::uint32_t;
 struct Component 
 {
 public:
-   Component() = default;
+   Component()
+      : m_Siblings(std::unordered_map<ComponentTypeID, std::weak_ptr<Component>>()) 
+      {}
+
    virtual ~Component() = default;
 
    // Create the component from a resource
@@ -32,7 +35,7 @@ public:
    virtual ComponentTypeID typeID() = 0;
 
    // Get a sibling component by ID
-   std::weak_ptr<Component> sibling(ComponentTypeID id) const;
+   std::weak_ptr<Component> siblingOfTypeID(ComponentTypeID id) const;
 
    // Add a sibling component
    bool addSibling(std::weak_ptr<Component> component);
