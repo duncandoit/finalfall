@@ -10,7 +10,9 @@ namespace korin
 class KorinLoop
 {
 public:
-   KorinLoop() = default;
+   KorinLoop()
+      : MS_PER_TICK(16.6666666667f) {};
+      
    ~KorinLoop() = default;
 
    void start();
@@ -18,6 +20,6 @@ public:
 private:
    // TODO: This should be a setting that the user can choose or 
    //       determined by the refresh rate of the monitor
-   const double MS_PER_TICK = 16.6666666667; 
+   const float MS_PER_TICK; 
 };
 }

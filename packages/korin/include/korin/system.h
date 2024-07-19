@@ -18,7 +18,7 @@ class System
 {
 public:
    /// Sends the time step to update the Component and potentially its siblings.
-   virtual void update(double timeStep, const ComponentPtr& component) = 0;
+   virtual void update(float timeStep, const ComponentPtr& component) = 0;
 
    /// Notifies the System that a Component needs to be updated.
    virtual void notify(const ComponentPtr& component) = 0;

@@ -31,7 +31,7 @@ public:
    }
 
    // Update method to move the TransformComponents
-   virtual void update(double timeStep, const ComponentPtr& component) override
+   virtual void update(float timeStep, const ComponentPtr& component) override
    {
       KORIN_ASSERT(component.typeID() == Component::typeID<TransformComponent>());
       

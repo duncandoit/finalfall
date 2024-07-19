@@ -11,12 +11,18 @@
 using namespace korin;
 
 EntityAdmin::EntityAdmin()
+   : m_Entities(std::unordered_map<EntityID, EntityPtr>()), 
+   m_Systems(std::vector<SystemPtr>()),
+   m_ComponentsByType(std::unordered_map<ComponentTypeID, std::vector<ComponentPtr>>()),
+   m_ComponentsByEntity(std::unordered_map<EntityID, std::vector<ComponentPtr>>()),
+   m_AvailableEntityIDs(std::queue<EntityID>()), 
+   m_LivingEntityCount(0)
 {
    resetEntityIDQueue();
    initSystems();
 }
 
-bool EntityAdmin::addEntity(const EntityPtr entity)
+bool EntityAdmin::addEntity(EntityPtr entity)
 {
    if (entity == nullptr) 
    { 
@@ -36,7 +42,7 @@ bool EntityAdmin::addEntity(const EntityPtr entity)
    return true;
 }
 
-void EntityAdmin::removeEntity(const EntityPtr entity)
+void EntityAdmin::removeEntity(EntityPtr entity)
 {
    const auto entityComponentTypesIt = m_ComponentsByEntity.find(entity->id);
    if (entityComponentTypesIt == m_ComponentsByEntity.end())
@@ -80,7 +86,7 @@ bool EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
       sibling->addSibling(component);
    }
 
-   m_ComponentsByEntity[entityID].emplace_back(component->typeID(), component);
+   m_ComponentsByEntity[entityID].emplace_back(component);
    m_ComponentsByType[component->typeID()].emplace_back(component);
    return true;
 }
@@ -176,7 +182,7 @@ void EntityAdmin::updateInputSystem()
 {
 }
 
-void EntityAdmin::updateSystems(double timeStep)
+void EntityAdmin::updateSystems(float timeStep)
 {
    for (auto& system : m_Systems)
    {
@@ -226,7 +232,7 @@ EntityID EntityAdmin::getAvailableEntityID()
 
 void EntityAdmin::initSystems()
 {
-   addSystem(std::make_shared<MovementSystem>());
+   addSystem(std::shared_ptr<MovementSystem>());
       // TargetName
       // LifetimeEntity
       // PlayerSpawn

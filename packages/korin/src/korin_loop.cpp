@@ -11,16 +11,16 @@ using namespace korin;
 void KorinLoop::start()
 {
    // The last time the game was updated in milliseconds
-   double lastTime = std::chrono::high_resolution_clock::now().time_since_epoch().count(); 
+   float lastTime = std::chrono::high_resolution_clock::now().time_since_epoch().count(); 
 
    // How far behind the game is from the real world
-   double lag = 0.0;
+   float lag = 0.0;
 
    while (true)
    {
       // Get the current time in milliseconds
-      double currentTime = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-      double deltaTime = currentTime - lastTime;
+      float currentTime = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+      float deltaTime = currentTime - lastTime;
       lastTime = currentTime;
       lag += deltaTime;
 

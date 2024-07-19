@@ -52,11 +52,13 @@ public:
    // Removes a system from the admin
    void removeSystem(SystemPtr system);
 
+   // Updates the input System
    void updateInputSystem();
 
    // Updates all systems with the given time step
-   void updateSystems(double timeStep);
+   void updateSystems(float timeStep);
 
+   // Updates the render system
    void updateRenderSystem();
 
 public:
@@ -81,6 +83,6 @@ private:
    std::unordered_map<EntityID, std::vector<ComponentPtr>> m_ComponentsByEntity;
    
    std::queue<EntityID> m_AvailableEntityIDs;
-   std::uint32_t m_LivingEntityCount = 0;
+   std::uint32_t m_LivingEntityCount;
 };
 }
