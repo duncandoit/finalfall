@@ -12,35 +12,46 @@ do
     toolset 'clang'
     targetdir '%{cfg.system}/bin/%{cfg.buildcfg}'
     objdir '%{cfg.system}/obj/%{cfg.buildcfg}'
-    includedirs {
-        '../include'
+
+    files 
+    {
+        '${wks.location}/include/**.h',
+        '${wks.location}/src/**.cpp'
     }
 
-    files {'../src/**.cpp'}
+    includedirs 
+    {
+        '${wks.location}/include'
+    }
 
-    buildoptions {
-        '-Wall',
-        '-fno-exceptions',
-        '-fno-rtti',
-        '-Werror=format',
-        '-Wimplicit-int-conversion',
-        '-Werror=vla'
+    buildoptions 
+    {
+        '-Wall',                     -- Enable all warnings
+        '-fno-exceptions',           -- Disable exceptions
+        '-fno-rtti',                 -- Disable RTTI
+        '-Werror=format',            -- Treat format errors as errors
+        '-Wimplicit-int-conversion', -- Implicit int conversion
+        '-Werror=vla'                -- Treat variable length arrays as errors
     }
 
     filter {'system:macosx'}
     do
-        buildoptions {
+        buildoptions 
+        {
             '-Wimplicit-float-conversion'
         }
     end
+
     filter {'system:macosx', 'configurations:release'}
     do
         buildoptions {'-flto=full'}
     end
+
     filter {'system:ios'}
     do
         buildoptions {'-flto=full'}
     end
+
     filter 'system:windows'
     do
         architecture 'x64'
@@ -49,21 +60,26 @@ do
         buildoptions {WINDOWS_CLANG_CL_SUPPRESSED_WARNINGS}
         staticruntime 'on'
         runtime 'Release'
-        removebuildoptions {
+        removebuildoptions 
+        {
             '-fno-exceptions',
             '-fno-rtti'
         }
     end
+
     filter {'system:ios', 'options:variant=system'}
     do
-        buildoptions {
+        buildoptions 
+        {
             '-mios-version-min=10.0 -fembed-bitcode -arch armv7 -arch arm64 -arch arm64e -isysroot ' ..
                 (os.getenv('IOS_SYSROOT') or '')
         }
     end
+
     filter {'system:ios', 'options:variant=emulator'}
     do
-        buildoptions {
+        buildoptions 
+        {
             -- '-mios-version-min=10.0 -arch arm64 -arch x86_64 -arch i386 -isysroot ' .. (os.getenv('IOS_SYSROOT') or '')
             '-mios-version-min=10.0 -arch x86_64 -isysroot ' .. (os.getenv('IOS_SYSROOT') or '')
         }
@@ -75,6 +91,7 @@ do
     do
         buildoptions {'-flto=full'}
     end
+
     filter {'system:android', 'options:arch=${cfg.architecture}'}
     do
         targetdir '%{cfg.system}/${cfg.architecture}/bin/%{cfg.buildcfg}'
@@ -95,22 +112,26 @@ do
     end
 end
 
-newoption {
+newoption 
+{
     trigger = 'variant',
     value = 'type',
-    description = 'Choose a build variant.',
-    allowed = {
+    description = 'Choose the variant for iOS builds.',
+    allowed = 
+    {
         {'system', 'Builds the static library for the provided system'},
         {'emulator', 'Builds for an emulator/simulator for the provided system'}
     },
     default = 'system'
 }
 
-newoption {
+newoption 
+{
     trigger = 'arch',
     value = 'ABI',
-    description = 'The ABI with the right toolchain for this build, generally with Android',
-    allowed = {
+    description = 'Choose the architecture for Android builds.',
+    allowed = 
+    {
         {'x86'},
         {'x64'},
         {'arm'},
