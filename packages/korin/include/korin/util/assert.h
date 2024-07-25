@@ -1,22 +1,26 @@
-// assert.h
-//
-// Defines macors for assertions and debugging.
-//
-// Zachary Duncan - Duncandoit
-// 7/7/2024
+#pragma once
 
-#if ASSERTIONS_ENABLED
+#ifdef KORIN_ASSERTIONS
 
-// Defines inline assembly that causes a runtime break into the debugger
-#define debugBreak asm { int 3 }
+#include <iostream>
+
+// Define a platform-independent debug break
+#if defined(_MSC_VER)
+    #define KORIN_DEBUG_BREAK() __debugbreak()
+#elif defined(__GNUC__) || defined(__clang__)
+    #include <signal.h>
+    #define KORIN_DEBUG_BREAK() raise(SIGTRAP)
+#else
+    #define KORIN_DEBUG_BREAK() asm("int $3")
+#endif
 
 // Checks expression and fails if it is false at runtime
 #define KORIN_ASSERT(expr) \
    if (expr) {} \
    else \
    { \
-      reportAssertionFailure(#expr, __FILE__, __LINE__); \
-      debugBreak; \
+      reportKorinDebugMessage(#expr, __FILE__, __LINE__); \
+      KORIN_DEBUG_BREAK(); \
    }
 
 // Checks expression at compile time
@@ -28,8 +32,8 @@
 
    // We must be using C++98 or C++03
    #else 
-      #define _ASSERT_GLUE(a, b) a ## b
-      #define ASSERT_GLUE(a, b) _ASSERT_GLUE(a, b)
+      #define KORIN_ASSERT_GLUE(a, b) a ## b
+      #define KORIN_STATIC_ASSERT_GLUE(a, b) KORIN_ASSERT_GLUE(a, b)
 
       // Declare a template but only define the true case (via specialization)
       template<bool> class KorinStaticAssert;
@@ -38,26 +42,29 @@
       #define KORIN_STATIC_ASSERT(expr) \
          enum \
          { \
-            ASSERT_GLUE(g_assert_fail_, __LINE__) = sizeof(KorinStaticAssert<!!(expr)>) \
+            KORIN_STATIC_ASSERT_GLUE(korin_assert_fail_, __LINE__) = sizeof(KorinStaticAssert<!!(expr)>) \
          }
 
    #endif
 #endif
 
-#define KORIN_DEBUG(expr) \
-   if (expr) {} \
-   else \
-   { \
-      reportAssertionFailure(#expr, __FILE__, __LINE__); \
-   }
+#define KORIN_DEBUG(msg) \
+   reportKorinDebugMessage((std::string(msg).c_str()), __FILE__, __LINE__); 
 
-// ASSERTIONS_ENABLED != 1
+inline void reportKorinDebugMessage(const char* msg, const char* file, int line)
+{
+    std::cerr << "Korin Debug: " << msg << " — file " << file << " — line " << line << std::endl;
+}
+
+// KORIN_ASSERTIONS is not defined so the assertions will be no-ops and evaluate to nothing.
 #else 
-   // Evaluates to nothing making the assertion check a no-op
+   // KORIN_ASSERTIONS is not defined.
    #define KORIN_ASSERT(expr)
+
+   // KORIN_ASSERTIONS is not defined.
    #define KORIN_STATIC_ASSERT(expr)
-   #define KORIN_DEBUG(expr)
 
-#endif // ASSERTIONS_ENABLED
+   // KORIN_ASSERTIONS is not defined.
+   #define KORIN_DEBUG(msg)
 
-
+#endif // KORIN_ASSERTIONS

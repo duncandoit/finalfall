@@ -44,8 +44,7 @@ public:
    template <typename T>
    static const ComponentTypeID typeID() noexcept 
    {
-      KORIN_STATIC_ASSERT(std::to_string(std::is_base_of<Component, T>::value) 
-         + "T must be a subclass of Component");
+      static_assert(std::is_base_of<Component, T>::value, "T must derive from Component");
       static ComponentTypeID typeID = m_NextID++;
       return typeID;
    }
