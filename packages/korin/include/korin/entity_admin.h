@@ -31,8 +31,7 @@ public:
 
    EntityAdmin& operator=(const EntityAdmin&) = delete; 
 
-   // Adds an entity to the admin
-   bool addEntity(const EntityPtr entity);
+   EntityPtr createEntity(const std::string& resourceHandle);
 
    // Removes an entity from the admin
    void removeEntity(const EntityPtr entity);
@@ -47,7 +46,7 @@ public:
    ComponentPtr getComponent(EntityID entityID, ComponentTypeID componentTypeID);
 
    // Adds a system to the admin
-   bool addSystem(SystemPtr system);
+   bool addSystem(const SystemPtr& system);
 
    // Removes a system from the admin
    void removeSystem(SystemPtr system);
@@ -66,12 +65,7 @@ public:
 
 private:
    EntityAdmin();
-
-   // Resets the EntityID queue
-   void resetEntityIDQueue();
-
-   // Returns an unused EntityID
-   EntityID getAvailableEntityID();
+   ~EntityAdmin();
 
    // Initialize all systems in proper loop order
    void initSystems();

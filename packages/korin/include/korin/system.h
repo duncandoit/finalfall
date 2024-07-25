@@ -17,6 +17,8 @@ namespace korin
 class System 
 {
 public:
+   virtual ~System() = default;
+   
    /// Sends the time step to update the Component and potentially its siblings.
    virtual void update(float timeStep, const ComponentPtr& component) = 0;
 

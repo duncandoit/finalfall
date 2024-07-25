@@ -8,12 +8,9 @@
 
 #pragma once
 
-#include <vector>
 #include <memory>
 #include <cstdint>
 #include <string>
-
-#include "component.h"
 
 namespace korin
 {
@@ -22,12 +19,24 @@ using EntityID = std::uint32_t;
 /// is entirely composed of Components--other than its id.
 struct Entity 
 {
-public:
-   Entity(EntityID id, const std::string& resourceHandle)
-      : id(id), resourceHandle(resourceHandle) {}
+friend class EntityAdmin;
 
+public:
+   Entity(const std::string& resourceHandle)
+      : id(Entity::getNextID()), resourceHandle(resourceHandle) 
+      {}
+
+   EntityID entityID() const { return id; }
+   std::string getResourceHandle() const { return resourceHandle; }
+
+private: 
+   static const EntityID getNextID() noexcept { return m_NextID++; }
+
+private:
    EntityID id;
    std::string resourceHandle;
+
+   static EntityID m_NextID;
 };
 
 using EntityPtr = std::shared_ptr<Entity>;
