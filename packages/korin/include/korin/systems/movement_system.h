@@ -25,23 +25,9 @@ public:
       return Component::typeID<TransformComponent>(); 
    }
 
-   virtual void notify(const ComponentPtr& component) override
-   {
-      // Do nothing
-   }
+   virtual void notify(const ComponentPtr& component) override {}
 
    // Update method to move the TransformComponents
-   virtual void update(float timeStep, const ComponentPtr& component) override
-   {
-      KORIN_ASSERT(component.typeID() == Component::typeID<TransformComponent>());
-      
-      auto transform = std::static_pointer_cast<TransformComponent>(component);
-      if (transform)
-      {
-         transform->x += 1.0f * timeStep;
-         transform->y += 1.0f * timeStep;
-         std::cout << "Entity Position: (" << transform->x << ", " << transform->y << ")" << std::endl;
-      }
-   }
+   virtual void update(float timeStep, const ComponentPtr& component) override;
 };
 } // namespace korin

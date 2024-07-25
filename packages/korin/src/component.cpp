@@ -9,10 +9,8 @@
 
 namespace korin
 {
-   ComponentTypeID Component::m_NextID = 0;
-} // namespace korin
+ComponentTypeID Component::m_NextID = 0;
 
-using namespace korin;
 
 std::weak_ptr<Component> Component::siblingOfTypeID(ComponentTypeID id) const
 {
@@ -47,3 +45,4 @@ bool Component::addSibling(std::weak_ptr<Component> component)
    m_Siblings[siblingPtr->typeID()] = component;
    return true;
 }
+} // namespace korin

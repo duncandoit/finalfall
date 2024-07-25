@@ -23,10 +23,7 @@ public:
         return Component::typeID<TransformComponent>();
     }
 
-    virtual void create(std::string resource) override 
-    {
-        // Do nothing
-    }
+    virtual void create(std::string resource) override {}
 
 public:
     float x, y;

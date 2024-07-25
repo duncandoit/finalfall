@@ -1,24 +1,23 @@
-// // movement_system.cpp
-// //
-// // Copyright (c) Zachary Duncan - Duncandoit
-// // 2024-07-09
+// movement_system.cpp
+//
+// Copyright (c) Zachary Duncan - Duncandoit
+// 2024-07-09
 
-// #include "korin/systems/movement_system.h"
-// #include "korin/components/transform_component.h"
+#include "korin/systems/movement_system.h"
+#include "korin/components/transform_component.h"
 
-// using namespace korin;
-
-// void MovementSystem::update(float ts)
-// {
-//    for (auto& entity : entities)
-//    {
-//       auto transform = entity->get_component<TransformComponent>();
-//       auto velocity = entity->get_component<VelocityComponent>();
-
-//       if (transform && velocity)
-//       {
-//          transform->x += velocity->dx * ts;
-//          transform->y += velocity->dy * ts;
-//       }
-//    }
-// }
+namespace korin
+{
+void MovementSystem::update(float timeStep, const ComponentPtr& component)
+{
+   KORIN_ASSERT(component->typeID() == Component::typeID<TransformComponent>());
+   
+   auto transform = std::static_pointer_cast<TransformComponent>(component);
+   if (transform)
+   {
+      transform->x += 0.01f * timeStep;
+      transform->y += 0.01f * timeStep;
+      std::cout << "Entity Position:" << transform->x << ", " << transform->y << std::endl;
+   }
+}
+} // namespace korin

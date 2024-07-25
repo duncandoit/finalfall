@@ -23,10 +23,7 @@ public:
       return Component::typeID<RenderComponent>();
    }
 
-   virtual void create(std::string resource) override 
-   {
-      // Do nothing
-   }
+   virtual void create(std::string resource) override {}
 
 public:
    int width, height; 
