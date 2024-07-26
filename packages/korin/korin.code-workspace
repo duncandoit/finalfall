@@ -60,7 +60,10 @@
 			"memory_resource": "cpp",
 			"typeindex": "cpp",
 			"__tree": "cpp",
-			"map": "cpp"
+			"map": "cpp",
+			"charconv": "cpp",
+			"iomanip": "cpp",
+			"__memory": "cpp"
 		}
 	}
 }
