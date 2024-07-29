@@ -18,11 +18,9 @@ int main()
    KorinLoop loop;
 
    EntityPtr worldEntity = EntityAdmin::instance().createEntity("world");
-   // EntityAdmin::instance().addEntity(worldEntity);
    KORIN_DEBUG("World entity id:" + std::to_string(worldEntity->entityID()));
 
    EntityPtr playerEntity = EntityAdmin::instance().createEntity("player");
-   // EntityAdmin::instance().addEntity(playerEntity);
    KORIN_DEBUG("Player entity id:" + std::to_string(playerEntity->entityID()));
 
    auto locationComp = std::make_shared<TransformComponent>(0, 0, 0);
@@ -33,7 +31,7 @@ int main()
    EntityAdmin::instance().addComponent(playerEntity->entityID(), renderComp);
    KORIN_DEBUG("Render component typeid:" + std::to_string(renderComp->typeID()))
 
-   loop.start();
+   loop.startFixed();
 
    return 0;
 }

@@ -11,15 +11,17 @@ class KorinLoop
 {
 public:
    KorinLoop()
-      : MS_PER_TICK(16.6666666667f) {};
-      
+      : FRAME_TIME(1.0f / 60.0f)
+      {}
+
    ~KorinLoop() = default;
 
-   void start();
-
+   void startFixed();
+   void startVariable();
+   
 private:
-   // TODO: This should be a setting that the user can choose or 
-   //       determined by the refresh rate of the monitor
-   const float MS_PER_TICK; 
+   // Time in ms that each frame should take
+   // TODO: This should be a setting that the user can choose
+   const float FRAME_TIME;
 };
 }

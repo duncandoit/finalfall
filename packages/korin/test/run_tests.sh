@@ -26,7 +26,8 @@ OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
 if [ "$OPTION" = 'help' ]; then
     help
 else
-    build() {
+    build() 
+    {
         # find ../suites -type f -name "*.cpp" | while read filename; do
             echo "Building Korin tests for platform=$platform option=$OPTION" #filename=$filename"
             echo premake5 gmake2 "$1" #"$filename"
@@ -41,6 +42,8 @@ else
         else
             make config=debug -j7
         fi
+
+        ../build/$platform/bin/$OPTION/korintest
     }
 
     case $platform in
@@ -49,8 +52,6 @@ else
         ;;
     esac
 fi
-
-
 
 popd &>/dev/null
 
