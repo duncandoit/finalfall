@@ -3,6 +3,9 @@
 // Copyright (c) Zachary Duncan - Duncandoit
 // 07/18/2024
 
+#include <iostream>
+#include <thread>
+
 #include "korin/korin_loop.h"
 #include "korin/entity_admin.h"
 
@@ -10,19 +13,20 @@ using namespace korin;
 
 void KorinLoop::startFixed()
 {
-   // The last time the game was updated in milliseconds
-   float lastTime = std::chrono::high_resolution_clock::now().time_since_epoch().count(); 
+   // The last time the game was updated in seconds
+   auto lastTime = std::chrono::high_resolution_clock::now();
 
    // How far behind the game is from the real world
    float lag = 0.0;
 
    while (true)
    {
-      // Get the current time in milliseconds
-      float currentTime = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-      float deltaTime = currentTime - lastTime;
+      // Get the current time in seconds
+      const auto currentTime = std::chrono::high_resolution_clock::now();
+      const std::chrono::duration<float> deltaTime = currentTime - lastTime;
+      
       lastTime = currentTime;
-      lag += deltaTime;
+      lag += deltaTime.count();
 
       // Process input
       EntityAdmin::instance().updateInputSystem();
@@ -41,12 +45,11 @@ void KorinLoop::startFixed()
 
 void KorinLoop::startVariable()
 {
-   // Start with the ideal frame period or 
+   // The last time the game was updated in seconds
+   auto lastTime = std::chrono::high_resolution_clock::now();
+   
+   // Start with the ideal frame period in seconds
    float deltaTime = KorinLoop::FRAME_TIME;
-
-   // The last time the game was updated in milliseconds
-   // float duration = std::chrono::high_resolution_clock::now().time_since_epoch(); 
-   auto entryFrameTime = std::chrono::high_resolution_clock::now();
 
    while (true)
    {
@@ -58,17 +61,15 @@ void KorinLoop::startVariable()
       // Render the game state only after the game state has caught up to the real world
       EntityAdmin::instance().updateRenderSystem();
 
-      // Get the current time in milliseconds
-      const auto exitFrameTime = std::chrono::high_resolution_clock::now();
-      deltaTime = std::chrono::duration<float>(exitFrameTime - entryFrameTime).count() 
-         * std::chrono::high_resolution_clock::period::num 
-         / std::chrono::high_resolution_clock::period::den;
+      // Get the current time in seconds
+      const auto currentTime = std::chrono::high_resolution_clock::now();
+      deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
       if (deltaTime > 1.0f)
       {
          deltaTime = KorinLoop::FRAME_TIME;
       }
 
-      entryFrameTime = exitFrameTime;
+      lastTime = currentTime;
    }
 }

@@ -15,8 +15,8 @@ void MovementSystem::update(float timeStep, const ComponentPtr& component)
    auto transform = std::static_pointer_cast<TransformComponent>(component);
    if (transform)
    {
-      transform->x += 0.01f * timeStep;
-      transform->y += 0.01f * timeStep;
+      transform->x += 5.5f * timeStep;
+      transform->y += 5.5f * timeStep;
       std::cout << "Entity Position:" << transform->x << ", " << transform->y << std::endl;
    }
 }

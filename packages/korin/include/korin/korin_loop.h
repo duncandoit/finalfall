@@ -20,7 +20,7 @@ public:
    void startVariable();
    
 private:
-   // Time in ms that each frame should take
+   // Time in seconds that each frame should take
    // TODO: This should be a setting that the user can choose
    const float FRAME_TIME;
 };
