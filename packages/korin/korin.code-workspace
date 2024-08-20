@@ -63,7 +63,8 @@
 			"map": "cpp",
 			"charconv": "cpp",
 			"iomanip": "cpp",
-			"__memory": "cpp"
+			"__memory": "cpp",
+			"chrono": "cpp"
 		}
 	}
 }
