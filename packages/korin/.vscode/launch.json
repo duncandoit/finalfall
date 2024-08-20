@@ -6,16 +6,35 @@
    "configurations": 
    [
     {
-        "type": "lldb",
-        "request": "custom",
-        "name": "Build",
-        "targetCreateCommands": [
-            "target create ${workspaceFolder}/build.sh"
+        "name": "Run Test (debug)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": ".${workspaceFolder}/test/build/macosx/bin/debug/korintest",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}/test/",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "lldb",
+        "setupCommands": 
+        [
+            {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            }
         ],
-        "processCreateCommands": [
-            "settings set target.run-args value1 value2 value3",
-            "process launch"
-        ]
+        "preLaunchTask": "Build Tests (debug)",
+        "miDebuggerPath": "/usr/bin/lldb-mi",
+        "logging": 
+        {
+            "trace": true,
+            "traceResponse": true,
+            "engineLogging": true,
+            "programOutput": true,
+            "exceptions": true
+        },
+        "internalConsoleOptions": "openOnSessionStart" 
     }
-   ]
+    ]
 }

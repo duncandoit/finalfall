@@ -1,0 +1,19 @@
+{
+   "version": "2.0.0",
+   "tasks": 
+   [
+         {
+            "label": "Build Tests (debug)",
+            "type": "shell",
+            "command": "${workspaceFolder}/test/build.sh -p macosx debug",
+            "args": [],
+            "group": 
+            {
+               "kind": "build",
+               "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Build the korintest binary."
+         }
+   ]
+}
