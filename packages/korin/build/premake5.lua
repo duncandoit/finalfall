@@ -36,6 +36,8 @@ do
 
     filter {'system:macosx'}
     do
+        links { "CoreGraphics.framework", "Cocoa.framework" }
+        defines {'KORIN_PLATFORM_MACOSX'}
         buildoptions 
         {
             '-Wimplicit-float-conversion'
@@ -49,6 +51,7 @@ do
 
     filter {'system:ios'}
     do
+        links { "CoreGraphics.framework", "Cocoa.framework" }
         buildoptions {'-flto=full'}
     end
 

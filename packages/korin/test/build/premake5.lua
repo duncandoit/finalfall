@@ -1,5 +1,3 @@
--- local suitename = _OPTIONS["suite-name"] or "aabb.cpp" -- default path
-
 workspace 'korintest'
 configurations {'debug', 'release'}
 
@@ -13,7 +11,7 @@ project 'korintest'
     
     files 
     {
-        '../../test/main.cpp',
+        '../main.cpp',
         '../../src/**.cpp',
         '../../src/**.h',
     }
@@ -34,6 +32,8 @@ project 'korintest'
     }
 
     filter {'system:macosx'}
+        links { "CoreGraphics.framework", "Cocoa.framework" }
+        defines {'KORIN_PLATFORM_MACOSX'}
         buildoptions 
         {
             '-Wimplicit-float-conversion',
