@@ -13,9 +13,11 @@
 #include "korin/system.h"
 #include "korin/component.h"
 #include "korin/components/transform_component.h"
+#include "korin/util/game_action_util.h"
 
 namespace korin
 {
+struct InputStreamComponent;
 class MovementSystem : public System
 {
 public:
@@ -29,5 +31,9 @@ public:
 
    // Update method to move the TransformComponents
    virtual void update(float timeStep, const ComponentPtr& component) override;
+
+private:
+   bool didActionBegin(GameAction action, const std::shared_ptr<InputStreamComponent>& inputStream) const;
+   bool didActionContinue(GameAction action, const std::shared_ptr<InputStreamComponent>& inputStream) const;
 };
 } // namespace korin

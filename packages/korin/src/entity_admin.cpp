@@ -5,8 +5,9 @@
 
 #include "korin/entity_admin.h"
 #include "korin/util/assert.h"
-
 #include "korin/systems/movement_system.h"
+#include "korin/systems/game_input_system.h"
+#include "korin/systems/render_system.h"
 
 using namespace korin;
 
@@ -234,9 +235,68 @@ void EntityAdmin::updateRenderSystem()
 
 void EntityAdmin::initSystems()
 {
-   auto movement = std::make_shared<MovementSystem>();
-   addSystem(movement);
+   auto gameInput = std::make_shared<GameInputSystem>();
+   addSystem(gameInput);
 
+   // Observer
+   // Fixed update
+   // World state
+   // Game mode
+   // AI point find
+   // Path data invalidate
+   // Weapon staging
+   // View target
+   // Possession
+   // Command
+   // Movement volume
+   // AI Strategic
+   // AI path find
+   // AI behavior
+   // AI Spawn
+   // AI movement
+
+   auto movementState = std::make_shared<MovementSystem>();
+   addSystem(movementState);
+
+   // Simple movement
+   // Unsynchronized movement
+   // Local player movement
+   // Movement exertion
+   // AI perception
+   // Weapon aim
+   // Weapon
+   // Debug
+   // Animation
+   // Finish async work animation
+   // Weapon post simulation
+   // Combat
+   // Stats
+   // Hero
+   // Seen by
+   // Idle animation 
+   // Mover effect
+   // Spacial query
+   // Camera
+   // POV
+   // Map
+   // Sound
+   // Local hit effects
+   // Hero full body effects
+   // Update scene view flags
+   // Resolve contact
+   // Interpolate movement state
+   // Spacial query
+   // World 
+   // Game moderator
+   // Game UX
+
+   auto renderSystem = std::make_shared<RenderSystem>();
+   addSystem(renderSystem);
+
+
+
+ 
+// Simple
    // TargetName
    // LifetimeEntity
    // PlayerSpawn
