@@ -1,13 +1,14 @@
 workspace 'korintest'
-configurations {'debug', 'release'}
+    configurations {'debug', 'release'}
 
 project 'korintest'
     kind 'ConsoleApp'
     language 'C++'
     cppdialect 'C++17'
     toolset 'clang'
-    targetdir '%{cfg.system}/bin/%{cfg.buildcfg}'
-    objdir '%{cfg.system}/obj/%{cfg.buildcfg}'
+    location '../build' --Setting the location at the project level rather than workspace level means that a Makefile is created in the directory of the premake file. Setting the location at the workspace level is ideal but breaks the process. To be solved..
+    targetdir '../build/%{cfg.system}/bin/%{cfg.buildcfg}'
+    objdir '../build/%{cfg.system}/obj/%{cfg.buildcfg}'
     
     files 
     {

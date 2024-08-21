@@ -1,13 +1,15 @@
 #!/bin/bash
 set -e
 
-pushd build &>/dev/null
+echo "Current directory: $(pwd)"
+pushd scripts &>/dev/null
+echo "Moved to directory: $(pwd)"
 
 while getopts p: flag; do
     case "${flag}" in
     p)
         shift 2
-        platform=${OPTARG}
+        PLATFORM=${OPTARG}
         ;;
     # r)
     #     run=true
@@ -32,10 +34,11 @@ if [ "$OPTION" = 'help' ]; then
 else
     build() 
     {
-        echo "Building Korin tests for platform=$platform option=$OPTION" 
-        echo premake5 gmake2 "$1"
-        PREMAKE="premake5 gmake2 $1" 
-        eval "$PREMAKE"
+        echo "Building Korin tests for platform=$PLATFORM option=$OPTION" 
+        
+        PREMAKE="premake5 gmake2 $1"
+        echo "$PREMAKE"
+        $PREMAKE
 
         if [ "$OPTION" = "clean" ]; then
             make clean
@@ -47,15 +50,18 @@ else
         fi
 
         # if [ $run ]; then
-            ../build/$platform/bin/$OPTION/korintest
+            ../build/$PLATFORM/bin/$OPTION/korintest
         # fi
     }
 
-    case $platform in
+    case $PLATFORM in
     *)
+        echo "Building for ${PLATFORM}"
         build
         ;;
     esac
 fi
 
+echo "Finished build in directory: $(pwd)"
 popd &>/dev/null
+echo "Popped back to directory: $(pwd)"
