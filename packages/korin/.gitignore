@@ -39,4 +39,4 @@ Makefile
 *.DS_Store
 
 # Build directories
-**/build/**/bin
+**/build
