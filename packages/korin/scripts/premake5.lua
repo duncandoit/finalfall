@@ -1,5 +1,7 @@
 workspace 'korin'
-configurations {'debug', 'release'}
+    startproject 'korin'
+    configurations {'debug', 'release'}
+    location '../build'
 
 -- dofile(path.join(path.getabsolute('../dependencies/'), 'premake5_dependency.lua'))
 
@@ -10,7 +12,7 @@ do
     language 'C++'
     cppdialect 'C++17'
     toolset 'clang'
-    location '../build' --Setting the location at the project level rather than workspace level means that a Makefile is created in the directory of the premake file. Setting the location at the workspace level is ideal but breaks the process. To be solved..
+    location '.'
     targetdir '../build/%{cfg.system}/bin/%{cfg.buildcfg}'
     objdir '../build/%{cfg.system}/obj/%{cfg.buildcfg}'
 
@@ -22,7 +24,18 @@ do
 
     includedirs 
     {
-        '../include'
+        '../include',
+        '../dependencies/%{cfg.system}/glfw/include',
+    }
+
+    libdirs 
+    {
+        '../dependencies/%{cfg.system}/glfw' -- GLFW
+    }
+
+    links 
+    {
+        'glfw3'              -- GLFW
     }
 
     buildoptions 
@@ -37,7 +50,15 @@ do
 
     filter {'system:macosx'}
     do
-        links { "CoreGraphics.framework", "Cocoa.framework" }
+        links 
+        { 
+            'CoreFoundation.framework',
+            'Cocoa.framework',
+            'IOKit.framework',
+            'CoreVideo.framework',
+            'CoreGraphics.framework', 
+            'OpenGL.framework',
+        }
         defines {'KORIN_PLATFORM_MACOSX'}
         buildoptions 
         {
@@ -50,14 +71,12 @@ do
         buildoptions {'-flto=full'}
     end
 
-    -- filter {'system:ios'}
-    -- do
-    --     links { "CoreGraphics.framework", "Cocoa.framework" }
-    --     buildoptions {'-flto=full'}
-    -- end
-
     -- filter 'system:windows'
     -- do
+    --     links
+    --     {
+    --         '../dependencies/windows/glfw/glfw3.lib'
+    --     }
     --     architecture 'x64'
     --     defines {'_USE_MATH_DEFINES'}
     --     flags {'FatalCompileWarnings'}
@@ -69,6 +88,12 @@ do
     --         '-fno-exceptions',
     --         '-fno-rtti'
     --     }
+    -- end
+
+    -- filter {'system:ios'}
+    -- do
+    --     links { "CoreGraphics.framework", "Cocoa.framework" }
+    --     buildoptions {'-flto=full'}
     -- end
 
     -- filter {'system:ios', 'options:variant=system'}
@@ -142,3 +167,5 @@ end
 --         {'arm64'}
 --     }
 -- }
+
+-- os.chdir("../scripts")

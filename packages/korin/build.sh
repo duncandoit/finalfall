@@ -2,9 +2,10 @@
 set -e
 
 # source dependencies/config_directories.sh
-echo "Current directory: $(pwd)"
+
+# echo "::KORIN:: build.sh > Current directory: $(pwd)"
 pushd scripts &>/dev/null
-echo "Moved to directory: $(pwd)"
+# echo "::KORIN:: build.sh > Moved to directory: $(pwd)"
 
 while getopts p: flag; do
     case "${flag}" in
@@ -33,7 +34,7 @@ if [ "$OPTION" = 'help' ]; then
 else
     build() 
     {
-        echo "Building Korin library for platform=$PLATFORM option=$OPTION"
+        echo "::KORIN:: build.sh > Building Korin library for platform=$PLATFORM option=$OPTION"
         
         PREMAKE="premake5 gmake2 $1"
         echo "$PREMAKE"
@@ -78,12 +79,12 @@ else
     #     ;;
         
     *)
-        echo "Building for ${PLATFORM}"
+        echo "::KORIN:: build.sh > Building Korin lib for ${PLATFORM}"
         build
         ;;
     esac
 fi
 
-echo "Finished build in directory: $(pwd)"
+# echo "::KORIN:: build.sh > Finished build in directory: $(pwd)"
 popd &>/dev/null
-echo "Popped back to directory: $(pwd)"
+# echo "::KORIN:: build.sh > Popped back to directory: $(pwd)"
