@@ -16,7 +16,7 @@ namespace korin
 class GameInputSystem : public System
 {
 public:
-   GameInputSystem();
+   GameInputSystem() : consumed(false) {};
 
    // Request the InputStreamComponent type
    virtual ComponentTypeID primaryComponentTypeID() const override
@@ -28,6 +28,9 @@ public:
 
    // Update method to process the input
    virtual void update(float timeStep, const ComponentPtr& component) override;
+
+public:
+   bool consumed;
 
 private:
    // Assuming that ButtonStates and PreviousButtonStates 
