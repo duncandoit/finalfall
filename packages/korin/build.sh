@@ -37,7 +37,7 @@ else
         echo "::KORIN:: build.sh > Building Korin library for platform=$PLATFORM option=$OPTION"
         
         PREMAKE="premake5 gmake2 $1"
-        echo "$PREMAKE"
+        echo "::KORIN:: $PREMAKE"
         $PREMAKE
 
         if [ "$OPTION" = "clean" ]; then
@@ -50,36 +50,8 @@ else
         fi
     }
 
-    case $PLATFORM in
-    # ios)
-    #     echo "Building for iOS"
-    #     export IOS_SYSROOT=$(xcrun --sdk iphoneos --show-sdk-path)
-    #     build "--os=ios"
-    #     if [ "$OPTION" = "clean" ]; then
-    #         exit
-    #     fi
-    #     ;;
-
-    # ios_sim)
-    #     export IOS_SYSROOT=$(xcrun --sdk iphonesimulator --show-sdk-path)
-    #     build "--os=ios --variant=emulator"
-    #     if [ "$OPTION" = "clean" ]; then
-    #         exit
-    #     fi
-    #     ;;
-    # # Android supports ABIs via a custom PLATFORM format:
-    # #   e.g. 'android.x86', 'android.x64', etc.
-    # android*)
-    #     echo "Building for ${PLATFORM}"
-    #     # Extract ABI from this opt by splitting on '.' character
-    #     #   e.g. android.x86
-    #     IFS="." read -ra strarr <<<"$PLATFORM"
-    #     ARCH=${strarr[1]}
-    #     build "--os=android --arch=${ARCH}"
-    #     ;;
-        
+    case $PLATFORM in        
     *)
-        echo "::KORIN:: build.sh > Building Korin lib for ${PLATFORM}"
         build
         ;;
     esac

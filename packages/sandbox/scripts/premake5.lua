@@ -1,6 +1,9 @@
+KORIN_ROOT = path.getabsolute('../../korin')
+
 workspace 'sandbox'
     configurations {'debug', 'release'}
-    location '../../build'
+    location (KORIN_ROOT .. '/build')
+
 
 project 'sandbox'
     kind 'ConsoleApp'
@@ -23,13 +26,13 @@ project 'sandbox'
 
     includedirs 
     {
-        '../../include',                                 -- libkorin
-        "../../dependencies/%{cfg.system}/glfw/include"  -- GLFW
+        KORIN_ROOT .. '/include',                                 -- libkorin
+        KORIN_ROOT .. '/dependencies/%{cfg.system}/glfw/include'  -- GLFW
     }
 
     libdirs {
-        '../../build/%{cfg.system}/bin/%{cfg.buildcfg}/',  -- libkorin
-        '../../dependencies/%{cfg.system}/glfw/'           -- GLFW
+        KORIN_ROOT .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}/',  -- libkorin
+        KORIN_ROOT .. '/dependencies/%{cfg.system}/glfw/'           -- GLFW
     }
 
     links 
