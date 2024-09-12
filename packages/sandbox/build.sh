@@ -4,19 +4,14 @@ set -e
 # Move to korin
 pushd ../korin &>/dev/null
 
-echo "::SANDBOX:: build.sh > Build Korin library if necessary"
-if [ -f "$OUTPUT_DIR/libkorin.a" ]; then
-    echo "::SANDBOX:: build.sh > Korin library already built."
+if [ -f "build/$PLATFORM/bin/$OPTION/libkorin.a" ]; then
+    echo "::SANDBOX:: build.sh > Korin library found."
 else
-    echo "::SANDBOX:: build.sh > Building Korin library."
     ./build.sh "$@"
 fi
 
 # Pop back to sandbox
 popd &>/dev/null
-
-# Move to sandbox/scripts
-pushd scripts &>/dev/null
 
 while getopts p: flag; do
     case "${flag}" in
@@ -29,19 +24,19 @@ while getopts p: flag; do
 done
 
 # ensure the option is lowercase
-OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
+OPTION="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
 
 if [ "$OPTION" = 'help' ]; then
     echo "Help"
 elif [ "$OPTION" = "clean" ]; then
-    rm Makefile
-    rm -rf ../build/
+    echo "::SANDBOX:: build.sh > Cleaning Sandbox"
+    rm scripts/Makefile
+    rm -rf build/
 else
     build() 
     {
-        OUTPUT_DIR="build/$PLATFORM/bin/$OPTION"
-
-        
+        # Move to sandbox/scripts
+        pushd scripts &>/dev/null
 
         echo "::SANDBOX:: build.sh > Building Korin sandbox for platform=$PLATFORM option=$OPTION" 
         PREMAKE="premake5 gmake2 $1 --file=premake5.lua"
@@ -55,16 +50,15 @@ else
         fi
 
         echo "::SANDBOX:: build.sh > Running sandbox binary"
-        ../$OUTPUT_DIR/sandbox
+        ../build/$PLATFORM/bin/$OPTION/sandbox
+
+        # Pop back to sandbox
+        popd &>/dev/null
     }
 
     case $PLATFORM in
     *)
-        echo "Building for ${PLATFORM}"
         build
         ;;
     esac
 fi
-
-popd &>/dev/null
-# echo "::SANDBOX:: build.sh > Popped back to: $(pwd)"

@@ -29,6 +29,7 @@ OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
 if [ "$OPTION" = 'help' ]; then
     help
 elif [ "$OPTION" = "clean" ]; then
+    echo "::KORIN:: build.sh > Cleaning Korin library"
     rm Makefile
     rm -rf ../build/
 else
@@ -54,4 +55,5 @@ else
     esac
 fi
 
+# Pop back to korin
 popd &>/dev/null
