@@ -15,7 +15,8 @@
 
 using namespace korin;
 
-GameInputSystem::GameInputSystem()
+GameInputSystem::GameInputSystem() 
+   : consumed(false)
 {
    requestListenEventAccess();
    assignDefaultGameActions();

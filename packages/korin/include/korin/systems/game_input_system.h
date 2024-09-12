@@ -16,7 +16,7 @@ namespace korin
 class GameInputSystem : public System
 {
 public:
-   GameInputSystem() : consumed(false) {};
+   GameInputSystem();
 
    // Request the InputStreamComponent type
    virtual ComponentTypeID primaryComponentTypeID() const override
