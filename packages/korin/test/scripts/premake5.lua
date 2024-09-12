@@ -1,8 +1,8 @@
-workspace 'korintest'
+workspace 'sandbox'
     configurations {'debug', 'release'}
     location '../../build'
 
-project 'korintest'
+project 'sandbox'
     kind 'ConsoleApp'
     language 'C++'
     cppdialect 'C++17'
@@ -13,7 +13,12 @@ project 'korintest'
     
     files 
     {
-        '../main.cpp'
+        '../**.cpp'
+    }
+
+    removefiles
+    {
+        '../tests/**'
     }
 
     includedirs 
@@ -23,7 +28,8 @@ project 'korintest'
     }
 
     libdirs {
-        '../../build/%{cfg.system}/bin/%{cfg.buildcfg}/'  -- libkorin
+        '../../build/%{cfg.system}/bin/%{cfg.buildcfg}/',  -- libkorin
+        '../../dependencies/%{cfg.system}/glfw/'           -- GLFW
     }
 
     links 
@@ -56,8 +62,8 @@ project 'korintest'
         buildoptions 
         {
             '-Wimplicit-float-conversion',
-            -- '-arch x86_64',
-            '-arch arm64'
+            '-arch x86_64',
+            -- '-arch arm64'
         }
 
     filter {'system:macosx', 'configurations:release'}

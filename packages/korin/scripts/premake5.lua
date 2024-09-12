@@ -59,7 +59,7 @@ do
             'CoreGraphics.framework', 
             'OpenGL.framework',
         }
-        defines {'KORIN_PLATFORM_MACOSX'}
+        defines {'KORIN_PLATFORM_MACOSX', 'KORIN_BUILD_DLL'}
         buildoptions 
         {
             '-Wimplicit-float-conversion'

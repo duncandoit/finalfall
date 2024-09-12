@@ -33,10 +33,10 @@ if [ "$OPTION" = 'help' ]; then
 else
     build() 
     {
-        echo "::KORIN:: test/build.sh > Building Korin test for platform=$PLATFORM option=$OPTION" 
+        echo "::KORIN:: test/build.sh > Building Korin sandbox for platform=$PLATFORM option=$OPTION" 
 
-        echo "::KORIN:: test/build.sh > Invoking korintest premake file at: $(pwd)"
-        PREMAKE="premake5 gmake2 $1 --file=premake5_test.lua"
+        echo "::KORIN:: test/build.sh > Invoking Korin's sandbox premake file at: $(pwd)"
+        PREMAKE="premake5 gmake2 $1 --file=premake5.lua"
         echo "$PREMAKE"
         $PREMAKE
 
@@ -49,8 +49,8 @@ else
             make VERBOSE=1 config=debug -j7
         fi
 
-        echo "::KORIN:: test/build.sh > Running korintest binary"
-        ../build/$PLATFORM/bin/$OPTION/korintest
+        echo "::KORIN:: test/build.sh > Running sandbox binary"
+        ../build/$PLATFORM/bin/$OPTION/sandbox
     }
 
     case $PLATFORM in
