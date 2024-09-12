@@ -28,14 +28,16 @@ OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
 
 if [ "$OPTION" = 'help' ]; then
     help
+
 elif [ "$OPTION" = "clean" ]; then
-    echo "::KORIN:: build.sh > Cleaning Korin library"
+    echo "::KORIN:: Cleaning Korin library"
     rm Makefile &>/dev/null
     rm -rf ../build/ &>/dev/null
+
 else
     build() 
     {
-        echo "::KORIN:: build.sh > Building Korin library for platform=$PLATFORM option=$OPTION"
+        echo "::KORIN:: Building Korin library for platform=$PLATFORM option=$OPTION"
         
         PREMAKE="premake5 gmake2 $1"
         echo "::KORIN:: $PREMAKE"
@@ -43,8 +45,10 @@ else
 
         if [ "$OPTION" = "release" ]; then
             make config=release -j7
+
         else
             make VERBOSE=1 config=debug -j7
+
         fi
     }
 
