@@ -30,8 +30,8 @@ if [ "$OPTION" = 'help' ]; then
     help
 elif [ "$OPTION" = "clean" ]; then
     echo "::KORIN:: build.sh > Cleaning Korin library"
-    rm Makefile
-    rm -rf ../build/
+    rm Makefile &>/dev/null
+    rm -rf ../build/ &>/dev/null
 else
     build() 
     {
