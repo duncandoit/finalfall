@@ -1,10 +1,13 @@
 {
 	"folders": [
 		{
+			"name": "Sandbox",
 			"path": "."
 		},
 		{
-			"path": "../korin"
+			"name": "Korin",
+			"path": "../korin",
+			"include": "../korin/include"
 		}
 	],
 	"settings": {}
