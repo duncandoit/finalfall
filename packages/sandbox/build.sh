@@ -1,23 +1,22 @@
 #!/bin/bash
 set -e
 
-# Move to Korin's root directory
-        pushd ../korin &>/dev/null
-        # echo "::SANDBOX:: build.sh > Moved to: $(pwd)"
+# Move to korin
+pushd ../korin &>/dev/null
 
-        echo "::SANDBOX:: build.sh > Build Korin library if necessary"
-        if [ -f "$OUTPUT_DIR/libkorin.a" ]; then
-            echo "::SANDBOX:: build.sh > Korin library already built."
-        else
-            echo "::SANDBOX:: build.sh > Building Korin library."
-            ./build.sh "$@"
-        fi
+echo "::SANDBOX:: build.sh > Build Korin library if necessary"
+if [ -f "$OUTPUT_DIR/libkorin.a" ]; then
+    echo "::SANDBOX:: build.sh > Korin library already built."
+else
+    echo "::SANDBOX:: build.sh > Building Korin library."
+    ./build.sh "$@"
+fi
 
-        popd &>/dev/null
-        # echo "::SANDBOX:: build.sh > Popped back to: $(pwd)"
+# Pop back to sandbox
+popd &>/dev/null
 
-        pushd scripts &>/dev/null
-        # echo "Moved to: $(pwd)"
+# Move to sandbox/scripts
+pushd scripts &>/dev/null
 
 while getopts p: flag; do
     case "${flag}" in
@@ -35,8 +34,8 @@ OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
 if [ "$OPTION" = 'help' ]; then
     echo "Help"
 elif [ "$OPTION" = "clean" ]; then
-    make clean
-    make clean config=release
+    rm Makefile
+    rm -rf ../build/
 else
     build() 
     {

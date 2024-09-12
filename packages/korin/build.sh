@@ -1,11 +1,8 @@
 #!/bin/bash
 set -e
 
-# source dependencies/config_directories.sh
-
-# echo "::KORIN:: build.sh > Current directory: $(pwd)"
+# Move to korin/scripts
 pushd scripts &>/dev/null
-# echo "::KORIN:: build.sh > Moved to directory: $(pwd)"
 
 while getopts p: flag; do
     case "${flag}" in
@@ -31,6 +28,9 @@ OPTION="$(echo "$1" | tr '[A-Z]' '[a-z]')"
 
 if [ "$OPTION" = 'help' ]; then
     help
+elif [ "$OPTION" = "clean" ]; then
+    rm Makefile
+    rm -rf ../build/
 else
     build() 
     {
@@ -40,10 +40,7 @@ else
         echo "::KORIN:: $PREMAKE"
         $PREMAKE
 
-        if [ "$OPTION" = "clean" ]; then
-            make clean
-            make clean config=release
-        elif [ "$OPTION" = "release" ]; then
+        if [ "$OPTION" = "release" ]; then
             make config=release -j7
         else
             make VERBOSE=1 config=debug -j7
@@ -57,6 +54,4 @@ else
     esac
 fi
 
-# echo "::KORIN:: build.sh > Finished build in directory: $(pwd)"
 popd &>/dev/null
-# echo "::KORIN:: build.sh > Popped back to directory: $(pwd)"
