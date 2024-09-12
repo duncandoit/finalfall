@@ -1,8 +1,9 @@
-KORIN_ROOT = path.getabsolute('../../korin')
+SANDBOX_DIR = path.getabsolute('..')
+KORIN_DIR = path.getabsolute('../../korin')
 
 workspace 'sandbox'
     configurations {'debug', 'release'}
-    location (KORIN_ROOT .. '/build')
+    location (SANDBOX_DIR .. '/build')
 
 
 project 'sandbox'
@@ -11,28 +12,28 @@ project 'sandbox'
     cppdialect 'C++17'
     toolset 'clang'
     location '.'
-    targetdir '../build/%{cfg.system}/bin/%{cfg.buildcfg}'
-    objdir '../build/%{cfg.system}/obj/%{cfg.buildcfg}'
+    targetdir (SANDBOX_DIR .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}')
+    objdir (SANDBOX_DIR .. '/build/%{cfg.system}/obj/%{cfg.buildcfg}')
     
     files 
     {
-        '../**.cpp'
+        SANDBOX_DIR .. '/**.cpp'
     }
 
     removefiles
     {
-        '../tests/**'
+        SANDBOX_DIR .. '/tests/**'
     }
 
     includedirs 
     {
-        KORIN_ROOT .. '/include',                                 -- libkorin
-        KORIN_ROOT .. '/dependencies/%{cfg.system}/glfw/include'  -- GLFW
+        KORIN_DIR .. '/include',                                 -- libkorin
+        KORIN_DIR .. '/dependencies/%{cfg.system}/glfw/include'  -- GLFW
     }
 
     libdirs {
-        KORIN_ROOT .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}/',  -- libkorin
-        KORIN_ROOT .. '/dependencies/%{cfg.system}/glfw/'           -- GLFW
+        KORIN_DIR .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}/',  -- libkorin
+        KORIN_DIR .. '/dependencies/%{cfg.system}/glfw/'           -- GLFW
     }
 
     links 
