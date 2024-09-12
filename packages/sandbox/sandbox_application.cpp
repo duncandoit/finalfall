@@ -3,7 +3,7 @@
 // Copyright (c) Zachary Duncan - Duncandoit
 // 07/19/2024
 
-#include "korin/korin.h"
+#include <korin/korin.h>
 
 class SandboxApp : public korin::Application
 {
