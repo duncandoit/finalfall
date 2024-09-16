@@ -6,7 +6,7 @@
 #pragma once
 
 #ifdef KORIN_PLATFORM_WINDOWS
-   #ifdef KORIN_BUILD_DLL
+   #ifdef KORIN_BUILD_SHAREDLIB
       #define KORIN_API __declspec(dllexport)
    #else
       #define KORIN_API __declspec(dllimport)
@@ -14,7 +14,7 @@
 #endif // KORIN_PLATFORM_WINDOWS
 
 #ifdef KORIN_PLATFORM_MACOSX
-   #ifdef KORIN_BUILD_DLL
+   #ifdef KORIN_BUILD_SHAREDLIB
       #define KORIN_API __attribute__((visibility("default")))
    #else
       #define KORIN_API
