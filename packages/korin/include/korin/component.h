@@ -12,7 +12,7 @@
 #include <cstdint>
 #include <unordered_map>
 
-#include "korin/util/assert.h"
+#include "korin/log.h"
 
 namespace korin
 {
@@ -42,7 +42,7 @@ public:
       auto siblingIt = m_Siblings.find(typeID<T>());
       if (siblingIt == m_Siblings.end())
       {
-         KORIN_DEBUG("ComponentTypeID:" 
+         KORIN_CORE_WARN("ComponentTypeID:" 
             + std::to_string(typeID<T>()) 
             + " does not exist as a sibling to this Component.");
 
@@ -61,13 +61,13 @@ public:
       auto siblingPtr = component.lock();
       if (siblingPtr == nullptr)
       {
-         KORIN_DEBUG("Cannot add a null Component sibling.");
+         KORIN_CORE_WARN("Cannot add a null Component sibling.");
          return false;
       }
 
       if (m_Siblings.find(siblingPtr->typeID()) != m_Siblings.end())
       {
-         KORIN_DEBUG("ComponentTypeID:" + std::to_string(siblingPtr->typeID()) 
+         KORIN_CORE_WARN("ComponentTypeID:" + std::to_string(siblingPtr->typeID()) 
             + " already exists as a sibling to this Component.");
             
          return false;

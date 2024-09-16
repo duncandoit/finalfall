@@ -10,6 +10,7 @@
 #include "korin/math/aabb.h"
 #include "korin/math/vector2d.h"
 #include "korin/util/assert.h"
+#include "korin/log.h"
 
 void test_aabb() {
    // Test getCorners()
@@ -73,7 +74,7 @@ void test_aabb() {
 int main() {
    test_aabb();
 
-   std::cout << "AABB tests passed!" << std::endl;
+   KORIN_INFO()"AABB tests passed!")
 
    return 0;
 }

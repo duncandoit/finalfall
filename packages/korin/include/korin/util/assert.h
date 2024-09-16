@@ -12,7 +12,7 @@
     #define KORIN_DEBUG_BREAK() raise(SIGTRAP)
 #else
     #define KORIN_DEBUG_BREAK() asm("int $3")
-#endif
+#endif 
 
 // Checks expression and fails if it is false at runtime
 #define KORIN_ASSERT(expr) \
@@ -46,15 +46,7 @@
          }
 
    #endif
-#endif
-
-#define KORIN_DEBUG(msg) \
-   reportKorinDebugMessage((std::string(msg).c_str()), __FILE__, __LINE__); 
-
-inline void reportKorinDebugMessage(const char* msg, const char* file, int line)
-{
-    std::cerr << "Korin Debug: " << msg << " — file " << file << " — line " << line << std::endl;
-}
+#endif 
 
 // KORIN_ASSERTIONS is not defined so the assertions will be no-ops and evaluate to nothing.
 #else 
@@ -63,8 +55,5 @@ inline void reportKorinDebugMessage(const char* msg, const char* file, int line)
 
    // KORIN_ASSERTIONS is not defined.
    #define KORIN_STATIC_ASSERT(expr)
-
-   // KORIN_ASSERTIONS is not defined.
-   #define KORIN_DEBUG(msg)
 
 #endif // KORIN_ASSERTIONS

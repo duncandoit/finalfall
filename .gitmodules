@@ -1,0 +1,3 @@
+[submodule "packages/korin/dependencies/submodules/spdlog"]
+	path = packages/korin/dependencies/submodules/spdlog
+	url = https://github.com/gabime/spdlog.git

@@ -4,6 +4,7 @@
 // 2024-07-09
 
 #include "korin/entity_admin.h"
+#include "korin/log.h"
 #include "korin/util/assert.h"
 #include "korin/systems/movement_system.h"
 #include "korin/systems/game_input_system.h"
@@ -34,22 +35,22 @@ EntityAdmin::~EntityAdmin()
 
 EntityPtr EntityAdmin::createEntity(const std::string& resourceHandle)
 {
-   KORIN_DEBUG("Creating Entity with resource handle: " + resourceHandle);
+   KORIN_CORE_INFO("Creating Entity with resource handle: " + resourceHandle);
 
    EntityPtr entity = std::make_shared<Entity>(resourceHandle);
    if (!entity) 
    { 
-      KORIN_DEBUG("Cannot add a null Entity.");
+      KORIN_CORE_WARN("Cannot add a null Entity.");
       return EntityPtr(); 
    }
 
    if (m_LivingEntityCount >= MAX_ENTITIES) 
    { 
-      KORIN_DEBUG("Cannot add EntityID(" + std::to_string(entity->entityID()) + "). Maximum entities reached.");
+      KORIN_CORE_WARN("Cannot add EntityID(" + std::to_string(entity->entityID()) + "). Maximum entities reached.");
       return EntityPtr();
    }
 
-   KORIN_DEBUG("Adding EntityID(" + std::to_string(entity->entityID()) + ") to admin.");
+   KORIN_CORE_INFO("Adding EntityID(" + std::to_string(entity->entityID()) + ") to admin.");
 
    m_Entities[entity->entityID()] = entity;
    m_ComponentsByEntity[entity->entityID()] = std::vector<ComponentPtr>();
@@ -63,7 +64,7 @@ void EntityAdmin::removeEntity(EntityPtr entity)
    const auto entityComponentTypesIt = m_ComponentsByEntity.find(entity->entityID());
    if (entityComponentTypesIt == m_ComponentsByEntity.end())
    {
-      KORIN_DEBUG("Entity(" + std::to_string(entity->entityID()) + ") does not exist for removal.");
+      KORIN_CORE_WARN("Entity(" + std::to_string(entity->entityID()) + ") does not exist for removal.");
       return;
    }
 
@@ -76,18 +77,18 @@ void EntityAdmin::removeEntity(EntityPtr entity)
 
 bool EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
 {
-   KORIN_DEBUG("Adding Component to EntityID(" + std::to_string(entityID) + ").");
+   KORIN_CORE_INFO("Adding Component to EntityID(" + std::to_string(entityID) + ").");
 
    if (!component) 
    { 
-      KORIN_DEBUG("Cannot add a null Component.");
+      KORIN_CORE_WARN("Cannot add a null Component.");
       return false; 
    }
 
    auto entityComponentsIt = m_ComponentsByEntity.find(entityID);
    if (entityComponentsIt == m_ComponentsByEntity.end())
    {
-      KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for adding component.");
+      KORIN_CORE_WARN("EntityID(" + std::to_string(entityID) + ") does not exist for adding component.");
       return false;
    }
 
@@ -98,7 +99,7 @@ bool EntityAdmin::addComponent(EntityID entityID, ComponentPtr component)
    {
       if (existingComponent->typeID() == component->typeID())
       {
-         KORIN_DEBUG("ComponentType(" + std::to_string(component->typeID()) + ") type already exists for entity.");
+         KORIN_CORE_WARN("ComponentType(" + std::to_string(component->typeID()) + ") type already exists for entity.");
          return false;
       }
    }
@@ -120,13 +121,13 @@ void EntityAdmin::removeComponent(EntityID entityID, ComponentTypeID componentTy
    const auto& entityComponentTypes = m_ComponentsByEntity[entityID];
    if (entityComponentTypes.empty())
    {
-      KORIN_DEBUG("Entity(" + std::to_string(entityID) + ") does not exist for removing component.");
+      KORIN_CORE_WARN("Entity(" + std::to_string(entityID) + ") does not exist for removing component.");
    }
 
    const auto& existingComponent = entityComponentTypes[componentTypeID];
    if (existingComponent)
    {
-      KORIN_DEBUG("ComponentType(" + std::to_string(componentTypeID) + ") type does not exist for removal.");
+      KORIN_CORE_WARN("ComponentType(" + std::to_string(componentTypeID) + ") type does not exist for removal.");
    }
    
    for (auto& sibling : m_ComponentsByEntity[entityID])
@@ -148,14 +149,14 @@ ComponentPtr EntityAdmin::getComponent(EntityID entityID, ComponentTypeID compon
    const auto& entityComponentTypes = m_ComponentsByEntity[entityID];
    if (entityComponentTypes.empty())
    {
-      KORIN_DEBUG("EntityID(" + std::to_string(entityID) + ") does not exist for getting component.");
+      KORIN_CORE_WARN("EntityID(" + std::to_string(entityID) + ") does not exist for getting component.");
       return nullptr;
    }
 
    const auto& component = entityComponentTypes[componentTypeID];
    if (!component)
    {
-      KORIN_DEBUG("ComponentType(" + std::to_string(componentTypeID) + ") does not exist on entity for retrieval.");
+      KORIN_CORE_WARN("ComponentType(" + std::to_string(componentTypeID) + ") does not exist on entity for retrieval.");
       return nullptr;
    }
 
@@ -166,18 +167,18 @@ bool EntityAdmin::addSystem(const SystemPtr& system)
 {
    if (!system) 
    { 
-      KORIN_DEBUG("Cannot add a null System.");
+      KORIN_CORE_WARN("Cannot add a null System.");
       KORIN_ASSERT(system);
       return false; 
    }
 
    if (std::find(m_Systems.begin(), m_Systems.end(), system) != m_Systems.end()) 
    { 
-      KORIN_DEBUG("System already exists in admin.");
+      KORIN_CORE_WARN("System already exists in admin.");
       return false;
    }
 
-   KORIN_DEBUG("Adding System to admin.");
+   KORIN_CORE_INFO("Adding System to admin.");
    
    m_Systems.push_back(system);
    return true;
@@ -187,14 +188,14 @@ void EntityAdmin::removeSystem(SystemPtr system)
 {
    if (!system) 
    { 
-      KORIN_DEBUG("Cannot remove a null System.");
+      KORIN_CORE_WARN("Cannot remove a null System.");
       return; 
    }
 
    auto systemIt = std::find(m_Systems.begin(), m_Systems.end(), system);
    if (systemIt == m_Systems.end()) 
    { 
-      KORIN_DEBUG("System does not exist in admin.");
+      KORIN_CORE_WARN("System does not exist in admin.");
       return;
    }
 
@@ -215,7 +216,7 @@ void EntityAdmin::updateSystems(float timeStep)
       const auto& componentItr = m_ComponentsByType.find(componentTypeID);
       if (componentItr == m_ComponentsByType.end())
       {
-         KORIN_DEBUG("ComponentType(" + std::to_string(componentTypeID) + ") does not exist for System update.");
+         KORIN_CORE_WARN("ComponentType(" + std::to_string(componentTypeID) + ") does not exist for System update.");
          continue;
       }
 

@@ -40,3 +40,6 @@ Makefile
 
 # Build directories
 **/build
+
+# Submodules
+**/submodules

@@ -12,16 +12,19 @@
 
 #pragma once
 
-#include <stdio.h> // This will be replaced with a logging system
-#include "korin/application.h" 
+#include "korin/korin.h"
 
 extern korin::Application* korin::createApplication();
 
 int main(int argc, char** argv)
 {
-   printf("::KORIN:: Application started\n");
+   korin::Log::init();
+   KORIN_CORE_INFO("Initialized Log!");
+
+   int test = 1;
+   KORIN_WARN("Testing Korin logging: {0}", test);
+
    auto app = korin::createApplication();
    app->run();
    delete app;
-   return 0;
 }

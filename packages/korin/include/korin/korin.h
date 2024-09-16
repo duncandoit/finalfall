@@ -8,6 +8,7 @@
 #pragma once
 
 #include "korin/application.h"
+#include "korin/log.h"
 
 // ---ENTRY POINT-------------------------------------------
 #include "korin/entry_point.h"

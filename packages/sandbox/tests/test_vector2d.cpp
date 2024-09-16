@@ -31,7 +31,7 @@ void test_vector2d() {
 int main() {
    test_vector2d();
 
-   std::cout << "Vector2D tests passed!" << std::endl;
+   KORIN_INFO("Vector2D tests passed!");
 
    return 0;
 }

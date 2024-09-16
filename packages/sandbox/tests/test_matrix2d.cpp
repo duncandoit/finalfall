@@ -75,7 +75,7 @@ void test_matrix2d() {
 int main() {
    test_matrix2d();
 
-   std::cout << "Matrix2D tests passed!" << std::endl;
+   KORIN_INFO("Matrix2D tests passed!");
 
    return 0;
 }

@@ -27,7 +27,7 @@ void GameInputSystem::update(float timeStep, const ComponentPtr& component)
    auto inputStream = std::static_pointer_cast<InputStreamComponent>(component);
    if (!inputStream)
    {
-      KORIN_DEBUG("InputStreamComponent found");
+      KORIN_CORE_WARN("InputStreamComponent not found");
       return;
    }
 

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <unordered_map>
+#include "korin/log.h"
 
 namespace korin
 {
@@ -58,7 +59,7 @@ public:
    void mapInputToAction(uint64_t input, GameAction action)
    {
       m_ActionsByInput[input] = action;
-      std::cout << "Mapped Keycode:" << input << " with Action:" << static_cast<uint64_t>(action) << std::endl;
+      KORIN_INFO("Mapped Keycode:{0}", input, " with Action:{0}", static_cast<uint64_t>(action));
    }
 
    uint64_t getActionsForInput(uint64_t input)

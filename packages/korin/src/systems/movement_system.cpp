@@ -6,6 +6,7 @@
 #include "korin/systems/movement_system.h"
 #include "korin/components/transform_component.h"
 #include "korin/components/input_stream_component.h"
+#include "korin/log.h"
 #include "korin/util/assert.h"
 
 using namespace korin;
@@ -16,14 +17,14 @@ void MovementSystem::update(float timeStep, const ComponentPtr& component)
    auto transform = std::static_pointer_cast<TransformComponent>(component);
    if (!transform) 
    { 
-      KORIN_DEBUG("TransformComponent not found");
+      KORIN_CORE_WARN("TransformComponent not found");
       return;
    }
 
    auto inputStream = transform->sibling<InputStreamComponent>().lock();
    if (!inputStream)
    {
-      KORIN_DEBUG("InputStreamComponent not found");
+      KORIN_CORE_WARN("InputStreamComponent not found");
       return;
    }
 
