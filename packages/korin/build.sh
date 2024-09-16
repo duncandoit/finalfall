@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if ! command -v git &> /dev/null; then
+    echo "Git is not installed or not available in PATH. Please install Git and try again."
+    exit 1
+fi
+
 # Move to korin/scripts
 pushd scripts &>/dev/null
 
@@ -37,6 +42,9 @@ elif [ "$OPTION" = "clean" ]; then
 else
     build() 
     {
+        # Load dependencies
+        ./dependencies.sh
+
         echo "::KORIN:: Building Korin library for platform=$PLATFORM option=$OPTION"
         
         PREMAKE="premake5 gmake2 $1"
