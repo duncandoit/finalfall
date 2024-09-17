@@ -31,11 +31,11 @@ private:
 #define KORIN_CORE_WARN(...)  ::korin::Log::coreLogger()->warn(__VA_ARGS__)
 #define KORIN_CORE_INFO(...)  ::korin::Log::coreLogger()->info(__VA_ARGS__)
 #define KORIN_CORE_TRACE(...) ::korin::Log::coreLogger()->trace(__VA_ARGS__)
-#define KORIN_CORE_FATAL(...) ::korin::Log::coreLogger()->fatal(__VA_ARGS__)
+#define KORIN_CORE_FATAL(...) ::korin::Log::coreLogger()->critical(__VA_ARGS__)
 
 // Client log macros
 #define KORIN_ERROR(...) ::korin::Log::clientLogger()->error(__VA_ARGS__)
 #define KORIN_WARN(...)  ::korin::Log::clientLogger()->warn(__VA_ARGS__)
 #define KORIN_INFO(...)  ::korin::Log::clientLogger()->info(__VA_ARGS__)
 #define KORIN_TRACE(...) ::korin::Log::clientLogger()->trace(__VA_ARGS__)
-#define KORIN_FATAL(...) ::korin::Log::clientLogger()->fatal(__VA_ARGS__)
+#define KORIN_FATAL(...) ::korin::Log::clientLogger()->critical(__VA_ARGS__)

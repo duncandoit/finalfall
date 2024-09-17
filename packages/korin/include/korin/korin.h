@@ -9,6 +9,7 @@
 
 #include "korin/application.h"
 #include "korin/log.h"
+#include "korin/util/assert.h"
 
 // ---ENTRY POINT-------------------------------------------
 #include "korin/entry_point.h"
