@@ -3,6 +3,7 @@
 #ifdef KORIN_ASSERTIONS
 
 #include <iostream>
+#include "korin/log.h"
 
 // Define a platform-independent debug break
 #if defined(_MSC_VER)
@@ -19,7 +20,7 @@
    if (expr) {} \
    else \
    { \
-      reportKorinDebugMessage(#expr, __FILE__, __LINE__); \
+      KORIN_FATAL("ASSERT FAILURE: {0} {1} {2}", #expr, __FILE__, __LINE__); \
       KORIN_DEBUG_BREAK(); \
    }
 
