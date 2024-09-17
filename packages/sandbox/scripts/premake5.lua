@@ -1,18 +1,19 @@
 SANDBOX_DIR = path.getabsolute('..')
 KORIN_DIR = path.getabsolute('../../korin')
+TARGET_DIR = '/build/%{cfg.system}/bin/%{cfg.buildcfg}'
 
-workspace 'sandbox'
+workspace 'sandbox' do
     configurations {'debug', 'release'}
     location (SANDBOX_DIR .. '/build')
+end
 
-
-project 'sandbox'
+project 'sandbox' do
     kind 'ConsoleApp'
     language 'C++'
     cppdialect 'C++17'
     toolset 'clang'
     location '.'
-    targetdir (SANDBOX_DIR .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}')
+    targetdir (SANDBOX_DIR .. TARGET_DIR)
     objdir (SANDBOX_DIR .. '/build/%{cfg.system}/obj/%{cfg.buildcfg}')
     files 
     {
@@ -25,19 +26,15 @@ project 'sandbox'
     includedirs 
     {
         KORIN_DIR .. '/include',                                 -- libkorin
-        -- KORIN_DIR .. '/dependencies/%{cfg.system}/glfw/include'  -- GLFW
         KORIN_DIR .. '/dependencies/submodules/spdlog/include'   -- spdlog
+        -- KORIN_DIR .. '/dependencies/%{cfg.system}/glfw/include'  -- GLFW
     }
     libdirs {
-        KORIN_DIR .. '/build/%{cfg.system}/bin/%{cfg.buildcfg}',  -- libkorin
-        -- KORIN_DIR .. '/dependencies/%{cfg.system}/glfw/'           -- GLFW
-        KORIN_DIR .. '/dependencies/submodules/spdlog/build'            -- spdlog
+        KORIN_DIR .. TARGET_DIR,                               -- libkorin
     }
     links
     {
-        'korin',            -- libkorin
-        -- 'glfw3'             -- GLFW
-        'spdlog'            -- spdlog
+        'korin',
     }
     buildoptions 
     {
@@ -48,17 +45,42 @@ project 'sandbox'
         "-Werror=vla"                -- Treat variable length arrays as errors
         -- "-fno-exceptions",           -- Disable exceptions
     }
+    defines
+    {
+        'KORIN_ASSERTIONS',          -- Enable assertions
+    }
+
+    filter 'configurations:debug' do
+        symbols 'On'
+        defines 
+        {
+            'KORIN_DEBUG'
+        }
+    end
+
+    filter 'configurations:release' do
+        optimize 'On'
+        defines 
+        {
+            'KORIN_RELEASE',
+            'KORIN_NDEBUG'
+        }
+    end
+
+    filter 'configurations:dist' do
+        optimize 'On'
+        defines 
+        {
+            'KORIN_DIST',
+            'KORIN_NDEBUG'
+        }
+    end
     
-    filter {'system:macosx'}
+    filter {'system:macosx'} do
         defines {'KORIN_PLATFORM_MACOSX'}
-        links 
-        { 
-            'CoreFoundation.framework',
-            'Cocoa.framework',
-            'IOKit.framework',
-            'CoreVideo.framework',
-            'CoreGraphics.framework', 
-            'OpenGL.framework',         -- OpenGL
+        linkoptions
+        {
+            '-Wl,-rpath,' .. KORIN_DIR .. TARGET_DIR -- RPATH for dynamic linking
         }
         buildoptions 
         {
@@ -66,16 +88,9 @@ project 'sandbox'
             '-arch x86_64',
             -- '-arch arm64'
         }
+    end
 
-    filter {'system:macosx', 'configurations:release'}
+    filter {'system:macosx', 'configurations:release'} do
         buildoptions {'-flto=full'}
-
-    filter 'configurations:debug'
-        defines {'DEBUG'}
-        defines {'KORIN_ASSERTIONS'}
-        symbols 'On'
-
-    filter 'configurations:release'
-        defines {'RELEASE'}
-        defines {'NDEBUG'}
-        optimize 'On'
+    end
+end

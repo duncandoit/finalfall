@@ -1,14 +1,15 @@
 KORIN_DIR = path.getabsolute('..')
 
-workspace 'korin'
+workspace 'korin' do
     startproject 'korin'
-    configurations {'debug', 'release'}
+    configurations {'debug', 'release', 'dist'}
     location (KORIN_DIR ..'/build')
+end
 
 -- The generated library will use this name and append 'lib'
-project 'korin'
-do
-    kind 'StaticLib'
+project 'korin' do
+    kind 'SharedLib'
+    staticruntime 'on'
     language 'C++'
     cppdialect 'C++17'
     toolset 'clang'
@@ -23,18 +24,18 @@ do
     includedirs 
     {
         KORIN_DIR .. '/include',                                  -- Korin
-        -- KORIN_DIR ..'/dependencies/%{cfg.system}/glfw/include',  -- GLFW
         KORIN_DIR .. '/dependencies/submodules/spdlog/include'    -- spdlog
+        -- KORIN_DIR ..'/dependencies/%{cfg.system}/glfw/include',  -- GLFW
     }
     libdirs 
     {
-        -- KORIN_DIR ..'/dependencies/%{cfg.system}/glfw', -- GLFW
         KORIN_DIR .. '/dependencies/submodules/spdlog/build'   -- spdlog
+        -- KORIN_DIR ..'/dependencies/%{cfg.system}/glfw', -- GLFW
     }
     links 
     {
-        -- 'glfw3',           -- GLFW
         'spdlog'           -- spdlog
+        -- 'glfw3',           -- GLFW
     }
     buildoptions 
     {
@@ -47,12 +48,38 @@ do
     }
     defines 
     {
-        'SPDLOG_COMPILED_LIB',        -- Required when using spdlog as a static library'
-        'KORIN_BUILD_SHAREDLIB'       -- Allows the core KORIN_API to adjust to using a shared library 
+        'SPDLOG_COMPILED_LIB',         -- Required when using spdlog as a static library'
+        'KORIN_BUILD_SHAREDLIB',       -- Allows the core KORIN_API to adjust to using a shared library 
+        'KORIN_ASSERTIONS',            -- Enable asserts
     }
 
-    filter {'system:macosx'}
-    do
+    filter 'configurations:debug' do
+        symbols 'On'
+        defines 
+        {
+            'KORIN_DEBUG',
+        }
+    end
+
+    filter 'configurations:release' do
+        optimize 'On'
+        defines 
+        {
+            'KORIN_RELEASE',
+            'KORIN_NDEBUG',
+        }
+    end
+
+    filter 'configurations:dist' do
+        optimize 'On'
+        defines 
+        {
+            'KORIN_DIST',
+            'KORIN_NDEBUG',
+        }
+    end
+
+    filter {'system:macosx'} do
         links 
         { 
             'CoreFoundation.framework',
@@ -72,46 +99,28 @@ do
         }
     end
 
-    filter {'system:macosx', 'configurations:release'}
-    do
+    filter {'system:macosx', 'configurations:release'} do
         buildoptions {'-flto=full'}
     end
 
-    -- filter 'system:windows'
-    -- do
-    --     links
-    --     {
-    --         '../dependencies/windows/glfw/glfw3.lib'
-    --     }
-    --     architecture 'x64'
-    --     defines {'_USE_MATH_DEFINES'}
-    --     flags {'FatalCompileWarnings'}
-    --     buildoptions {WINDOWS_CLANG_CL_SUPPRESSED_WARNINGS}
-    --     staticruntime 'on'
-    --     runtime 'Release'
-    --     removebuildoptions 
-    --     {
-    --         '-fno-exceptions',
-    --         '-fno-rtti'
-    --     }
-    -- end
-
-    filter 'configurations:debug'
-    do
-        defines 
+    filter 'system:windows' do
+        architecture 'x64'
+        runtime 'Release'
+        defines 'KORIN_PLATFORM_WINDOWS'
+        flags 'FatalCompileWarnings'
+        links
         {
-            'DEBUG'
+            -- '../dependencies/windows/glfw/glfw3.lib'
         }
-        symbols 'On'
-    end
-
-    filter 'configurations:release'
-    do
-        defines 
+        buildoptions 
         {
-            'RELEASE',
-            'NDEBUG'
+            '/MT',                                 -- Multi-threaded runtime
+            'WINDOWS_CLANG_CL_SUPPRESSED_WARNINGS' -- Suppress warnings for clang-cl
         }
-        optimize 'On'
+        removebuildoptions 
+        {
+            '-fno-exceptions',
+            '-fno-rtti'
+        }
     end
-end
+end 
