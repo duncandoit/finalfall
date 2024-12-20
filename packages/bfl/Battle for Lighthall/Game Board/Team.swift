@@ -37,7 +37,7 @@ class Team {
         usedAbility = false
         
         for hero in heroes {
-            hero.affectedByAfflictions()
+            hero.affectedByDebuffs()
             hero.resolveUnstoppable()
         }
     }
@@ -46,7 +46,7 @@ class Team {
         for hero in heroes {
             hero.deselect()
             hero.commitToOccupiedSquare()
-            hero.affectedByCuratives()
+            hero.affectedByBuffs()
             hero.chargeUltTurnEnd()
             
             for var ability in hero.abilities where ability.remainingCooldown > 0 {

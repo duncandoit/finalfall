@@ -158,7 +158,7 @@ extension Effect {
 /// These Effects occur once per Ability usage at the beginning of a turn
 protocol PrimaryEffect: Effect { }
 
-/// These Effects append themselves to a Piece's afflictions/curatives and
+/// These Effects append themselves to a Piece's debuffs/buffs and
 /// affect them at the end of their turn for the set turnDuration
 protocol SecondaryEffect: Effect {
     var source: Piece! { get set }
@@ -172,7 +172,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
     
     /// Informs the system that a Piece was damaged last turn
     static let damaged =    StatusEffect(rawValue: 1 << 0)
-    /// Currently has a heal over time curative
+    /// Currently has a heal over time buff
     static let healing =    StatusEffect(rawValue: 1 << 1)
     /// Impairs Abilities
     static let disabled =   StatusEffect(rawValue: 1 << 2)
@@ -198,16 +198,18 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
     static let speed =      StatusEffect(rawValue: 1 << 12)
     /// Prevents death
     static let immortal =   StatusEffect(rawValue: 1 << 13)
+    /// Prevents any damage or negative Effects
+    static let invulnerable = StatusEffect(rawValue: 1 << 14)
     /// Ignores all StatusEffects causing movement impairment
-    static let unstoppable = StatusEffect(rawValue: 1 << 14)
+    static let unstoppable = StatusEffect(rawValue: 1 << 15)
     
     // MARK: - Collections
     
     static let none = StatusEffect([])
     
-    static let curative: StatusEffect = [healing, amplified, immortal, unstoppable]
+    static let buff: StatusEffect = [healing, amplified, immortal, invulnerable, unstoppable]
     
-    static let afflictive: StatusEffect = [damaged, disabled, stunned, slowed, sleeping, frozen,
+    static let debuff: StatusEffect = [damaged, disabled, stunned, slowed, sleeping, frozen,
                                            immobilized, poisoned, burning, cursed]
     
     static let movementImpairing: StatusEffect = [stunned, slowed, sleeping, frozen, immobilized]
@@ -216,7 +218,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
     
     static let each: [StatusEffect] = [damaged, healing, disabled, stunned, slowed, sleeping,
                                        frozen, immobilized, poisoned, burning, cursed, amplified,
-                                       speed, immortal, unstoppable]
+                                       speed, immortal, invulnerable, unstoppable]
     
     static let eachAfflictive: [StatusEffect] = [damaged, disabled, stunned, slowed, sleeping,
                                                  frozen, immobilized, poisoned, burning, cursed]
@@ -241,6 +243,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         case .amplified: return .amplified
         case .speed: return .speed
         case .immortal: return .immortal
+        case .invulnerable: return .invulnerable
         case .unstoppable: return .unstoppable
         default:
             return .gray
@@ -263,6 +266,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         case .amplified: return "Amplify"
         case .speed: return "Speed"
         case .immortal: return "Immortality"
+        case .invulnerable: return "Invulnerability"
         case .unstoppable: return "Unstoppable"
         default:
             return "Unknown"
@@ -285,6 +289,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         case .amplified: return "amplified"
         case .speed: return "speed"
         case .immortal: return "immortal"
+        case .invulnerable: return "invulnerable"
         case .unstoppable: return "unstoppable"
         default:
             return "Unknown"
@@ -305,6 +310,7 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         case .amplified: return UIImage(systemName: "bolt.horizontal.fill")!
         case .speed: return UIImage(systemName: "speedometer")!
         case .immortal: return UIImage(systemName: "heart.circle")!
+        case .invulnerable: return UIImage(systemName: "shield.fill")!
         case .unstoppable: return UIImage(systemName: "arrow.right.to.line.alt")!
         default:
             return UIImage()

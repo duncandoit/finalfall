@@ -1,0 +1,35 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# Project 
+Dependencies
+
+# iOS/XCode related
+**/*.mode1v3
+**/*.mode2v3
+**/*.moved-aside
+**/*.pbxuser
+**/*.perspectivev3
+**/*sync/
+**/.sconsign.dblite
+**/.tags*
+**/.vagrant/
+**/DerivedData/
+**/Intermediate/
+**/Product/
+**/Icon?
+**/Pods/
+**/.symlinks/
+**/profile
+**/xcuserdata/
+.generated/
+**/ServiceDefinitions.json
+**/build/

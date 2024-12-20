@@ -20,7 +20,7 @@ class MainMenuController: UIViewController {
     }
 }
 
-class MainMenuContainer: Container {
+class MainMenuContainer: Container, UITableViewDelegate {
     override init(in state: State = .view) {
         super.init(in: state)
         

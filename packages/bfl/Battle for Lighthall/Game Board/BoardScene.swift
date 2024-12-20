@@ -296,7 +296,7 @@ class BoardScene: SKScene, PieceObserver {
             let direction = directionFrom(source: source.occupiedSquare, toTarget: targetSquare)
             
             // The execution of the Ability is enqueued so the subsequent ending of the turn is
-            // delayed until animations of various lengths play (after which afflictions/curatives
+            // delayed until animations of various lengths play (after which debuffs/buffs
             // are given to the target)
             EventQueue.sync.pushAndWait {
                 source.affect(target: target, targetSquare: targetSquare, withAbility: &ability, direction: direction)

@@ -84,6 +84,9 @@
 		C3FBB91D25CD131F002F7913 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FBB91B25CD131F002F7913 /* Main.storyboard */; };
 		C3FBB91F25CD1320002F7913 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FBB91E25CD1320002F7913 /* Assets.xcassets */; };
 		C3FBB92225CD1320002F7913 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FBB92025CD1320002F7913 /* LaunchScreen.storyboard */; };
+		C3FCD1B62D13744000D0A1A0 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */; };
+		C3FCD1BB2D15275800D0A1A0 /* HealthAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */; };
+		C3FCD1BD2D15278600D0A1A0 /* AttributeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -166,6 +169,9 @@
 		C3FBB91E25CD1320002F7913 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3FBB92125CD1320002F7913 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3FBB92325CD1320002F7913 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
+		C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAttributes.swift; sourceTree = "<group>"; };
+		C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,11 +244,8 @@
 		C35385F425E4427F00601AEE /* Ability */ = {
 			isa = PBXGroup;
 			children = (
-				C37CF88325E2F22700D37F75 /* Ability.swift */,
 				C3CDAC32262FF5FC00277881 /* AbilityButton.swift */,
 				C3CDAC2F262FF1DC00277881 /* AbilityButton.xib */,
-				C3574C6525F68641001373AC /* Effect.swift */,
-				C35385F925E443FA00601AEE /* Effects.swift */,
 			);
 			path = Ability;
 			sourceTree = "<group>";
@@ -264,7 +267,7 @@
 				C360B8F126295671007DE551 /* Utilities */,
 			);
 			name = SwiftBlocks;
-			path = "../../Xcode Projects/SwiftBlocks/SwiftBlocks";
+			path = Dependencies/SwiftBlocks;
 			sourceTree = "<group>";
 		};
 		C360B8DB26295671007DE551 /* Blocks */ = {
@@ -372,29 +375,17 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
-		C37CF87E25E009F700D37F75 /* Piece */ = {
-			isa = PBXGroup;
-			children = (
-				C35973E725D20E4100D0FF9D /* Piece.swift */,
-				C3BC154B26027CD800C5F918 /* PieceService.swift */,
-				C380ABA925EAD5ED0017A69B /* Healthbar.swift */,
-				C35385F425E4427F00601AEE /* Ability */,
-				C38114752626A05000F52241 /* Heroes */,
-			);
-			path = Piece;
-			sourceTree = "<group>";
-		};
 		C38114752626A05000F52241 /* Heroes */ = {
 			isa = PBXGroup;
 			children = (
-				C381147E2626A0CE00F52241 /* River.swift */,
+				C381148A2626A13300F52241 /* Ana.swift */,
+				C38114772626A07100F52241 /* Arryn.swift */,
+				C381147A2626A0A100F52241 /* Elayis.swift */,
 				C38114842626A10E00F52241 /* Kiri.swift */,
 				C38114812626A0E500F52241 /* Kredic.swift */,
-				C38114772626A07100F52241 /* Arryn.swift */,
 				C3791AE0264985D500D20DA4 /* Melbrana.swift */,
-				C381147A2626A0A100F52241 /* Elayis.swift */,
 				C38114872626A12500F52241 /* Mercy.swift */,
-				C381148A2626A13300F52241 /* Ana.swift */,
+				C381147E2626A0CE00F52241 /* River.swift */,
 			);
 			path = Heroes;
 			sourceTree = "<group>";
@@ -436,8 +427,8 @@
 			isa = PBXGroup;
 			children = (
 				C3FBB91425CD131F002F7913 /* Battle for Lighthall */,
-				C3FBB91325CD131F002F7913 /* Products */,
 				C360B8A026292E57007DE551 /* Frameworks */,
+				C3FBB91325CD131F002F7913 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -452,18 +443,52 @@
 		C3FBB91425CD131F002F7913 /* Battle for Lighthall */ = {
 			isa = PBXGroup;
 			children = (
-				C3FBB91B25CD131F002F7913 /* Main.storyboard */,
-				C3FBB92025CD1320002F7913 /* LaunchScreen.storyboard */,
-				C340C3B4262DE8F600ECD3DF /* Standard Components */,
-				C360B90026295934007DE551 /* Menus */,
-				C3BC154126026B7600C5F918 /* Game Board */,
-				C37CF87E25E009F700D37F75 /* Piece */,
+				C37CF88325E2F22700D37F75 /* Ability.swift */,
+				C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */,
+				C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */,
+				C3574C6525F68641001373AC /* Effect.swift */,
+				C35973E725D20E4100D0FF9D /* Piece.swift */,
+				C3BC154B26027CD800C5F918 /* PieceService.swift */,
 				C3FBB91E25CD1320002F7913 /* Assets.xcassets */,
 				C3A9FEFF2605B19D0037D291 /* Sprites.xcassets */,
+				C3FCD1B92D15272200D0A1A0 /* Attributes */,
 				C3791AA22646337300D20DA4 /* Audio */,
 				C3BC154326026BA900C5F918 /* Boilerplate */,
+				C3FCD1B82D1488D000D0A1A0 /* Effects */,
+				C3BC154126026B7600C5F918 /* Game Board */,
+				C38114752626A05000F52241 /* Heroes */,
+				C360B90026295934007DE551 /* Menus */,
+				C340C3B4262DE8F600ECD3DF /* Standard Components */,
+				C3FCD1B72D14886A00D0A1A0 /* UI */,
 			);
 			path = "Battle for Lighthall";
+			sourceTree = "<group>";
+		};
+		C3FCD1B72D14886A00D0A1A0 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C380ABA925EAD5ED0017A69B /* Healthbar.swift */,
+				C35385F425E4427F00601AEE /* Ability */,
+				C3FBB92025CD1320002F7913 /* LaunchScreen.storyboard */,
+				C3FBB91B25CD131F002F7913 /* Main.storyboard */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C3FCD1B82D1488D000D0A1A0 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				C35385F925E443FA00601AEE /* Effects.swift */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
+		C3FCD1B92D15272200D0A1A0 /* Attributes */ = {
+			isa = PBXGroup;
+			children = (
+				C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */,
+			);
+			path = Attributes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -563,6 +588,7 @@
 			files = (
 				C340C3D0262E3BF400ECD3DF /* AbilityEffectView.swift in Sources */,
 				C360B8F82629581D007DE551 /* ButtonBlock.swift in Sources */,
+				C3FCD1BB2D15275800D0A1A0 /* HealthAttributes.swift in Sources */,
 				C340C3B1262DE80900ECD3DF /* MessageBlockCell.swift in Sources */,
 				C360B8F92629581D007DE551 /* Block.swift in Sources */,
 				C340C3A9262DE00000ECD3DF /* StandardController.swift in Sources */,
@@ -579,6 +605,7 @@
 				C380ABAA25EAD5ED0017A69B /* Healthbar.swift in Sources */,
 				C340C3B9262DEEAD00ECD3DF /* TitleBlock.swift in Sources */,
 				C37CF87C25DD8CC100D37F75 /* Team.swift in Sources */,
+				C3FCD1B62D13744000D0A1A0 /* Attribute.swift in Sources */,
 				C380ABA225E9922F0017A69B /* Utilities.swift in Sources */,
 				C3CDAC33262FF5FC00277881 /* AbilityButton.swift in Sources */,
 				C33364072601BEBB0007485F /* PieceSelection.swift in Sources */,
@@ -600,6 +627,7 @@
 				C37CF88425E2F22700D37F75 /* Ability.swift in Sources */,
 				C380AB9E25E819F60017A69B /* GameEvent.swift in Sources */,
 				C340C3D4262E9C0B00ECD3DF /* BackButtonBlock.swift in Sources */,
+				C3FCD1BD2D15278600D0A1A0 /* AttributeManager.swift in Sources */,
 				C3FBB91625CD131F002F7913 /* AppDelegate.swift in Sources */,
 				C327BF23262F638D0094C42A /* StackBlock.swift in Sources */,
 				C3791AE1264985D500D20DA4 /* Melbrana.swift in Sources */,

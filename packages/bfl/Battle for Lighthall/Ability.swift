@@ -28,7 +28,7 @@ protocol Ability {
     /// Effects that take place immediately when the active Piece interacts with another Piece
     var primaryEffects: [PrimaryEffect] { get set }
     
-    /// Effects that are added to the target Piece's afflictions and curatives
+    /// Effects that are added to the target Piece's debuffs and buffs
     var secondaryEffects: [SecondaryEffect] { get set }
     
     /// Returns a UIButton properly formatted for the Ability with the given Piece's context
@@ -100,21 +100,25 @@ class BaseAbility: Ability {
         
         button.border.roundCorners(radius: 7)
         button.emblem.image = emblem
+        button.name.text = name.uppercased()
         
-        let statusEffects = piece.statusEffects
+        var statusEffects = piece.statusEffects
+        var statusLabel = UILabel(frame: CGRect(origin: button.frame.origin, size: button.frame.size))
+        var statusText: String = ""
         
-        // Visual indication for why this ability is not selectable
-        if statusEffects.contains(.sleeping) {
-            button.name.text = "zzz"
-        }
-        else if statusEffects.contains(.stunned) {
-            button.name.text = "★★★★"
-        }
-        else if statusEffects.contains(.disabled) {
-            button.name.text = "⚠︎"
-        }
-        else {
-            button.name.text = name.uppercased()
+        for effect in StatusEffect.eachAfflictive
+        {
+            if StatusEffect.abilityImpairing.contains(effect) && statusEffects.contains(effect)
+            {
+                if statusText.isEmpty
+                {
+                    statusText += "\(effect)"
+                }
+                else
+                {
+                    statusText += "\n\(effect)"
+                }
+            }
         }
         
         // Main conditions for active Abilities
@@ -165,12 +169,12 @@ class BaseAbility: Ability {
                 effect.source = source
                 
                 if type.contains(.heal) && source.isSameTeam(as: target) {
-                    target.curatives.append(effect)
+                    target.buffs.append(effect)
                 }
                 // Not checking for same-team allows AoE DoT and passive damage Effects to be applied
                 // to the source Piece
                 else {
-                    target.afflictions.append(effect)
+                    target.debuffs.append(effect)
                 }
             }
         }

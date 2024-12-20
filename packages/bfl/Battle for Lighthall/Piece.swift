@@ -25,8 +25,8 @@ class Piece {
     
     // MARK: Character State Properties
     var statusEffects: StatusEffect = .none
-    var afflictions: [SecondaryEffect] = []
-    var curatives: [SecondaryEffect] = []
+    var debuffs: [SecondaryEffect] = []
+    var buffs: [SecondaryEffect] = []
     
     // MARK: Game Board Properties
     var team: Team!
@@ -313,12 +313,12 @@ class Piece {
     
     // MARK: Start of Turn Calculations
     
-    /// Used at the start of a Team's turn to calculate all damage done by lingering affliction Effects
-    func affectedByAfflictions() {
+    /// Used at the start of a Team's turn to calculate all damage done by lingering debuff Effects
+    func affectedByDebuffs() {
         let damagedLastTurn = statusEffects.contains(.damaged)
-        statusEffects.remove(StatusEffect.afflictive)
+        statusEffects.remove(StatusEffect.debuff)
 
-        affected(by: &afflictions, type: .damage)
+        affected(by: &debuffs, type: .damage)
         let damagedThisTurn = statusEffects.contains(.damaged)
         
         if !damagedThisTurn && !damagedLastTurn {
@@ -338,7 +338,7 @@ class Piece {
                 if statusEffects.contains(movementImpairment) {
                     statusEffects.remove(movementImpairment)
                     
-                    afflictions.removeAll { effect -> Bool in
+                    debuffs.removeAll { effect -> Bool in
                         if let status = effect as? Status {
                             return status.statusEffect.contains(movementImpairment)
                         } else {
@@ -352,10 +352,10 @@ class Piece {
     
     // MARK: End of Turn Calculations
     
-    /// Used at the end of a Team's turn to calculate all healing done by lingering curative Effects
-    func affectedByCuratives() {
-        statusEffects.remove(.curative)
-        affected(by: &curatives, type: .heal)
+    /// Used at the end of a Team's turn to calculate all healing done by lingering buff Effects
+    func affectedByBuffs() {
+        statusEffects.remove(.buff)
+        affected(by: &buffs, type: .heal)
     }
     
     // MARK: - Ult Charging

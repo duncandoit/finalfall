@@ -62,14 +62,14 @@ struct AOE: PrimaryEffect {
             if self.type.contains(.damage) {
                 if !source.isSameTeam(as: subTarget) {
                     effect.source = source
-                    subTarget.afflictions.append(effect)
+                    subTarget.debuffs.append(effect)
                 }
             }
             
             if self.type.contains(.heal) {
                 if source.isSameTeam(as: subTarget) {
                     effect.source = source
-                    subTarget.curatives.append(effect)
+                    subTarget.buffs.append(effect)
                 }
             }
         }
@@ -129,13 +129,13 @@ struct Multitarget: PrimaryEffect {
                 // Enemy
                 if type.contains(.damage) && !source.isSameTeam(as: target) {
                     secondary.source = source
-                    target.afflictions.append(secondary)
+                    target.debuffs.append(secondary)
                 }
                 
                 // Friendly
                 if type.contains(.heal) && source.isSameTeam(as: target) {
                     secondary.source = source
-                    target.curatives.append(secondary)
+                    target.buffs.append(secondary)
                 }
             }
         }
@@ -323,7 +323,7 @@ struct Cure: PrimaryEffect {
     mutating func execute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction) {
         target?.statusEffects = .none
         
-        target?.afflictions.removeAll { effect -> Bool in
+        target?.debuffs.removeAll { effect -> Bool in
             if let effect = effect as? Status {
                 return effect.statusEffect.contains(.sleeping)
                     || effect.statusEffect.contains(.slowed)

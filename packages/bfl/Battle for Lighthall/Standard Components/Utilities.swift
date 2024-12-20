@@ -31,6 +31,7 @@ extension UIColor {
     static let amplified: UIColor = #colorLiteral(red: 0.6762521863, green: 0.2822794914, blue: 1, alpha: 1)
     static let speed: UIColor = #colorLiteral(red: 0.2692326009, green: 0.8891395926, blue: 0.5993961096, alpha: 1)
     static let immortal: UIColor = .health
+    static let invulnerable: UIColor = .systemGreen
     static let unstoppable: UIColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 1)
     
     // MARK: - Team Colors
@@ -169,4 +170,11 @@ struct Direction: OptionSet {
     static let lateral:     Direction =  [up, right, down, left]
     static let all:         Direction =  [up, upRight, right, downRight, down, downLeft, left, upLeft]
     static let each:       [Direction] = [up, upRight, right, downRight, down, downLeft, left, upLeft]
+}
+
+extension Comparable {
+    static func clamp(_ value: Self, _ minValue: Self, _ maxValue: Self) -> Self
+    {
+        return min(max(value, minValue), maxValue)
+    }
 }
