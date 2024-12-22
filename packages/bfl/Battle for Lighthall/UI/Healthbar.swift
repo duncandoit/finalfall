@@ -7,11 +7,9 @@
 
 import UIKit
 
-class Healthbar {
-    private var health: Int = 0
-    private var maxHealth: Int = 0
-    private var shield: Int = 0
-    private var maxShield: Int = 0
+class Healthbar
+{
+    private var life = LifeComponent(health: 1, shields: 0, armor: 0, overHealth: 0, overArmor: 0)
     
     var barView: UIView = UIView()
     private var borderWidth: CGFloat = 2
@@ -20,35 +18,35 @@ class Healthbar {
     private let segmentStack: UIStackView = UIStackView()
     private var segments: [[UIView]] = []
     private var segmentSpacing: CGFloat { return onHUD ? 2 : 0 }
-    private let segmentValue: Int = 25
+    private let segmentValue: Float = 25.0
     
     private var onHUD: Bool = false
     
     /// Required to properly connect a Healthbar to a Piece
-    func set(piece: Piece, onHUD: Bool = false) {
-        guard piece.maxHealth.isMultiple(of: segmentValue) && piece.maxShield.isMultiple(of: segmentValue) else {
-            fatalError(piece.name + " has max health or shields that are not a multiple of \(segmentValue)")
-        }
-        
+    func set(life: LifeComponent, color: UIColor, onHUD: Bool = false)
+    {
+        self.life = life
         self.onHUD = onHUD
-        if !onHUD {
-            barView.backgroundColor = piece.team.color
+        
+        if !onHUD
+        {
+            barView.backgroundColor = color
             barView.addShadow(radius: 3, offsetY: 1, color: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.468389448))
-        } else {
+        }
+        else
+        {
             borderWidth = 0
         }
-        
-        maxHealth = piece.maxHealth
-        health = piece.health
-        maxShield = piece.maxShield
-        shield = piece.shield
     }
     
-    func createUI() {
+    func createUI()
+    {
         barView.roundCorners(radius: 3)
         segmentStack.roundCorners(radius: 2)
         
-        let segmentCount = (maxHealth + maxShield) / segmentValue
+        var segmentCount: Float
+        segmentCount = (life.getMaxHealth() + life.getMaxShields()) / segmentValue
+        
         let width = barView.frame.width - (borderWidth * 2)
         let height = barView.frame.height - (borderWidth * 2)
         
@@ -61,27 +59,32 @@ class Healthbar {
         
         barView.addSubview(segmentStack)
         
-        for _ in 0 ..< segmentCount {
-            addSegmentContainers()
-        }
+        // FIX IMMEDIATELY: TODO: This needed to be fixed
+//        for _ in 0 ..< segmentCount
+//        {
+//            addSegmentContainers()
+//        }
+//        
+//        barView.layoutIfNeeded()
+//        
+//        for i in 0 ..< segmentCount
+//        {
+//            addSegment(to: segmentStack.arrangedSubviews[i])
+//        }
         
-        barView.layoutIfNeeded()
-        
-        for i in 0 ..< segmentCount {
-            addSegment(to: segmentStack.arrangedSubviews[i])
-        }
-        
-        update(health: health, shield: shield)
+        update(updatedLife: life)
     }
     
     func reset() {
-        for view in segmentStack.arrangedSubviews {
+        for view in segmentStack.arrangedSubviews
+        {
             view.removeFromSuperview()
         }
         segments = []
     }
     
-    private func addSegmentContainers() {
+    private func addSegmentContainers()
+    {
         let containerSegment = UIView()
         containerSegment.roundCorners(radius: onHUD ? 1 : 0)
         containerSegment.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.15)
@@ -89,7 +92,8 @@ class Healthbar {
         segmentStack.addArrangedSubview(containerSegment)
     }
     
-    private func addSegment(to container: UIView) {
+    private func addSegment(to container: UIView)
+    {
         let health = UIView()
         health.frame = CGRect(x: 0, y: 0, width: container.frame.width, height: container.frame.height)
         health.backgroundColor = .health
@@ -103,19 +107,31 @@ class Healthbar {
         segments.append([health, shield])
     }
     
-    func update(frame: CGRect) {
+    func update(frame: CGRect)
+    {
         barView.updateFrame(x: frame.minX, y: frame.minY, width: frame.width, height: onHUD ? frame.height : height)
     }
     
-    func update(health newHealth: Int, shield newShield: Int, animated: Bool = true) {
-        let damaged = newHealth + newShield < health + shield
-        health = newHealth
-        shield = newShield
-        var remainingHealth = health
-        var remainingShield = shield
+    func update(updatedLife: LifeComponent, animated: Bool = true)
+    {
+        let healthChange = updatedLife.getHealth() + updatedLife.getShields() < life.getHealth() + life.getShields()
+        
+        life.setMaxHealth(updatedLife.getMaxHealth())
+        life.setMaxShields(updatedLife.getMaxShields())
+        life.setMaxArmor(updatedLife.getMaxArmor())
+        life.setHealth(updatedLife.getHealth())
+        life.setShields(updatedLife.getShields())
+        life.setArmor(updatedLife.getArmor())
+        life.setOverHealth(updatedLife.getOverHealth())
+        life.setOverArmor(updatedLife.getOverArmor())
+        
+        var remainingHealth = life.getHealth()
+        var remainingShield = life.getShields()
+        
         
         var i = 0
-        for segment in segments {
+        for segment in segments
+        {
             let healthChunk = segment[0]
             let shieldChunk = segment[1]
             
@@ -126,19 +142,23 @@ class Healthbar {
             let shieldValue = remainingSegmentValue > remainingShield ? remainingShield : remainingSegmentValue
             let shieldWidth = segmentWidthFor(value: shieldValue, container: shieldChunk.superview!)
             
-            if !animated {
+            if !animated
+            {
                 healthChunk.updateFrame(width: healthWidth)
                 shieldChunk.updateFrame(x: healthWidth, width: shieldWidth)
             }
-            else if damaged {
+            else if healthChange
+            {
                 let oldWidth = healthChunk.width + shieldChunk.width
                 healthChunk.updateFrame(width: healthWidth)
                 shieldChunk.updateFrame(x: healthWidth, width: shieldWidth)
                 let newWidth = healthChunk.width + shieldChunk.width
                 damageAnimation(oldWidth: oldWidth, newWidth: newWidth, fullWidth: healthChunk.superview!.width, index: i)
             }
-            else {
-                healAnimation {
+            else
+            {
+                healAnimation
+                {
                     healthChunk.updateFrame(width: healthWidth)
                     shieldChunk.updateFrame(x: healthWidth, width: shieldWidth)
                 }
@@ -153,7 +173,8 @@ class Healthbar {
         }
     }
     
-    private func damageAnimation(oldWidth: CGFloat, newWidth: CGFloat, fullWidth: CGFloat, index i: Int) {
+    private func damageAnimation(oldWidth: CGFloat, newWidth: CGFloat, fullWidth: CGFloat, index i: Int)
+    {
         let blipFrame = CGRect(x: (fullWidth * CGFloat(i)) + newWidth + (CGFloat(i) * segmentSpacing) + borderWidth,
                                y: borderWidth,
                                width: (oldWidth - newWidth),
@@ -163,31 +184,43 @@ class Healthbar {
         blip.backgroundColor = .damage
         barView.addSubview(blip)
         
-        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn)
+        {
             blip.frame = CGRect(x: blipFrame.minX,
                                 y: blipFrame.minY - 10,
                                 width: blipFrame.width,
                                 height: blipFrame.height + 20)
-        } completion: { finished in
-            UIView.animate(withDuration: 0.2) {
+        }
+        completion:
+        { finished in
+            UIView.animate(withDuration: 0.2)
+            {
                 blip.alpha = 0
-            } completion: { _ in
+            }
+            completion:
+            { _ in
                 blip.removeFromSuperview()
             }
         }
     }
     
-    private func healAnimation(_ frameAdjustment: @escaping ()->Void) {
-        EventQueue.sync.pushAndWait {
-            UIView.animate(withDuration: 0.6) {
+    private func healAnimation(_ frameAdjustment: @escaping ()->Void)
+    {
+        EventQueue.sync.pushAndWait
+        {
+            UIView.animate(withDuration: 0.6)
+            {
                 frameAdjustment()
-            } completion: { finished in
+            }
+            completion:
+            { finished in
                 EventQueue.sync.completeTop()
             }
         }
     }
     
-    private func segmentWidthFor(value: Int, container: UIView) -> CGFloat {
+    private func segmentWidthFor(value: Float, container: UIView) -> CGFloat
+    {
         return container.frame.width * CGFloat(value > segmentValue ? segmentValue : value) / CGFloat(segmentValue)
     }
 }

@@ -7,14 +7,17 @@
 
 import SpriteKit
 
-protocol Effect {
+protocol Effect
+{
     var emblem: UIImage { get set }
     var name: String { get set }
     var description: String { get set }
     var color: UIColor { get }
     mutating func execute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction)
 }
-extension Effect {
+
+extension Effect
+{
     /// Handles a given action on all Pieces in given range
     /// - Parameters:
     ///   - range: Number of Nodes from the source Piece
@@ -24,18 +27,28 @@ extension Effect {
     ///   - action: Something to be performed on the Pieces surrounding the target
     ///   - subTarget: Sub-target Piece of the target
     ///   - direction: Direction from the source to target
-    func aoeAction(range: Int, penetrates: Bool, source: Piece, target: Piece,
-                   action: (_ subTarget: Piece, _ direction: Direction)->Void) {
+    func aoeAction
+    (
+        range: Int,
+        penetrates: Bool,
+        source: Piece,
+        target: Piece,
+        action: (_ subTarget: Piece, _ direction: Direction)->Void
+    )
+    {
         var vector = Vector(directions: .all, range: range)
         
         // This accounts for the center Piece of the AoE Effect
         action(target, .none)
         
-        for direction in Direction.each where vector.directions.contains(direction) {
+        for direction in Direction.each where vector.directions.contains(direction)
+        {
             vector.range = range
             
-            inner: for _ in 1 ... range {
-                if let subTarget = target.occupiedSquare.direction(by: vector.range, direction: direction)?.hero {
+            inner: for _ in 1 ... range
+            {
+                if let subTarget = target.occupiedSquare.direction(by: vector.range, direction: direction)?.hero
+                {
                     action(subTarget, direction)
                     guard penetrates else { break inner }
                 }
@@ -53,21 +66,36 @@ extension Effect {
     ///   - direction: The direction in which to move the target
     ///   - maxStack: The number of Pieces (including the target) that can be moved along with the target
     ///   - sourceAction: If the source Piece is moving and must play a unique texture animation also
-    func playMovementAnimation(source: Piece, target: Piece, range: Int, direction: Direction, maxStack: Int, sourceAction: SKAction? = nil) {
+    func playMovementAnimation
+    (
+        source: Piece,
+        target: Piece,
+        range: Int,
+        direction: Direction,
+        maxStack: Int,
+        sourceAction: SKAction? = nil
+    )
+    {
         let duration: Double = sourceAction == nil ? 0.1 : sourceAction!.duration
         
-        if let (movingPieces, destinationSquares) = movementData(target: target, range: range, direction: direction, maxStack: maxStack) {
-            for i in 0 ..< movingPieces.count {
+        if let (movingPieces, destinationSquares) = movementData(target: target, range: range, direction: direction, maxStack: maxStack)
+        {
+            for i in 0 ..< movingPieces.count
+            {
                 let piece = movingPieces[i]
                 let square = destinationSquares[i]
                 
-                if piece === source {
+                if piece === source
+                {
                     var actions = [source.snapAction(to: square, direction: direction, duration: duration, commit: true)]
-                    if let sourceAction = sourceAction {
+                    if let sourceAction = sourceAction
+                    {
                         actions.append(sourceAction)
                     }
                     source.animate(actions)
-                } else {
+                }
+                else
+                {
                     let group = [
 //                        piece.damagedTextureAction(direction: direction),
                         piece.snapAction(to: square, direction: direction, duration: duration, commit: true)
@@ -87,17 +115,26 @@ extension Effect {
     /// - Returns: A tuple of Pieces array to be moved and corresponding SquareNodes array to which the Pieces will be moved. Returns nil if target doesn't move
     ///   - .0 [Piece]: The Pieces to move
     ///   - .1 [SquareNode]: The squares where the Pieces should go
-    private func movementData(target: Piece, range: Int, direction: Direction, maxStack: Int) -> ([Piece], [SquareNode])? {
+    private func movementData
+    (
+        target: Piece,
+        range: Int,
+        direction: Direction,
+        maxStack: Int
+    ) -> ([Piece], [SquareNode])?
+    {
         // This won't cause the target to go anywhere
         guard range > 0 && direction != .none else { return nil }
         
         // Pieces to move ordered furthest from the source to closest
         var movingPieces: [Piece] = [target]
-        for i in 1 ... range {
+        for i in 1 ... range
+        {
             // Can't exceed the stack size
             guard movingPieces.count < maxStack else { break }
             
-            if let square = target.occupiedSquare.direction(by: i, direction: direction) {
+            if let square = target.occupiedSquare.direction(by: i, direction: direction)
+            {
                 // There is no Piece in the adjacent square
                 guard let piece = square.hero else { continue }
                 
@@ -110,14 +147,16 @@ extension Effect {
         // crossing an occupied square or exceeding the stack size
         let farPiece = movingPieces[0]
         var farSquare = farPiece.occupiedSquare!
-        if !farPiece.statusEffects.contains(.immobilized) {
+        if !farPiece.statusEffects.contains(.immobilized)
+        {
             farSquare = farthestSquare(fromPiece: farPiece, range: movingPieces.count, direction: direction, currentSquare: farPiece.occupiedSquare)
         }
         
         var destinationSquares: [SquareNode] = [farSquare]
         
         var distance = 1
-        for piece in movingPieces {
+        for piece in movingPieces
+        {
             // Don't want to modify the farthest Piece's position again
             guard piece != farPiece else { continue }
             guard !piece.statusEffects.contains(.immobilized) else { continue }
@@ -140,7 +179,15 @@ extension Effect {
     ///   - direction: The Direction from the piece that we evaluate squares
     ///   - currentSquare: It tracks the last valid square from the piece. Initial value should be the piece's occupied square
     /// - Returns: The farthest square from the provided Piece within given parameters
-    private func farthestSquare(fromPiece piece: Piece, range: Int, distance: Int = 1, direction: Direction, currentSquare: SquareNode) -> SquareNode {
+    private func farthestSquare
+    (
+        fromPiece piece: Piece,
+        range: Int,
+        distance: Int = 1,
+        direction: Direction,
+        currentSquare: SquareNode
+    ) -> SquareNode
+    {
         // We've gone beyond the given range
         guard distance <= range else { return currentSquare }
 
@@ -160,12 +207,14 @@ protocol PrimaryEffect: Effect { }
 
 /// These Effects append themselves to a Piece's debuffs/buffs and
 /// affect them at the end of their turn for the set turnDuration
-protocol SecondaryEffect: Effect {
+protocol SecondaryEffect: Effect
+{
     var source: Piece! { get set }
     var duration: Int { get set }
 }
 
-struct StatusEffect: OptionSet, CustomStringConvertible {
+struct StatusEffect: OptionSet, CustomStringConvertible
+{
     let rawValue: UInt16
     
     // MARK: - Individual Statuses
@@ -207,28 +256,88 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
     
     static let none = StatusEffect([])
     
-    static let buff: StatusEffect = [healing, amplified, immortal, invulnerable, unstoppable]
+    static let buff: StatusEffect = [
+        healing,
+        amplified,
+        immortal,
+        invulnerable,
+        unstoppable
+    ]
     
-    static let debuff: StatusEffect = [damaged, disabled, stunned, slowed, sleeping, frozen,
-                                           immobilized, poisoned, burning, cursed]
+    static let debuff: StatusEffect = [
+        damaged,
+        disabled,
+        stunned,
+        slowed,
+        sleeping,
+        frozen,
+        immobilized,
+        poisoned,
+        burning,
+        cursed
+    ]
     
-    static let movementImpairing: StatusEffect = [stunned, slowed, sleeping, frozen, immobilized]
+    static let movementImpairing: StatusEffect = [
+        stunned,
+        slowed,
+        sleeping,
+        frozen,
+        immobilized
+    ]
     
-    static let abilityImpairing: StatusEffect = [disabled, stunned, sleeping, frozen]
+    static let abilityImpairing: StatusEffect = [
+        disabled,
+        stunned,
+        sleeping,
+        frozen
+    ]
     
-    static let each: [StatusEffect] = [damaged, healing, disabled, stunned, slowed, sleeping,
-                                       frozen, immobilized, poisoned, burning, cursed, amplified,
-                                       speed, immortal, invulnerable, unstoppable]
+    static let each: [StatusEffect] = [
+        damaged,
+        healing,
+        disabled,
+        stunned,
+        slowed,
+        sleeping,
+        frozen,
+        immobilized,
+        poisoned,
+        burning,
+        cursed,
+        amplified,
+        speed,
+        immortal,
+        invulnerable,
+        unstoppable
+    ]
     
-    static let eachAfflictive: [StatusEffect] = [damaged, disabled, stunned, slowed, sleeping,
-                                                 frozen, immobilized, poisoned, burning, cursed]
+    static let eachAfflictive: [StatusEffect] = [
+        damaged,
+        disabled,
+        stunned,
+        slowed,
+        sleeping,
+        frozen,
+        immobilized,
+        poisoned,
+        burning,
+        cursed
+    ]
     
-    static let eachMovementImpairing: [StatusEffect] = [stunned, slowed, sleeping, frozen, immobilized]
+    static let eachMovementImpairing: [StatusEffect] = [
+        stunned,
+        slowed,
+        sleeping,
+        frozen,
+        immobilized
+    ]
     
     // MARK: - Properties for individual statuses
     
-    var color: UIColor {
-        switch self {
+    var color: UIColor
+    {
+        switch self
+        {
         case .damaged: return .damage
         case .healing: return .healing
         case .disabled: return .disabled
@@ -250,8 +359,10 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         }
     }
     
-    var name: String {
-        switch self {
+    var name: String
+    {
+        switch self
+        {
         case .damaged: return "Damage"
         case .healing: return "Heal"
         case .disabled: return "Disable"
@@ -273,8 +384,10 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         }
     }
     
-    var affectedLabel: String {
-        switch self {
+    var affectedLabel: String
+    {
+        switch self
+        {
         case .damaged: return "damaged"
         case .healing: return "healing"
         case .disabled: return "disabled"
@@ -296,8 +409,10 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         }
     }
     
-    var emblem: UIImage {
-        switch self {
+    var emblem: UIImage
+    {
+        switch self
+        {
         case .disabled: return UIImage(systemName: "exclamationmark.triangle.fill")!
         case .stunned: return UIImage(systemName: "star.fill")!
         case .slowed: return UIImage(systemName: "hourglass.bottomhalf.fill")!
@@ -317,11 +432,13 @@ struct StatusEffect: OptionSet, CustomStringConvertible {
         }
     }
     
-    var description: String {
+    var description: String
+    {
         var list = ""
         
         var i = 0
-        for effect in StatusEffect.each where self.contains(effect) {
+        for effect in StatusEffect.each where self.contains(effect)
+        {
             if i > 0 { list += ", " }
             list +=  effect.name
             i += 1

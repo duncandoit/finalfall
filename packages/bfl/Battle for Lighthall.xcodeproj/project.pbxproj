@@ -87,6 +87,7 @@
 		C3FCD1B62D13744000D0A1A0 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */; };
 		C3FCD1BB2D15275800D0A1A0 /* HealthAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */; };
 		C3FCD1BD2D15278600D0A1A0 /* AttributeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */; };
+		C3FCD1C02D17332400D0A1A0 /* LifeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +173,7 @@
 		C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAttributes.swift; sourceTree = "<group>"; };
 		C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeManager.swift; sourceTree = "<group>"; };
+		C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +456,7 @@
 				C3FCD1B92D15272200D0A1A0 /* Attributes */,
 				C3791AA22646337300D20DA4 /* Audio */,
 				C3BC154326026BA900C5F918 /* Boilerplate */,
+				C3FCD1BE2D17330600D0A1A0 /* Components */,
 				C3FCD1B82D1488D000D0A1A0 /* Effects */,
 				C3BC154126026B7600C5F918 /* Game Board */,
 				C38114752626A05000F52241 /* Heroes */,
@@ -489,6 +492,14 @@
 				C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */,
 			);
 			path = Attributes;
+			sourceTree = "<group>";
+		};
+		C3FCD1BE2D17330600D0A1A0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,6 +642,7 @@
 				C3FBB91625CD131F002F7913 /* AppDelegate.swift in Sources */,
 				C327BF23262F638D0094C42A /* StackBlock.swift in Sources */,
 				C3791AE1264985D500D20DA4 /* Melbrana.swift in Sources */,
+				C3FCD1C02D17332400D0A1A0 /* LifeComponent.swift in Sources */,
 				C340C3BD262DF00A00ECD3DF /* StandardTextBlock.swift in Sources */,
 				C3FBB91825CD131F002F7913 /* SceneDelegate.swift in Sources */,
 				C3791ADB2648E27700D20DA4 /* StandardButton.swift in Sources */,

@@ -7,7 +7,8 @@
 
 import UIKit
 
-protocol Ability {
+protocol Ability
+{
     var name: String { get }
     var emblem: UIImage { get set }
     var description: String { get }
@@ -61,15 +62,19 @@ protocol Ability {
     ///   - direction: The Direction from the source to the targetSquare
     func postExecute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction)
 }
-extension Ability {
+
+extension Ability
+{
     /// The main endpoint for Ability usage
-    func use(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction) {
+    func use(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction)
+    {
         observer?.abilityUsed(self)
         preExecute(source: source, target: target, targetSquare: targetSquare, direction: direction)
     }
 }
 
-class BaseAbility: Ability {
+class BaseAbility: Ability
+{
     var name: String = ""
     var emblem: UIImage = UIImage()
     var description: String = ""
@@ -83,17 +88,23 @@ class BaseAbility: Ability {
     var secondaryEffects: [SecondaryEffect] = []
     var observer: AbilityObserver?
     
-    var isSelected: Bool = false {
-        didSet {
-            if isSelected {
+    var isSelected: Bool = false
+    {
+        didSet
+        {
+            if isSelected
+            {
                 observer?.abilitySelected(self)
-            } else {
+            }
+            else
+            {
                 observer?.abilityDeselected(self)
             }
         }
     }
     
-    func button(for piece: Piece, action: @escaping (()->Void)) -> AbilityButton {
+    func button(for piece: Piece, action: @escaping (()->Void)) -> AbilityButton
+    {
         guard let button = UINib(nibName: "AbilityButton", bundle: nil)
             .instantiate(withOwner: nil, options: nil).first as? AbilityButton
             else { fatalError() }
@@ -131,10 +142,12 @@ class BaseAbility: Ability {
         
         // If all other conditions are met for an Ability being active
         // then this is the last condition that can deactivate an ult
-        if self is UltimateAbility {
+        if self is UltimateAbility
+        {
             button.isUltimate = true
             
-            if piece.ultPercent != 100 {
+            if piece.ultPercent != 100
+            {
                 enabled = false
                 button.set(ultPercentage: piece.ultPercent)
             }
@@ -146,46 +159,57 @@ class BaseAbility: Ability {
         return button
     }
     
-    func preExecute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction) {
-        source.playAbilityAnimation(self, direction: direction) {
+    func preExecute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction)
+    {
+        source.playAbilityAnimation(self, direction: direction)
+        {
             self.execute(source: source, target: target, targetSquare: targetSquare, direction: direction)
         }
     }
     
-    func execute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction, delay: TimeInterval = 0) {
+    func execute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction, delay: TimeInterval = 0)
+    {
         // Give it one more than the expected cooldown because cooldown will be decremented at the end of the turn
         remainingCooldown = cooldown + 1
         
         // We have a target Piece to affect
-        if let target = target {
-            for i in 0 ..< primaryEffects.count {
+        if let target = target
+        {
+            for i in 0 ..< primaryEffects.count
+            {
                 primaryEffects[i].execute(source: source, target: target, targetSquare: targetSquare, direction: direction)
             }
 
-            for i in 0 ..< secondaryEffects.count {
+            for i in 0 ..< secondaryEffects.count
+            {
                 var effect = secondaryEffects[i]
                 
                 // This allows charging ults for the source when SecondaryEffects execute
                 effect.source = source
                 
-                if type.contains(.heal) && source.isSameTeam(as: target) {
+                if type.contains(.heal) && source.isSameTeam(as: target)
+                {
                     target.buffs.append(effect)
                 }
                 // Not checking for same-team allows AoE DoT and passive damage Effects to be applied
                 // to the source Piece
-                else {
+                else
+                {
                     target.debuffs.append(effect)
                 }
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay)
+        {
             self.postExecute(source: source, target: target, targetSquare: targetSquare, direction: direction)
         }
     }
     
-    func postExecute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction) {
-        if self is UltimateAbility {
+    func postExecute(source: Piece, target: Piece?, targetSquare: SquareNode, direction: Direction)
+    {
+        if self is UltimateAbility
+        {
             source.resetUltCharge()
         }
         
@@ -196,13 +220,15 @@ class BaseAbility: Ability {
 
 class UltimateAbility: BaseAbility { }
 
-protocol AbilityObserver {
+protocol AbilityObserver
+{
     func abilitySelected(_ ability: Ability)
     func abilityDeselected(_ ability: Ability)
     func abilityUsed(_ ability: Ability)
 }
 
-struct AbilityType: OptionSet {
+struct AbilityType: OptionSet
+{
     let rawValue: UInt8
     
     static let damage =         AbilityType(rawValue: 1 << 0)

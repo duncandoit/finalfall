@@ -11,10 +11,7 @@ class Piece {
     // MARK: Character Detail Properties
     let name: String
     let teamRole: TeamRole
-    var health: Int
-    var maxHealth: Int = 100
-    var shield: Int = 50
-    var maxShield: Int = 50
+    var life: LifeComponent
     private var ultCharge: Int = 0
     private var maxUltCharge: Int
     var ultPercent: Int { ultCharge > 0 ? Int(CGFloat(ultCharge) / CGFloat(maxUltCharge) * 100.0) : 0 }
@@ -52,14 +49,11 @@ class Piece {
     ///   - health: Check Healthbar for the segment length
     ///   - shield: Check Healthbar for the segment length
     ///   - ultCharge: Multiples of 62.5
-    init(name: String, role: TeamRole, health: Int, shield: Int, ultCharge: Int = 625) {
+    init(name: String, role: TeamRole, health: Int, shield: Int = 0, armor: Int = 0, ultCharge: Int = 625) {
         self.name = name
         self.teamRole = role
-        self.maxHealth = health
-        self.health = health
-        self.maxShield = shield
-        self.shield = shield
         self.maxUltCharge = ultCharge
+        self.life = LifeComponent(health: Float(health), shields: Float(shield), armor: Float(armor))
     }
     
     func setup(onSquare square: SquareNode, board: BoardScene, team: Team) {
@@ -230,40 +224,23 @@ class Piece {
     }
     
     /// Effects use this to directly damage a Piece
-    func damage(by amount: Int, direction: Direction, ignoreShields: Bool = false, source: Piece) {
-        guard health > 0 else { return }
+    func damage(by amount: Int, direction: Direction, tags: [String] = [], source: Piece) {
+        var selfTags: [String] = tags
+        var instigatorTags: [String] = []
         
-        /// The full potential damage output from the source Piece
-        let ampedMultiplier = source.statusEffects.contains(.amplified) ? 1.5 : 1
-        var output = Int(Double(amount) * ampedMultiplier)
-        
-        /// The true damage received by the target
-        let trueDamage: Int
-        
-        if ignoreShields {
-            if statusEffects.contains(.immortal) {
-                trueDamage = output >= health ? health - 1 : output
-            } else {
-                trueDamage = output > health ? health : output
-            }
-            health -= trueDamage
-        } else {
-            if statusEffects.contains(.immortal) {
-                trueDamage = output >= health + shield ? health + shield - 1 : output
-            } else {
-                trueDamage = output > health + shield ? health + shield : output
-            }
-            output = trueDamage
-            shield -= output
-            
-            if shield < 0 {
-                // Shield is now the inverted value we need for the remaining damage
-                output = -shield
-                shield = 0
-                health -= output
-                health = health < 0 ? 0 : health
+        for status in StatusEffect.each {
+            if statusEffects.contains(status) {
+                selfTags.append(status.name)
             }
         }
+        
+        for status in StatusEffect.each {
+            if statusEffects.contains(status) {
+                instigatorTags.append(status.name)
+            }
+        }
+        
+        health.handleDamage(received: amount, selfTags: selfTags, instigatorTags: instigatorTags)
         
         playDamagedAnimation(direction: direction)
         animateHealthNumbers(trueDamage, type: .damage)
