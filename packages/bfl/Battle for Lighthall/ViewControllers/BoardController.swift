@@ -88,13 +88,13 @@ class BoardController: UIViewController, PieceObserver, BoardObserver {
         classImage.tintColor = piece.team.color
         
         selectedHero.text = piece.name.uppercased()
-        health.text = "\(piece.health + piece.shield)"
-        maxHealth.text = "\(piece.maxHealth + piece.maxShield)"
+        health.text = "\(Int(piece.life.getTotalAvailableHealth().rounded(.up)))"
+        maxHealth.text = "\(Int(piece.life.getTotalMaxHealth().rounded(.up)))"
         
-        selectedHeroHealthbar.set(piece: piece, onHUD: true)
-        selectedHeroHealthbar.update(frame: healthbarContainer.frame)
-        selectedHeroHealthbar.createUI()
-        selectedHeroHealthbar.update(health: piece.health, shield: piece.shield, animated: false)
+        selectedHeroHealthbar.set(life: piece.life, color: piece.team.color, config: .hud)
+        selectedHeroHealthbar.constructHealthbarView()
+        selectedHeroHealthbar.updateLife(piece.life, animated: false)
+        selectedHeroHealthbar.updateFrame(healthbarContainer.frame)
         nameplate.backgroundColor = piece.team.color
         
         addEffectLabels(to: piece)
@@ -158,7 +158,7 @@ class BoardController: UIViewController, PieceObserver, BoardObserver {
     
     private func clearHeroUI() {
         selectedHeroHUD.isHidden = true
-        selectedHeroHealthbar.reset()
+        selectedHeroHealthbar.destroyHealthbarViews()
         
         for effect in statusEffectsStack.subviews {
             effect.removeFromSuperview()

@@ -37,7 +37,7 @@ fileprivate class ChemicalDart: BaseAbility {
         penetrates = true
         vectors = [Vector(directions: .diagonal, range: 3)]
         
-        let attackAmount = 40
+        let attackAmount: Float = 40
         primaryEffects = [HealDamageCombo(attackAmount)]
         description = "A diagonal long ranged shot that damages an enemy \(attackAmount) or heals an ally \(attackAmount * 2)"
     }

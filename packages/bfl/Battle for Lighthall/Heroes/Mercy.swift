@@ -36,7 +36,7 @@ fileprivate class HealingBeam: BaseAbility {
         type = .heal
         vectors = [Vector(directions: .all, range: 1), Vector(directions: .up, range: 0)]
         
-        let amount = 40
+        let amount: Float = 40
         let duration = 3
         secondaryEffects = [Heal(amount, duration: duration)]
         description = "A beam of energy that heals \(amount) per turn for \(duration) turns"
@@ -66,7 +66,7 @@ fileprivate class Radiance: UltimateAbility {
         type = .heal
         vectors = [Vector(directions: .up, range: 0)]
         
-        let amount = 100
+        let amount: Float = 100
         let range = 1
         let duration = 4
         secondaryEffects = [Heal(amount, duration: duration, aoeRange: range)]

@@ -13,8 +13,11 @@ extension UIColor {
     static let abilityDisabled: UIColor = #colorLiteral(red: 0.7725490196, green: 0.231372549, blue: 0.1882352941, alpha: 0.8035886069)
     static let abilitySelected: UIColor = .systemYellow
     static let abilityUltimate: UIColor = .systemTeal
-    static let shield: UIColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+    static let shields: UIColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
     static let health: UIColor = .white
+    static let armor: UIColor = #colorLiteral(red: 0.9884063601, green: 0.7657487988, blue: 0, alpha: 1)
+    static let overHealth: UIColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    static let overArmor: UIColor = #colorLiteral(red: 0.9250578284, green: 0.5030110478, blue: 0, alpha: 1)
     
     // MARK: - Effect Colors
     static let damage: UIColor = #colorLiteral(red: 1, green: 0.1980154714, blue: 0, alpha: 1)
@@ -33,6 +36,9 @@ extension UIColor {
     static let immortal: UIColor = .health
     static let invulnerable: UIColor = .systemGreen
     static let unstoppable: UIColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 1)
+    static let weakened: UIColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+    static let reinforced: UIColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+    static let fortified: UIColor = .healing
     
     // MARK: - Team Colors
     static let teamBlue: UIColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)

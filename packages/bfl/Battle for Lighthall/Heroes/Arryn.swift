@@ -35,7 +35,7 @@ fileprivate class Bash: BaseAbility {
         emblem = #imageLiteral(resourceName: "Arryn_Bash_2")
         vectors = [Vector(directions: .all, range: 1)]
         
-        let attackAmount = 50
+        let attackAmount: Float = 50
         primaryEffects = [ForceMove(distance: 1, isAOE: false), Damage(attackAmount)]
         description = "Bash your enemy violently with your shield, dealing \(attackAmount) damage and knocking them back"
     }
@@ -55,7 +55,7 @@ fileprivate class FierySlash: BaseAbility {
         emblem = #imageLiteral(resourceName: "Arryn_Sonic Boom_8")
         vectors = [Vector(directions: .lateral, range: 2)]
         
-        let attackAmount = 70
+        let attackAmount: Float = 70
         primaryEffects = [Damage(attackAmount)]
         secondaryEffects = [Status.burn]
         description = "Sends a plume of flame wheeling out in front of him with a slash of his fiery sword dealing \(attackAmount) damage and causing burn"
@@ -64,7 +64,7 @@ fileprivate class FierySlash: BaseAbility {
 }
 
 fileprivate class Charge: BaseAbility {
-    let damage = 50
+    let damage: Float = 50
     
     override init() {
         super.init()
@@ -124,7 +124,7 @@ fileprivate class SonicBoom: UltimateAbility {
         emblem = #imageLiteral(resourceName: "Arryn_Fall_0")
         vectors = [Vector(directions: .up, range: 0)]
         
-        let attackAmount = 20
+        let attackAmount: Float = 20
         primaryEffects = [AOE(Status.stun, range: 2, type: type),
                           Damage(attackAmount, aoeRange: 2, penetrates: true),
                           ForceMove(distance: 1, isAOE: true, stackSize: 2)]

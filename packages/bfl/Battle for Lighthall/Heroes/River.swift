@@ -35,7 +35,7 @@ fileprivate class PoisonJab: BaseAbility {
         emblem = #imageLiteral(resourceName: "River_Idle_0")
         vectors = [Vector(directions: .lateral, range: 2)]
         
-        let attackAmount = 60
+        let attackAmount: Float = 60
         primaryEffects = [Damage(attackAmount)]
         secondaryEffects = [Status.poison]
         description = "Medium range thrust of his ornate polearm with a poison coated tip. Causes \(attackAmount) damage and the target is poisoned"
@@ -50,7 +50,7 @@ fileprivate class DeathGrip: BaseAbility {
         emblem = #imageLiteral(resourceName: "River_Idle_0")
         vectors = [Vector(directions: .all, range: 1)]
         
-        let attackAmount = 90
+        let attackAmount: Float = 90
         primaryEffects = [Damage(attackAmount)]
         secondaryEffects = [Status.immobilize]
         description = "Grapples the enemy and stabs them through a gap in their armor using a small dagger coated with a toxin, known only to his tribe, which causes its victim’s legs to seize up. Deals \(attackAmount) damage and causes root"
@@ -66,7 +66,7 @@ fileprivate class CellOverload: UltimateAbility {
         emblem = #imageLiteral(resourceName: "River_Idle_0")
         vectors = [Vector(directions: .up, range: 0)]
         
-        let amount = 30
+        let amount: Float = 30
         let range = 1
         let duration = 3
         primaryEffects = [Damage(amount, aoeRange: range)]

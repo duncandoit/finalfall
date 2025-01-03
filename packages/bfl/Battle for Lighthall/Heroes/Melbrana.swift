@@ -38,7 +38,7 @@ fileprivate class Sunder: BaseAbility {
         vectors = [Vector(directions: .all, range: 1)]
         
         let attackAmount = 50
-        primaryEffects = [Damage(attackAmount)]
+        primaryEffects = [Damage(Float(attackAmount))]
         description = "Brutal hammer swing, dealing \(attackAmount) damage"
     }
 }
@@ -52,7 +52,7 @@ fileprivate class Slam: BaseAbility {
         vectors = [Vector(directions: .lateral, range: 1)]
         
         let attackAmount = 70
-        primaryEffects = [Damage(attackAmount)]
+        primaryEffects = [Damage(Float(attackAmount))]
         secondaryEffects = [Status.stun]
         description = "Picks up an enemy by the throat and throws them to the ground causing \(attackAmount) damage and stun"
         cooldown = 4

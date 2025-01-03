@@ -7,7 +7,8 @@
 
 import UIKit
 
-class AbilityButton: UIView {
+class AbilityButton: UIView
+{
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var emblem: UIImageView!
     @IBOutlet weak var border: UIView!
@@ -16,65 +17,89 @@ class AbilityButton: UIView {
     var selectAbilityAction: (()->Void)?
     var isUltimate: Bool = false
     
-    var isSelected: Bool = false {
-        didSet {
+    var isSelected: Bool = false
+    {
+        didSet
+        {
             setState()
         }
     }
     
-    var isEnabled: Bool = true {
-        didSet {
+    var isEnabled: Bool = true
+    {
+        didSet
+        {
             setState()
         }
     }
     
-    private func setState() {
-        if isSelected {
+    private func setState()
+    {
+        if isSelected
+        {
             border.backgroundColor = .abilitySelected
-        } else {
-            if isUltimate {
-                if isEnabled {
+        }
+        else
+        {
+            if isUltimate
+            {
+                if isEnabled
+                {
                     border.backgroundColor = .abilityUltimate
                     border.morphBackground(with: .abilityUltimate + 0.1, duration: 1)
-                } else {
+                }
+                else
+                {
                     border.backgroundColor = .abilityDisabled
                     counter.backgroundColor = .abilityUltimate
                 }
-            } else {
+            }
+            else
+            {
                 border.backgroundColor = isEnabled ? .abilityEnabled : .abilityDisabled
             }
         }
     }
     
-    private func playerInteractionBegan() {
-        
+    private func playerInteractionBegan()
+    {
     }
     
-    private func playerInteractionEnded() {
-        
+    private func playerInteractionEnded()
+    {
     }
     
-    func set(cooldown: Int) {
-        if cooldown == 0 {
+    func set(cooldown: Int)
+    {
+        if cooldown == 0
+        {
             counter.isHidden = true
-        } else {
+        }
+        else
+        {
             counter.isHidden = false
             counter.text = "\(cooldown)"
             border.backgroundColor = .abilityEnabled
         }
     }
     
-    func set(ultPercentage: Int) {
-        if ultPercentage == 100 {
+    func set(ultPercentage: Float)
+    {
+        if ultPercentage >= 100.0
+        {
             counter.isHidden = true
-        } else {
+        }
+        else
+        {
             counter.isHidden = false
-            counter.text = "\(ultPercentage)%"
+            counter.text = "\(Int(ultPercentage))%"
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isEnabled && !isSelected {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        if isEnabled && !isSelected
+        {
             setState()
             selectAbilityAction?()
         }
@@ -82,7 +107,8 @@ class AbilityButton: UIView {
         playerInteractionBegan()
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
         playerInteractionEnded()
     }
 }

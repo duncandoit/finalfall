@@ -117,7 +117,7 @@ class BaseAbility: Ability
         var statusLabel = UILabel(frame: CGRect(origin: button.frame.origin, size: button.frame.size))
         var statusText: String = ""
         
-        for effect in StatusEffect.eachAfflictive
+        for effect in StatusEffect.eachDebuff
         {
             if StatusEffect.abilityImpairing.contains(effect) && statusEffects.contains(effect)
             {

@@ -12,9 +12,9 @@ class Piece {
     let name: String
     let teamRole: TeamRole
     var life: LifeComponent
-    private var ultCharge: Int = 0
-    private var maxUltCharge: Int
-    var ultPercent: Int { ultCharge > 0 ? Int(CGFloat(ultCharge) / CGFloat(maxUltCharge) * 100.0) : 0 }
+    private var ultCharge: Float = 0
+    private var maxUltCharge: Float
+    var ultPercent: Float { ultCharge > 0 ? Float(CGFloat(ultCharge) / CGFloat(maxUltCharge) * 100.0) : 0 }
     
     // MARK: Character Capabilities Properties
     var abilities: [Ability] = []
@@ -49,7 +49,7 @@ class Piece {
     ///   - health: Check Healthbar for the segment length
     ///   - shield: Check Healthbar for the segment length
     ///   - ultCharge: Multiples of 62.5
-    init(name: String, role: TeamRole, health: Int, shield: Int = 0, armor: Int = 0, ultCharge: Int = 625) {
+    init(name: String, role: TeamRole, health: Int, shield: Int = 0, armor: Int = 0, ultCharge: Float = 625.0) {
         self.name = name
         self.teamRole = role
         self.maxUltCharge = ultCharge
@@ -179,10 +179,10 @@ class Piece {
     
     /// First time setup for the Healthbar
     func initHealthbar() {
-        healthbar.set(piece: self)
+        healthbar.set(life: life, color: team.color)
         alignHealthbar()
-        healthbar.createUI()
-        healthbar.update(health: health, shield: shield, animated: false)
+        healthbar.constructHealthbarView()
+        healthbar.updateLife(life, animated: false)
     }
     
     func alignHealthbar() {
@@ -192,7 +192,7 @@ class Piece {
                                  width: width,
                                  height: sprite.height)
         
-        healthbar.update(frame: spriteFrame)
+        healthbar.updateFrame(spriteFrame)
     }
     
     func alignHealthbarAction(duration: Double) -> SKAction {
@@ -224,7 +224,7 @@ class Piece {
     }
     
     /// Effects use this to directly damage a Piece
-    func damage(by amount: Int, direction: Direction, tags: [String] = [], source: Piece) {
+    func damage(by amount: Float, direction: Direction, tags: [String] = [], source: Piece) {
         var selfTags: [String] = tags
         var instigatorTags: [String] = []
         
@@ -240,52 +240,54 @@ class Piece {
             }
         }
         
-        health.handleDamage(received: amount, selfTags: selfTags, instigatorTags: instigatorTags)
+        let actualDamage = life.handleDamage(received: amount, selfTags: selfTags, instigatorTags: instigatorTags)
         
         playDamagedAnimation(direction: direction)
-        animateHealthNumbers(trueDamage, type: .damage)
+        animateHealthNumbers(actualDamage, type: .damage)
         statusEffects.insert(.damaged)
-        source.chargeUltFromDamage(trueDamage)
+        source.chargeUltFromDamage(actualDamage)
         
-        if health == 0 {
+        if life.getTotalAvailableHealth() <= 0 {
             animateRemovePiece()
         }
     }
     
     /// Effects use this to directly heal a Piece
-    func heal(by amount: Int, source: Piece) {
-        guard !statusEffects.contains(.cursed) else { return }
-        guard health > 0 else { return }
+    func heal(by amount: Float, tags: [String] = [], source: Piece) {
+        var selfTags: [String] = tags
+        var instigatorTags: [String] = []
         
-        // The full potential healing output from the source Piece
-        let ampedMultiplier = source.statusEffects.contains(.amplified) ? 1.5 : 1
-        let fullHeal = Int(Double(amount) * ampedMultiplier)
+        for status in StatusEffect.each {
+            if statusEffects.contains(status) {
+                selfTags.append(status.name)
+            }
+        }
         
-        // The true damage received by the target
-        let trueHeal = maxHealth + maxShield > health + shield + fullHeal ? fullHeal : (maxHealth + maxShield) - (health + shield)
-        shield += trueHeal
+        for status in StatusEffect.each {
+            if statusEffects.contains(status) {
+                instigatorTags.append(status.name)
+            }
+        }
         
-        let shieldOverHeal = shield - maxShield
-        shield = shield > maxShield ? maxShield : shield
-        health += shieldOverHeal > 0 ? shieldOverHeal : 0
+        let actualHeal = life.handleHealing(received: amount, selfTags: selfTags, instigatorTags: instigatorTags)
         
         animateHealed()
-        animateHealthNumbers(trueHeal, type: .heal)
+        animateHealthNumbers(actualHeal, type: .heal)
         statusEffects.insert(.healing)
-        source.chargeUltFromHealing(trueHeal)
+        source.chargeUltFromHealing(actualHeal)
     }
     
     func regenerateShields() {
-        guard shield < maxShield else { return }
-        let regenAmount = 5
-        shield += regenAmount
-        
-        if shield > maxShield {
-            shield = maxShield
-        }
-        
-        animateShieldRegen()
-        animateHealthNumbers(regenAmount, type: .shieldRegen)
+//        guard shield < maxShield else { return }
+//        let regenAmount = 5
+//        shield += regenAmount
+//        
+//        if shield > maxShield {
+//            shield = maxShield
+//        }
+//        
+//        animateShieldRegen()
+//        animateHealthNumbers(regenAmount, type: .shieldRegen)
     }
     
     // MARK: Start of Turn Calculations
@@ -341,17 +343,17 @@ class Piece {
         chargeUlt(50)
     }
     
-    func chargeUltFromDamage(_ damage: Int) {
+    func chargeUltFromDamage(_ damage: Float) {
         guard !ultOnCooldown else { return }
         chargeUlt(damage * 3)
     }
     
-    func chargeUltFromHealing(_ healing: Int) {
+    func chargeUltFromHealing(_ healing: Float) {
         guard !ultOnCooldown else { return }
-        chargeUlt(healing * 4)
+        chargeUlt(healing * 4.0)
     }
     
-    private func chargeUlt(_ amount: Int) {
+    private func chargeUlt(_ amount: Float) {
         ultCharge += amount
         ultCharge = ultCharge < maxUltCharge ? ultCharge : maxUltCharge
     }
@@ -533,7 +535,7 @@ class Piece {
     }
     
     private func animateShieldRegen() {
-        animate(color: .shield)
+        animate(color: .shields)
     }
     
     private func animate(color: UIColor) {
@@ -543,7 +545,7 @@ class Piece {
         sprite.run(SKAction.sequence([colorShift, colorReverse]))
     }
     
-    private func animateHealthNumbers(_ amount: Int, type: AbilityType) {
+    private func animateHealthNumbers(_ amount: Float, type: AbilityType) {
         let fontSize: CGFloat = amount >= 100 ? 25 : amount >= 50 ? 20 : 14
         
         EventQueue.sync.pushAndWait {
@@ -554,7 +556,7 @@ class Piece {
             damageLabel.textAlignment = .center
             damageLabel.font = UIFont.systemFont(ofSize: fontSize, weight: .heavy)
             damageLabel.text = (type == .damage ? "-" : "+") + "\(amount)"
-            damageLabel.textColor = type == .damage ? .red : (type == .heal ? .healing : .shield)
+            damageLabel.textColor = type == .damage ? .red : (type == .heal ? .healing : .shields)
             damageLabel.addShadow(radius: 2, offsetY: 3, color: .black)
             (self.observer as! BoardScene).boardView.addSubview(damageLabel)
 
@@ -571,7 +573,7 @@ class Piece {
             }
         }
         
-        healthbar.update(health: health, shield: shield)
+        healthbar.updateLife(life)
     }
     
     private func animateRemovePiece() {

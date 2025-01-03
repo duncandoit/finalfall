@@ -40,7 +40,7 @@ class Attribute
     
     func setCurrentValue(_ value: Float)
     {
-        let value = value > 0.0 ? value : 0.0
+        commitCurrentToOld()
         
         if value < minimumValue
         {
@@ -63,20 +63,7 @@ class Attribute
     
     func setOldValue(_ value: Float)
     {
-        let value = value > 0.0 ? value : 0.0
-        
-        if value < minimumValue
-        {
-            oldValue = minimumValue
-        }
-        else if value > maximumValue
-        {
-            oldValue = maximumValue
-        }
-        else
-        {
-            oldValue = value
-        }
+        oldValue = value > 0.0 ? value : 0.0
     }
     
     func getMaximumValue() -> Float
@@ -117,6 +104,11 @@ class Attribute
     func setMultiplier(_ value: Float)
     {
         multiplier = value > 0.0 ? value : 0.0
+    }
+    
+    func commitCurrentToOld()
+    {
+        setOldValue(getCurrentValue())
     }
     
     func addUniqueTag(_ tag: String)

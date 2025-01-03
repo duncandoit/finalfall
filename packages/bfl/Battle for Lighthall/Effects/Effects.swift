@@ -153,7 +153,7 @@ struct Damage: PrimaryEffect {
     var name: String
     var description: String
     var color: UIColor = .damage
-    let amount: Int
+    let amount: Float
     let aoeRange: Int?
     let ignoreShields: Bool
     let penetrates: Bool
@@ -164,7 +164,7 @@ struct Damage: PrimaryEffect {
     ///   - aoeRange: When a non-nil aoeRange is given the Effect is treated as an AOE Effect
     ///   - penetrates: When aoeRange is non-nil this determines if damage will propagate past the initial sub-target
     ///   - ignoreShields: When true the attack only affects the target's health
-    init(_ amount: Int, aoeRange: Int? = nil, penetrates: Bool = false, ignoreShields: Bool = false) {
+    init(_ amount: Float, aoeRange: Int? = nil, penetrates: Bool = false, ignoreShields: Bool = false) {
         self.name = ignoreShields ? "Magic Damage" : "Damage"
         self.description = "\(amount)"
         if aoeRange != nil { description += " (AOE)" }
@@ -182,11 +182,12 @@ struct Damage: PrimaryEffect {
         if let range = aoeRange {
             aoeAction(range: range, penetrates: penetrates, source: source, target: target) { subTarget, _ in
                 if !source.isSameTeam(as: subTarget) {
-                    subTarget.damage(by: amount, direction: direction, ignoreShields: ignoreShields, source: source)
+//                    subTarget.damage(by: amount, direction: direction, ignoreShields: ignoreShields, source: source)
+                    subTarget.damage(by: amount, direction: direction, tags: [/*AbilityEffect.ignoreShields.name*/], source: source)
                 }
             }
         } else {
-            target.damage(by: amount, direction: direction, ignoreShields: ignoreShields, source: source)
+            target.damage(by: amount, direction: direction, tags: [/*AbilityEffect.ignoreShields.name*/], source: source)
         }
     }
 }
@@ -198,14 +199,14 @@ struct Heal: SecondaryEffect {
     var color: UIColor
     var source: Piece!
     var duration: Int
-    let amount: Int
+    let amount: Float
     let aoeRange: Int?
     
     /// Basic heal Effect
     /// - Parameters:
     ///   - amount: The basic value of the heal
     ///   - aoeRange: When a non-nil aoeRange is given the Effect is treated as an AOE Effect
-    init(_ amount: Int, duration: Int = 1, aoeRange: Int? = nil) {
+    init(_ amount: Float, duration: Int = 1, aoeRange: Int? = nil) {
         self.name = "Heal"
         self.description = "\(amount)"
         if aoeRange != nil { description += " (AOE)" }
@@ -236,9 +237,9 @@ struct HealDamageCombo: PrimaryEffect {
     var name: String
     var description: String
     var color: UIColor = #colorLiteral(red: 0.9441839457, green: 0.1662040353, blue: 0.6839093566, alpha: 1)
-    let amount: Int
+    let amount: Float
     
-    init(_ amount: Int) {
+    init(_ amount: Float) {
         self.name = "Damage/Heal"
         self.description = "\(amount)/\(amount * 2)"
         self.amount = amount
@@ -248,7 +249,7 @@ struct HealDamageCombo: PrimaryEffect {
         if source.isSameTeam(as: target) {
             target?.heal(by: amount * 2, source: source)
         } else {
-            target?.damage(by: amount, direction: direction, source: source)
+            target?.damage(by: Float(amount), direction: direction, source: source)
         }
     }
 }
@@ -362,9 +363,9 @@ struct Status: SecondaryEffect {
     var source: Piece!
     let statusEffect: StatusEffect
     var duration: Int
-    let damage: Int?
+    let damage: Float?
     
-    init(_ statusEffect: StatusEffect, duration: Int, damage: Int? = nil, name: String? = nil, emblem: UIImage? = nil) {
+    init(_ statusEffect: StatusEffect, duration: Int, damage: Float? = nil, name: String? = nil, emblem: UIImage? = nil) {
         self.emblem = emblem ?? statusEffect.emblem
         self.name = name ?? statusEffect.name
         self.color = statusEffect.color

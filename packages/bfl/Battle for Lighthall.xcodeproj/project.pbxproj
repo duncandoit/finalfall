@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3078A952D1A874400B62A67 /* UltComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3078A942D1A86D800B62A67 /* UltComponent.swift */; };
 		C327BF23262F638D0094C42A /* StackBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C327BF22262F638D0094C42A /* StackBlock.swift */; };
 		C327BF27262F6ED20094C42A /* StackBlockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C327BF26262F6ED20094C42A /* StackBlockCell.xib */; };
 		C33364042601BD860007485F /* PieceSelection.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33364032601BD860007485F /* PieceSelection.xib */; };
@@ -85,12 +86,12 @@
 		C3FBB91F25CD1320002F7913 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FBB91E25CD1320002F7913 /* Assets.xcassets */; };
 		C3FBB92225CD1320002F7913 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FBB92025CD1320002F7913 /* LaunchScreen.storyboard */; };
 		C3FCD1B62D13744000D0A1A0 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */; };
-		C3FCD1BB2D15275800D0A1A0 /* HealthAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */; };
 		C3FCD1BD2D15278600D0A1A0 /* AttributeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */; };
 		C3FCD1C02D17332400D0A1A0 /* LifeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C3078A942D1A86D800B62A67 /* UltComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltComponent.swift; sourceTree = "<group>"; };
 		C327BF22262F638D0094C42A /* StackBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBlock.swift; sourceTree = "<group>"; };
 		C327BF26262F6ED20094C42A /* StackBlockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StackBlockCell.xib; sourceTree = "<group>"; };
 		C33364032601BD860007485F /* PieceSelection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PieceSelection.xib; sourceTree = "<group>"; };
@@ -171,7 +172,6 @@
 		C3FBB92125CD1320002F7913 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3FBB92325CD1320002F7913 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3FCD1B52D13743D00D0A1A0 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
-		C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAttributes.swift; sourceTree = "<group>"; };
 		C3FCD1BC2D15276F00D0A1A0 /* AttributeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeManager.swift; sourceTree = "<group>"; };
 		C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,6 +188,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C3078A932D19EA8300B62A67 /* Healthbar */ = {
+			isa = PBXGroup;
+			children = (
+				C380ABA925EAD5ED0017A69B /* Healthbar.swift */,
+			);
+			path = Healthbar;
+			sourceTree = "<group>";
+		};
 		C340C397262DD4A900ECD3DF /* Menu Options */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,7 +231,6 @@
 		C340C3BF262DF03E00ECD3DF /* Hero Detail */ = {
 			isa = PBXGroup;
 			children = (
-				C340C3A5262DD99A00ECD3DF /* HeroDetailController.swift */,
 				C340C3C1262DF05500ECD3DF /* AbilityDetailBlock.swift */,
 				C340C3C8262DF72500ECD3DF /* AbilityDetailCell.swift */,
 				C340C3C5262DF27100ECD3DF /* AbilityDetailCell.xib */,
@@ -304,14 +311,15 @@
 			path = Container;
 			sourceTree = "<group>";
 		};
-		C360B90026295934007DE551 /* Menus */ = {
+		C360B90026295934007DE551 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C3FBB91925CD131F002F7913 /* BoardController.swift */,
+				C340C3A5262DD99A00ECD3DF /* HeroDetailController.swift */,
 				C360B90126295976007DE551 /* MainMenuController.swift */,
-				C3BC153E2601CDB300C5F918 /* Piece Selection */,
-				C340C3BF262DF03E00ECD3DF /* Hero Detail */,
+				C3BC153A2601C02F00C5F918 /* PieceSelectionController.swift */,
 			);
-			path = Menus;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C3791AA22646337300D20DA4 /* Audio */ = {
@@ -395,7 +403,6 @@
 		C3BC153E2601CDB300C5F918 /* Piece Selection */ = {
 			isa = PBXGroup;
 			children = (
-				C3BC153A2601C02F00C5F918 /* PieceSelectionController.swift */,
 				C33364062601BEBB0007485F /* PieceSelection.swift */,
 				C33364032601BD860007485F /* PieceSelection.xib */,
 				C3BC154F2602911900C5F918 /* PieceOption.swift */,
@@ -407,7 +414,6 @@
 		C3BC154126026B7600C5F918 /* Game Board */ = {
 			isa = PBXGroup;
 			children = (
-				C3FBB91925CD131F002F7913 /* BoardController.swift */,
 				C35973EE25D210C400D0FF9D /* BoardScene.swift */,
 				C35973EB25D20E6F00D0FF9D /* SquareNode.swift */,
 				C37CF87B25DD8CC100D37F75 /* Team.swift */,
@@ -453,16 +459,15 @@
 				C3BC154B26027CD800C5F918 /* PieceService.swift */,
 				C3FBB91E25CD1320002F7913 /* Assets.xcassets */,
 				C3A9FEFF2605B19D0037D291 /* Sprites.xcassets */,
-				C3FCD1B92D15272200D0A1A0 /* Attributes */,
 				C3791AA22646337300D20DA4 /* Audio */,
 				C3BC154326026BA900C5F918 /* Boilerplate */,
 				C3FCD1BE2D17330600D0A1A0 /* Components */,
 				C3FCD1B82D1488D000D0A1A0 /* Effects */,
 				C3BC154126026B7600C5F918 /* Game Board */,
 				C38114752626A05000F52241 /* Heroes */,
-				C360B90026295934007DE551 /* Menus */,
 				C340C3B4262DE8F600ECD3DF /* Standard Components */,
 				C3FCD1B72D14886A00D0A1A0 /* UI */,
+				C360B90026295934007DE551 /* ViewControllers */,
 			);
 			path = "Battle for Lighthall";
 			sourceTree = "<group>";
@@ -470,8 +475,10 @@
 		C3FCD1B72D14886A00D0A1A0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C380ABA925EAD5ED0017A69B /* Healthbar.swift */,
 				C35385F425E4427F00601AEE /* Ability */,
+				C3078A932D19EA8300B62A67 /* Healthbar */,
+				C340C3BF262DF03E00ECD3DF /* Hero Detail */,
+				C3BC153E2601CDB300C5F918 /* Piece Selection */,
 				C3FBB92025CD1320002F7913 /* LaunchScreen.storyboard */,
 				C3FBB91B25CD131F002F7913 /* Main.storyboard */,
 			);
@@ -486,18 +493,11 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
-		C3FCD1B92D15272200D0A1A0 /* Attributes */ = {
-			isa = PBXGroup;
-			children = (
-				C3FCD1BA2D15274800D0A1A0 /* HealthAttributes.swift */,
-			);
-			path = Attributes;
-			sourceTree = "<group>";
-		};
 		C3FCD1BE2D17330600D0A1A0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				C3FCD1BF2D17331C00D0A1A0 /* LifeComponent.swift */,
+				C3078A942D1A86D800B62A67 /* UltComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -599,7 +599,6 @@
 			files = (
 				C340C3D0262E3BF400ECD3DF /* AbilityEffectView.swift in Sources */,
 				C360B8F82629581D007DE551 /* ButtonBlock.swift in Sources */,
-				C3FCD1BB2D15275800D0A1A0 /* HealthAttributes.swift in Sources */,
 				C340C3B1262DE80900ECD3DF /* MessageBlockCell.swift in Sources */,
 				C360B8F92629581D007DE551 /* Block.swift in Sources */,
 				C340C3A9262DE00000ECD3DF /* StandardController.swift in Sources */,
@@ -610,6 +609,7 @@
 				C360B8FC2629581D007DE551 /* ContainerController.swift in Sources */,
 				C360B8FD2629581D007DE551 /* Container.swift in Sources */,
 				C38114852626A10E00F52241 /* Kiri.swift in Sources */,
+				C3078A952D1A874400B62A67 /* UltComponent.swift in Sources */,
 				C340C3C9262DF72500ECD3DF /* AbilityDetailCell.swift in Sources */,
 				C38114822626A0E500F52241 /* Kredic.swift in Sources */,
 				C38114782626A07100F52241 /* Arryn.swift in Sources */,

@@ -35,7 +35,7 @@ fileprivate class Fireball: BaseAbility {
         emblem = #imageLiteral(resourceName: "Kredic_Fireball_6")
         vectors = [Vector(directions: .all, range: 3)]
         
-        let amount = 40
+        let amount: Float = 40
         primaryEffects = [Damage(amount), AOE(Status.burn, range: 1, type: type)]
         description = "Long range fireball dealing \(amount) and buring all adjacent pieces"
     }
@@ -49,7 +49,7 @@ fileprivate class Fear: BaseAbility {
         emblem = #imageLiteral(resourceName: "Kredic_Fear_6")
         vectors = [Vector(directions: .lateral, range: 1)]
         
-        let amount = 25
+        let amount: Float = 25
         primaryEffects = [Damage(amount, ignoreShields: true)]
         secondaryEffects = [Status.disable]
         description = "Peer deep into your enemy's eyes inflicting \(amount) magic damage and causing disable"

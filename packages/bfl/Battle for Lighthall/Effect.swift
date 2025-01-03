@@ -215,42 +215,48 @@ protocol SecondaryEffect: Effect
 
 struct StatusEffect: OptionSet, CustomStringConvertible
 {
-    let rawValue: UInt16
+    let rawValue: UInt32
     
     // MARK: - Individual Statuses
     
     /// Informs the system that a Piece was damaged last turn
-    static let damaged =    StatusEffect(rawValue: 1 << 0)
+    static let damaged      = StatusEffect(rawValue: 1 << 0)
     /// Currently has a heal over time buff
-    static let healing =    StatusEffect(rawValue: 1 << 1)
+    static let healing      = StatusEffect(rawValue: 1 << 1)
     /// Impairs Abilities
-    static let disabled =   StatusEffect(rawValue: 1 << 2)
+    static let disabled     = StatusEffect(rawValue: 1 << 2)
     /// Impairs Abilities and movement
-    static let stunned =    StatusEffect(rawValue: 1 << 3)
+    static let stunned      = StatusEffect(rawValue: 1 << 3)
     /// Reduces movement range
-    static let slowed =     StatusEffect(rawValue: 1 << 4)
+    static let slowed       = StatusEffect(rawValue: 1 << 4)
     /// Impairs Abilities and movement
-    static let sleeping =   StatusEffect(rawValue: 1 << 5)
+    static let sleeping     = StatusEffect(rawValue: 1 << 5)
     /// Impairs Abilities and movement
-    static let frozen =     StatusEffect(rawValue: 1 << 6)
+    static let frozen       = StatusEffect(rawValue: 1 << 6)
     /// Impairs movement
-    static let immobilized = StatusEffect(rawValue: 1 << 7)
+    static let immobilized  = StatusEffect(rawValue: 1 << 7)
     /// Damage over time
-    static let poisoned =   StatusEffect(rawValue: 1 << 8)
+    static let poisoned     = StatusEffect(rawValue: 1 << 8)
     /// Damage over time
-    static let burning =    StatusEffect(rawValue: 1 << 9)
+    static let burning      = StatusEffect(rawValue: 1 << 9)
     /// Dispells and prevents healing Effects
-    static let cursed =     StatusEffect(rawValue: 1 << 10)
+    static let cursed       = StatusEffect(rawValue: 1 << 10)
     /// Increases damage output
-    static let amplified =  StatusEffect(rawValue: 1 << 11)
+    static let amplified    = StatusEffect(rawValue: 1 << 11)
     /// Increases movement range
-    static let speed =      StatusEffect(rawValue: 1 << 12)
+    static let speed        = StatusEffect(rawValue: 1 << 12)
     /// Prevents death
-    static let immortal =   StatusEffect(rawValue: 1 << 13)
+    static let immortal     = StatusEffect(rawValue: 1 << 13)
     /// Prevents any damage or negative Effects
     static let invulnerable = StatusEffect(rawValue: 1 << 14)
     /// Ignores all StatusEffects causing movement impairment
-    static let unstoppable = StatusEffect(rawValue: 1 << 15)
+    static let unstoppable  = StatusEffect(rawValue: 1 << 15)
+    /// Causes more damage to be received
+    static let weakened     = StatusEffect(rawValue: 1 << 16)
+    /// Causes less damage to be received
+    static let reinforced   = StatusEffect(rawValue: 1 << 17)
+    /// Caused more healing to be received
+    static let fortified    = StatusEffect(rawValue: 1 << 18)
     
     // MARK: - Collections
     
@@ -261,7 +267,9 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         amplified,
         immortal,
         invulnerable,
-        unstoppable
+        unstoppable,
+        reinforced,
+        fortified
     ]
     
     static let debuff: StatusEffect = [
@@ -274,7 +282,8 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         immobilized,
         poisoned,
         burning,
-        cursed
+        cursed,
+        weakened
     ]
     
     static let movementImpairing: StatusEffect = [
@@ -308,10 +317,12 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         speed,
         immortal,
         invulnerable,
-        unstoppable
+        unstoppable,
+        weakened,
+        reinforced
     ]
     
-    static let eachAfflictive: [StatusEffect] = [
+    static let eachDebuff: [StatusEffect] = [
         damaged,
         disabled,
         stunned,
@@ -321,7 +332,8 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         immobilized,
         poisoned,
         burning,
-        cursed
+        cursed,
+        weakened
     ]
     
     static let eachMovementImpairing: [StatusEffect] = [
@@ -354,6 +366,9 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         case .immortal: return .immortal
         case .invulnerable: return .invulnerable
         case .unstoppable: return .unstoppable
+        case .weakened: return .weakened
+        case .reinforced: return .reinforced
+        case .fortified: return .fortified
         default:
             return .gray
         }
@@ -379,6 +394,9 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         case .immortal: return "Immortality"
         case .invulnerable: return "Invulnerability"
         case .unstoppable: return "Unstoppable"
+        case .weakened: return "Weaken"
+        case .reinforced: return "Reinforced"
+        case .fortified: return "Fortify"
         default:
             return "Unknown"
         }
@@ -404,6 +422,9 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         case .immortal: return "immortal"
         case .invulnerable: return "invulnerable"
         case .unstoppable: return "unstoppable"
+        case .weakened: return "weakened"
+        case .reinforced: return "reinforced"
+        case .reinforced: return "fortified"
         default:
             return "Unknown"
         }
@@ -427,6 +448,9 @@ struct StatusEffect: OptionSet, CustomStringConvertible
         case .immortal: return UIImage(systemName: "heart.circle")!
         case .invulnerable: return UIImage(systemName: "shield.fill")!
         case .unstoppable: return UIImage(systemName: "arrow.right.to.line.alt")!
+        case .weakened: return UIImage(systemName: "exclamationmark.shield")!
+        case .reinforced: return UIImage(systemName: "shield.fill")!
+        case .fortified: return UIImage(systemName: "sparkles")!
         default:
             return UIImage()
         }

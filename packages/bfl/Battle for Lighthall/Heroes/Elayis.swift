@@ -46,7 +46,7 @@ fileprivate class MachineGuns: BaseAbility {
         emblem = #imageLiteral(resourceName: "Elayis_Machine Guns_0")
         vectors = [Vector(directions: .all, range: 1)]
         
-        let attackAmount = 40
+        let attackAmount: Float = 40
         primaryEffects = [Damage(attackAmount)]
         description = "A stream of bullets causing \(attackAmount) damage"
     }
@@ -60,7 +60,7 @@ fileprivate class Missiles: BaseAbility {
         emblem = #imageLiteral(resourceName: "Elayis_Machine Guns_0")
         vectors = [Vector(directions: .lateral, range: 1)]
         
-        let attackAmount = 80
+        let attackAmount: Float = 80
         primaryEffects = [Damage(attackAmount)]
         description = "A lateral torrent of missiles dealing \(attackAmount) damage"
         cooldown = 3
@@ -77,7 +77,7 @@ fileprivate class Bomb: UltimateAbility {
         emblem = #imageLiteral(resourceName: "Elayis_Machine Guns_0")
         vectors = [Vector(directions: .all, range: 6)]
         
-        let attackAmount = 100
+        let attackAmount: Float = 100
         primaryEffects = [Damage(attackAmount, aoeRange: 2, penetrates: true), ForceMove(distance: 1, isAOE: true)]
         description = "Huge explosion on an enemy causing \(attackAmount) damage to surrounding pieces and and knocks them back"
     }

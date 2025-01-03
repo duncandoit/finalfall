@@ -37,7 +37,7 @@ fileprivate class FusingBeam: BaseAbility {
         vectors = [Vector(directions: .lateral, range: 3)]
         
         let attackAmount = 70
-        primaryEffects = [Damage(attackAmount)]
+        primaryEffects = [Damage(Float(attackAmount))]
         description = "A ranged electron beam from her fusing tool, dealing \(attackAmount) damage"
     }
 }
@@ -86,7 +86,7 @@ fileprivate class Overcharge: UltimateAbility {
         vectors = [Vector(directions: .lateral, range: range)]
         
         let amount = 70
-        primaryEffects = [Multitarget(Damage(amount), range: range, type: type), Multitarget(Status.burn, range: range, type: type)]
+        primaryEffects = [Multitarget(Damage(Float(amount)), range: range, type: type), Multitarget(Status.burn, range: range, type: type)]
         description = "Overcharges her fusing device to emit a white hot long range beam that hits every enemy for \(range) spaces and sets their little pants on fire"
     }
 }
